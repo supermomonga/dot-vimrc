@@ -658,7 +658,7 @@ if s:bundle_tap('unite.vim') " {{{
 
   nnoremap <silent> <Space>u  :<C-u>Unite -start-insert menu:unite<CR>
   nnoremap <silent> <Space>m  :<C-u>Unite -start-insert menu:global<CR>
-  nnoremap <silent> <Space>f  :<C-u>Unite -start-insert -buffer-name=files buffer_tab file file_mru<CR>
+  nnoremap <silent> <Space>f  :<C-u>Unite -start-insert -buffer-name=files buffer_tab file_mru<CR>
   nnoremap <silent> <Space>b  :<C-u>Unite -start-insert buffer<CR>
   nnoremap <silent> <Space>s  :<C-u>Unite -start-insert -auto-preview -no-split -buffer-name=search line<CR>
   nnoremap <silent> <Space>l  :<C-u>Unite -start-insert locate<CR>
