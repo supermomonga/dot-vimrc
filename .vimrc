@@ -252,7 +252,6 @@ call s:set('backupdir', $VIM_BACKUP_DIR)
 call s:set('undodir', $VIM_UNDO_DIR)
 
 if has('persistent_undo')
-  " undo履歴を作るディレクトリ
   set undodir=./.vimundo,$VIM_UNDO_DIR
   autocmd MyAutoCmd BufReadPre ~/* setlocal undofile
 endif
