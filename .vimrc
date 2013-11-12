@@ -818,22 +818,10 @@ if s:bundle_tap('shaberu.vim') " {{{
   autocmd MyAutoCmd VimLeave * ShaberuSay 'さようなら'
 
   " VimShell
-  autocmd FileType vimshell
-        \ call vimshell#hook#add('chpwd' , 'my_vimshell_chpwd' , 'g:my_vimshell_chpwd')
-        \| call vimshell#hook#add('emptycmd', 'my_vimshell_emptycmd', 'g:my_vimshell_emptycmd')
-        \| call vimshell#hook#add('notfound', 'my_vimshell_notfound', 'g:my_vimshell_notfound')
-
-  function! g:my_vimshell_chpwd(args, context)
-    ShaberuSay 'よっこいしょ'
-  endfunction
-  function! g:my_vimshell_emptycmd(cmdline, context)
-    :ShaberuSay 'コマンドを入力してください'
-    return a:cmdline
-  endfunction
-  function! g:my_vimshell_notfound(cmdline, context)
-    :ShaberuSay 'コマンドが見つかりません'
-    return a:cmdline
-  endfunction
+  autocmd MyAutoCmd FileType vimshell
+        \ call vimshell#hook#add('chpwd' , 'my_vimshell_chpwd' , reti#lambda(":ShaberuSay 'よっこいしょ'"))
+        \| call vimshell#hook#add('emptycmd', 'my_vimshell_emptycmd', reti#lambda(":call shaberu#say('コマンドを入力してください') | return a:1"))
+        \| call vimshell#hook#add('notfound', 'my_vimshell_notfound', reti#lambda(":call shaberu#say('コマンドが見つかりません') | return a:1"))
 
   " .vimrc保存時に自動的にsource
   autocmd MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC | ShaberuSay 'ビムアールシーを読み込みました'
