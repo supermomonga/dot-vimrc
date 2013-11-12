@@ -1,0 +1,17 @@
+# supermomonga's dotfiles
+
+## Vim
+
+Sanari benri(kanari).
+
+## Emacs
+
+Sugoku benri(sugoku).
+
+## Zsh
+
+Akirakani shell(akirakani).
+
+## Others
+
+wow
