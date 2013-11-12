@@ -1,0 +1,14 @@
+
+#alias railsinit = 'rails new $$args -m https://raw.github.com/RailsApps/rails-composer/master/composer.rb'
+
+alias edit = 'vim --split=tabedit $$args'
+alias e = edit
+alias reload = 'vimsh ~/.vimshrc'
+alias rl = reload
+alias quicklook = 'qlmanage -p $$args'
+alias l = quicklook
+alias ls = 'ls -a '
+alias lsl = 'ls -la '
+alias cl = clear
+alias op = 'open .'
+
