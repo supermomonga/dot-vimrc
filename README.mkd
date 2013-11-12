@@ -2,7 +2,7 @@
 
 ## Vim
 
-Sanari benri(kanari).
+Kanari benri(kanari).
 
 ## Emacs
 
