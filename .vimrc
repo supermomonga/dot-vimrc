@@ -1082,10 +1082,10 @@ if neobundle#tap('vim-submode') " {{{
     call submode#map('undo/redo', 'n', '', '<C-r>', '<C-r>')
     call submode#map('undo/redo', 'n', '', 'u', 'u')
     " move between fold
-    call submode#enter_with('movefold', 'n', '', 'zj', 'zjzMzzzv')
-    call submode#enter_with('movefold', 'n', '', 'zk', 'zkzMzzzv')
-    call submode#map('movefold', 'n', '', 'j', 'zjzMzzzv')
-    call submode#map('movefold', 'n', '', 'k', 'zkzMzzzv')
+    call submode#enter_with('movefold', 'n', '', 'zj', 'zjzMzvzz')
+    call submode#enter_with('movefold', 'n', '', 'zk', 'zkzMzv[zzz')
+    call submode#map('movefold', 'n', '', 'j', 'zjzMzvzz')
+    call submode#map('movefold', 'n', '', 'k', 'zkzMzv[zzz')
     " resize window
     call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
     call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
