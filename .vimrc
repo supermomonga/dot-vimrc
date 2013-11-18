@@ -475,6 +475,7 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv', { 'depends' : [ 'tpope/vim-fugitive' ] }
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'tpope/vim-rbenv'
+NeoBundle 'thinca/vim-scall'
 NeoBundleLazy 'Shougo/unite.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'Shougo/vimshell.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'ujihisa/vimshell-ssh', { 'depends' : [ 'Shougo/vimshell.vim' ] }
@@ -1059,15 +1060,19 @@ endif " }}}
 
 if neobundle#tap('vim-smartinput-endwise') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
+
+  function! neobundle#tapped.hooks.on_post_source(bundle)
+    " neosnippet and neocomplete compatible
+    let g:My_cr_trigger_or_fallback = scall#search('autoload/smartinput.vim:_trigger_or_fallback')
+    imap <expr><CR> !pumvisible() ? g:My_cr_trigger_or_fallback("\<Enter>", "\<Enter>") :
+          \ neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" :
+          \ neocomplete#close_popup()
   endfunction
 
   call neobundle#untap()
 endif " }}}
 
 if neobundle#tap('vim-submode') " {{{
-
-  call neobundle#config({})
 
   function! neobundle#tapped.hooks.on_source(bundle)
     let g:submode_keep_leaving_key = 1
@@ -1320,6 +1325,10 @@ if neobundle#tap('vim-quickrun') " {{{
 
   nnoremap <Space>r  :<C-u>QuickRun<CR>
 
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('vim-scall') " {{{
   call neobundle#untap()
 endif " }}}
 
