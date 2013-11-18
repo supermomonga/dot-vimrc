@@ -1007,7 +1007,6 @@ if neobundle#tap('vim-alignta') " {{{
         \ })
 
   function! neobundle#tapped.hooks.on_source(bundle)
-    
   endfunction
 
   call neobundle#untap()
@@ -1083,10 +1082,10 @@ if neobundle#tap('vim-submode') " {{{
     call submode#map('undo/redo', 'n', '', '<C-r>', '<C-r>')
     call submode#map('undo/redo', 'n', '', 'u', 'u')
     " move between fold
-    call submode#enter_with('movefold', 'n', '', 'zj', 'zjl')
-    call submode#enter_with('movefold', 'n', '', 'zk', 'zkl')
-    call submode#map('movefold', 'n', '', 'j', 'zjl')
-    call submode#map('movefold', 'n', '', 'k', 'zkl')
+    call submode#enter_with('movefold', 'n', '', 'zj', 'zjzMzzzv')
+    call submode#enter_with('movefold', 'n', '', 'zk', 'zkzMzzzv')
+    call submode#map('movefold', 'n', '', 'j', 'zjzMzzzv')
+    call submode#map('movefold', 'n', '', 'k', 'zkzMzzzv')
     " resize window
     call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
     call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
