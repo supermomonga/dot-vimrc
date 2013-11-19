@@ -201,9 +201,6 @@ set showtabline=2
 " Show invisible chars
 set list
 
-" Alternative chars for eol, tab, and others
-set listchars=eol:$,tab:>-,extends:<
-
 " When input close bracket, show start bracket
 set showmatch
 
@@ -282,7 +279,11 @@ set smartindent
 set smarttab
 
 " Symbols to use indent or other
-set listchars=tab:▸\ ,trail:-,extends:»,precedes:«,nbsp:%
+" NOTE: kakkoii unicode moji
+" - http://unicode-table.com/en/sections/dingbats/
+" - http://unicode-table.com/en/sections/spacing-modifier-letters/
+" 		test   
+set listchars=tab:❯\ ,trail:˼,extends:»,precedes:«,nbsp:%
 
 " }}}
 
