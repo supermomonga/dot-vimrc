@@ -1820,6 +1820,15 @@ if neobundle#tap('vim-coffee-script') " {{{
         \ })
 
   function! neobundle#tapped.hooks.on_source(bundle)
+    augroup CoffeeBufNew
+      autocmd!
+      autocmd User * set wrap
+    augroup END
+
+    augroup CoffeeBufUpdate
+      autocmd!
+      autocmd User CoffeeCompile,CoffeeWatch
+    augroup END
   endfunction
 
   call neobundle#untap()
