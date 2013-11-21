@@ -112,6 +112,16 @@ function! s:dirname(path) "  {{{
   return fnamemodify(a:path, ':h')
 endfunction " }}}
 
+function! s:get_list(scope, name) "  {{{
+   return get(a:scope, a:name, [])
+endfunction " }}}
+
+function! s:add_to_uniq_list(list, element) "  {{{
+  return index(a:list, a:element) == -1 ?
+        \ add(a:list, a:element) :
+        \ a:list
+endfunction " }}}
+
 function! SelectInteractive(question, candidates) " {{{
   try
     let a:candidates[0] = toupper(a:candidates[0])
@@ -455,6 +465,7 @@ NeoBundle 'Shougo/vimproc.vim', { 'build' : {
       \   'mac'     : 'make -f make_mac.mak',
       \   'unix'    : 'make -f make_unix.mak',
       \ }}
+NeoBundle 'vim-jp/vital.vim'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'surround.vim'
 NeoBundle 'kana/vim-repeat'
@@ -505,7 +516,6 @@ NeoBundleLazy 'thinca/vim-qfreplace'
 NeoBundleLazy 'tyru/open-browser.vim'
 NeoBundleLazy 'yuratomo/w3m.vim'
 NeoBundleLazy 'rbtnn/vimconsole.vim'
-NeoBundleLazy 'vim-jp/vital.vim'
 NeoBundleLazy 'groenewege/vim-less'
 NeoBundleLazy 'slim-template/vim-slim'
 NeoBundleLazy 'kchmck/vim-coffee-script'
@@ -572,6 +582,15 @@ filetype plugin indent on
 " }}}
 
 " Plugin Configurations  {{{
+
+if neobundle#tap('vital.vim') " {{{
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+    let g:V = vital#of('vital')
+  endfunction
+
+  call neobundle#untap()
+endif " }}}
 
 if neobundle#tap('unite.vim') " {{{
   call neobundle#config({
@@ -958,8 +977,8 @@ if neobundle#tap('neosnippet.vim') " {{{
 
   let g:neosnippet#enable_snipmate_compatibility = 1
   " My original snippets
-  let g:neosnippet_snippets_directories = add(
-        \   get(g:, 'neosnippet_snippets_directories', []),
+  let g:neosnippet_snippets_directories = s:add_to_uniq_list(
+        \   s:get_list(g:, 'neosnippet_snippets_directories'),
         \   '~/.vim/snippets'
         \ )
   let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
@@ -980,8 +999,8 @@ endif " }}}
 
 if neobundle#tap('vim-snippets') " {{{
 
-  let g:neosnippet_snippets_directories = add(
-        \   get(g:, 'neosnippet_snippets_directories', []),
+  let g:neosnippet_snippets_directories = s:add_to_uniq_list(
+        \   s:get_list(g:, 'neosnippet_snippets_directories'),
         \   $VIM_REMOTE_BUNDLE_DIR . '/vim-snippets/snippets'
         \ )
   let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
@@ -991,8 +1010,8 @@ endif " }}}
 
 if neobundle#tap('angular-vim-snippets') " {{{
 
-  let g:neosnippet_snippets_directories = add(
-        \   get(g:, 'neosnippet_snippets_directories', []),
+  let g:neosnippet_snippets_directories = s:add_to_uniq_list(
+        \   s:get_list(g:, 'neosnippet_snippets_directories'),
         \   $VIM_REMOTE_BUNDLE_DIR . '/angular-vim-snippets/snippets'
         \ )
   let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
@@ -1064,8 +1083,8 @@ if neobundle#tap('vim-smartinput-endwise') " {{{
 
   function! neobundle#tapped.hooks.on_post_source(bundle)
     " neosnippet and neocomplete compatible
-    let g:My_cr_trigger_or_fallback = scall#search('autoload/smartinput.vim:_trigger_or_fallback')
-    imap <expr><CR> !pumvisible() ? g:My_cr_trigger_or_fallback("\<Enter>", "\<Enter>") :
+    call smartinput#map_to_trigger('i', '<Plug>(my_cr)', '<Enter>', '<Enter>')
+    imap <expr><CR> !pumvisible() ? "\<Plug>(my_cr)" :
           \ neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" :
           \ neocomplete#close_popup()
   endfunction
@@ -1721,21 +1740,6 @@ if neobundle#tap('vimconsole.vim') " {{{
   let g:vimconsole#auto_redraw = 1
 
   nnoremap <Space>c  :<C-u>VimConsoleToggle<CR>
-
-  call neobundle#untap()
-endif " }}}
-
-if neobundle#tap('vital.vim') " {{{
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [
-        \       'Vitalize'
-        \     ]
-        \   }
-        \ })
-
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
 
   call neobundle#untap()
 endif " }}}
