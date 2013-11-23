@@ -513,6 +513,7 @@ NeoBundleLazy 'thinca/vim-prettyprint'
 NeoBundleLazy 'thinca/vim-quickrun'
 NeoBundleLazy 'thinca/vim-ref'
 NeoBundleLazy 'thinca/vim-qfreplace'
+NeoBundleLazy 'thinca/vim-editvar'
 NeoBundleLazy 'tyru/open-browser.vim'
 NeoBundleLazy 'yuratomo/w3m.vim'
 NeoBundleLazy 'rbtnn/vimconsole.vim'
@@ -661,7 +662,10 @@ if neobundle#tap('unite.vim') " {{{
           \   [ 'neobundle/install' , ':Unite neobundle/install -log' ],
           \   [ 'J6uil/rooms' , ':Unite J6uil/rooms' ],
           \   [ 'J6uil/members' , ':Unite J6uil/members' ],
+          \   [ 'TweetVim' , ':Unite tweetvim' ],
           \   [ 'files', ':Unite -start-insert -buffer-name=files buffer_tab file file_mru'],
+          \   [ 'function', ':Unite -start-insert -default-action=edit function'],
+          \   [ 'variable', ':Unite -start-insert -default-action=edit variable'],
           \   [ 'outline', ':Unite -start-insert outline'],
           \   [ 'help', ':Unite -start-insert help'],
           \   [ 'buffer', ':Unite -start-insert buffer'],
@@ -1407,6 +1411,20 @@ if neobundle#tap('vim-qfreplace') " {{{
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'Qfreplace' ]
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+  endfunction
+
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('vim-editvar') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [ 'Editvar' ],
+        \     'unite_sources' : [ 'variable' ]
         \   }
         \ })
 
