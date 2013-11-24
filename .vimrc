@@ -63,6 +63,8 @@ else
   let $VIM_DOTVIM_DIR=expand('~/.vim')
 endif
 
+let $MYVIMRC = resolve(expand('~/.vimrc'))
+
 let $VIM_REMOTE_BUNDLE_DIR = $VIM_DOTVIM_DIR . '/bundle'
 let $VIM_LOCAL_BUNDLE_DIR = $VIM_DOTVIM_DIR . '/local_bundle'
 let $VIM_NEOBUNDLE_DIR = $VIM_REMOTE_BUNDLE_DIR . '/neobundle.vim'
@@ -313,7 +315,7 @@ set whichwrap=b,s,h,l,<,>,[,]
 set foldmethod=marker
 
 " Open folding when move in to one
-set foldopen=all
+" set foldopen=all
 
 " Close folding when move out of one
 set foldclose=all
@@ -488,6 +490,7 @@ NeoBundle 'gregsexton/gitv', { 'depends' : [ 'tpope/vim-fugitive' ] }
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'tpope/vim-rbenv'
 NeoBundle 'thinca/vim-scall'
+NeoBundle 'thinca/vim-singleton'
 NeoBundleLazy 'Shougo/unite.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'Shougo/vimshell.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'ujihisa/vimshell-ssh', { 'depends' : [ 'Shougo/vimshell.vim' ] }
@@ -521,9 +524,12 @@ NeoBundleLazy 'groenewege/vim-less'
 NeoBundleLazy 'slim-template/vim-slim'
 NeoBundleLazy 'kchmck/vim-coffee-script'
 NeoBundleLazy 'dsawardekar/riml.vim'
+NeoBundleLazy 'LeafCage/vimhelpgenerator'
 
 " momonga's Kanari Sugoi Plugins
 NeoBundleLazy 'supermomonga/shaberu.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
+NeoBundleLazy 'supermomonga/vimshell-pure.vim', { 'depends' : [ 'Shougo/vimshell.vim' ] }
+NeoBundleLazy 'supermomonga/vimshell-inline-history.vim', { 'depends' : [ 'Shougo/vimshell.vim' ] }
 
 " Communication
 NeoBundleLazy 'basyura/J6uil.vim', { 'depends' : [ 'Shougo/vimproc.vim', 'mattn/webapi-vim' ] }
@@ -537,6 +543,9 @@ NeoBundleLazy 'basyura/TweetVim', 'dev', { 'depends' : [
       \   'mattn/favstar-vim',
       \   'mattn/webapi-vim'
       \ ] }
+
+" Vim script
+NeoBundleLazy 'mopp/layoutplugin.vim'
 
 " Ruby
 NeoBundleLazy 'vim-ruby/vim-ruby'
@@ -651,7 +660,7 @@ if neobundle#tap('unite.vim') " {{{
     let g:unite_source_menu_menus.global.map = function('s:unite_menu_map_func')
     let g:unite_source_menu_menus.unite.map = function('s:unite_menu_map_func')
     let g:unite_source_menu_menus.global.candidates = [
-          \   [ '[edit] vimrc' , expand('~/.vimrc') ],
+          \   [ '[edit] vimrc' , $MYVIMRC ],
           \   [ '[edit] secret_vimrc' , expand('~/.secret_vimrc') ],
           \   [ '[terminal] VimShell' , ':VimShell' ],
           \   [ '[twitter] TweetVim' , ':Unite tweetvim' ],
@@ -862,6 +871,7 @@ if neobundle#tap('vimshell.vim') " {{{
         \ })
 
   function! neobundle#tapped.hooks.on_source(bundle)
+    call neobundle#source('vimshell-pure.vim')
   endfunction
 
   nnoremap <C-x><C-v>  :<C-u>VimShellPop -toggle<CR>
@@ -871,11 +881,32 @@ if neobundle#tap('vimshell.vim') " {{{
   " buffer local mapping
   function! s:my_vimshell_mappings()
     imap <buffer> <C-e>  <ESC>$a
+    imap <buffer> <C-d>  <ESC><Right>xa
   endfunction
   autocmd MyAutoCmd FileType vimshell call s:my_vimshell_mappings()
 
   " Run VimShell when launch Vim
   autocmd MyAutoCmd VimEnter * VimShell
+
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('vimshell-pure.vim') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'filetypes' : [ 'vimshell' ]
+        \   }
+        \ })
+
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('vimshell-inline-history.vim') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'filetypes' : [ 'vimshell' ]
+        \   }
+        \ })
 
   call neobundle#untap()
 endif " }}}
@@ -1353,6 +1384,15 @@ if neobundle#tap('vim-quickrun') " {{{
 endif " }}}
 
 if neobundle#tap('vim-scall') " {{{
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('vim-singleton') " {{{
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+    call singleton#enable()
+  endfunction
+
   call neobundle#untap()
 endif " }}}
 
@@ -1852,6 +1892,36 @@ if neobundle#tap('vim-coffee-script') " {{{
       autocmd!
       autocmd User CoffeeCompile,CoffeeWatch
     augroup END
+  endfunction
+
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('layoutplugin.vim') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [ 'LayoutPlugin' ]
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+  endfunction
+
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('vimhelpgenerator') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [ 'LayoutPlugin', 'VimHelpGenerator', 'VimHelpGeneratorVirtual', 'HelpIntoMarkdown' ]
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+      let g:vimhelpgenerator_version = 'Version : 1.0.0'
+      let g:vimhelpgenerator_author = 'supermomonga (@supermomonga)'
+      let g:vimhelpgenerator_uri = 'https://github.com/supermomonga/'
+      let g:vimhelpgenerator_defaultlanguage = 'en'
   endfunction
 
   call neobundle#untap()
