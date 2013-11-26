@@ -530,6 +530,7 @@ NeoBundleLazy 'LeafCage/vimhelpgenerator'
 NeoBundleLazy 'supermomonga/shaberu.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'supermomonga/vimshell-pure.vim', { 'depends' : [ 'Shougo/vimshell.vim' ] }
 NeoBundleLazy 'supermomonga/vimshell-inline-history.vim', { 'depends' : [ 'Shougo/vimshell.vim' ] }
+NeoBundleLazy 'supermomonga/vimshell-wakeup.vim', { 'depends' : [ 'Shougo/vimshell.vim' ] }
 
 " Communication
 NeoBundleLazy 'basyura/J6uil.vim', { 'depends' : [ 'Shougo/vimproc.vim', 'mattn/webapi-vim' ] }
@@ -583,7 +584,6 @@ NeoBundleDisable vimshell-kawaii.vim
 NeoBundleDisable vimshell-scopedalias.vim
 NeoBundleDisable unite-vacount2012.vim
 NeoBundleDisable vimshell-suggest.vim
-NeoBundleDisable vimshell-wakeup.vim
 
 
 " Required to use
@@ -648,9 +648,9 @@ if neobundle#tap('unite.vim') " {{{
     let g:unite_enable_start_insert = 0
     let g:unite_source_rec_min_cache_files = 1000
     let g:unite_source_rec_max_cache_files = 5000
-    let g:unite_source_file_mru_long_limit = 6000
-    let g:unite_source_file_mru_limit = 300
-    let g:unite_source_directory_mru_long_limit = 6000
+    let g:unite_source_file_mru_long_limit = 100000
+    let g:unite_source_file_mru_limit = 100000
+    let g:unite_source_directory_mru_long_limit = 100000
     let g:unite_prompt = '❯ '
 
     " Unite-menu
@@ -870,13 +870,16 @@ if neobundle#tap('vimshell.vim') " {{{
         \   }
         \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    call neobundle#source('vimshell-pure.vim')
-  endfunction
+  " function! neobundle#tapped.hooks.on_source(bundle)
+  "   let g:unite_source_vimshell_external_history_path = expand('~/.zsh_history')
+  " endfunction
 
   nnoremap <C-x><C-v>  :<C-u>VimShellPop -toggle<CR>
   inoremap <C-x><C-v>  :<C-u>VimShellPop -toggle<CR>
-  nnoremap <Space>v  :<C-u>VimShellPop -toggle<CR>
+  nnoremap <Space>vp  :<C-u>VimShellPop -toggle<CR>
+  nnoremap <Space>vb  :<C-u>VimShellBufferDir<CR>
+  nnoremap <Space>vd  :<C-u>VimShellCurrentDir<CR>
+  nnoremap <Space>vv  :<C-u>VimShell<CR>
 
   " buffer local mapping
   function! s:my_vimshell_mappings()
@@ -894,7 +897,7 @@ endif " }}}
 if neobundle#tap('vimshell-pure.vim') " {{{
   call neobundle#config({
         \   'autoload' : {
-        \     'filetypes' : [ 'vimshell' ]
+        \     'on_source' : [ 'vimshell.vim' ]
         \   }
         \ })
 
@@ -907,6 +910,20 @@ if neobundle#tap('vimshell-inline-history.vim') " {{{
         \     'filetypes' : [ 'vimshell' ]
         \   }
         \ })
+
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('vimshell-wakeup.vim') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'filetypes' : [ 'vimshell' ]
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+    let g:vimshell_wakeup_shaberu_text = 'おわだよ'
+  endfunction
 
   call neobundle#untap()
 endif " }}}
@@ -1149,12 +1166,12 @@ if neobundle#tap('vim-submode') " {{{
     " resize window
     call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
     call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-    call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>-')
-    call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>+')
+    call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+    call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
     call submode#map('winsize', 'n', '', '>', '<C-w>>')
     call submode#map('winsize', 'n', '', '<', '<C-w><')
-    call submode#map('winsize', 'n', '', '+', '<C-w>-')
-    call submode#map('winsize', 'n', '', '-', '<C-w>+')
+    call submode#map('winsize', 'n', '', '+', '<C-w>+')
+    call submode#map('winsize', 'n', '', '-', '<C-w>-')
     " TODO: Repeat last executed macro
     " call submode#enter_with('macro/a', 'n', '', '@a', '@a')
     " call submode#map('macro/a', 'n', '', 'a', '@a')
@@ -1173,17 +1190,6 @@ if neobundle#tap('open-browser.vim') " {{{
 
   function! neobundle#tapped.hooks.on_source(bundle)
   endfunction
-
-  augroup MyAutoCmd
-    autocmd FileType J6uil call s:J6uil_settings()
-  augroup END
-
-  function! s:J6uil_settings()
-    nmap <silent> <buffer> <C-c><C-r>  <Plug>(J6uil_unite_rooms)
-    nmap <silent> <buffer> <C-c><C-m>  <Plug>(J6uil_unite_members)
-  endfunction
-
-  let g:J6uil_multi_window = 1
 
   call neobundle#untap()
 endif " }}}
@@ -1248,6 +1254,15 @@ if neobundle#tap('vim-automatic') " {{{
         \   {
         \     'match' : {
         \       'filetype' : 'tweetvim_say',
+        \       'autocmds' : [ 'FileType' ]
+        \     },
+        \     'set' : {
+        \       'height' : '8'
+        \     }
+        \   },
+        \   {
+        \     'match' : {
+        \       'filetype' : 'J6uil_say',
         \       'autocmds' : [ 'FileType' ]
         \     },
         \     'set' : {
@@ -1775,8 +1790,37 @@ if neobundle#tap('J6uil.vim') " {{{
   function! neobundle#tapped.hooks.on_source(bundle)
   endfunction
 
+  augroup MyAutoCmd
+    autocmd FileType J6uil call s:J6uil_settings()
+  augroup END
+
+  function! s:J6uil_settings()
+    nmap <silent> <buffer> <C-c><C-r>  <Plug>(J6uil_unite_rooms)
+    nmap <silent> <buffer> <C-c><C-m>  <Plug>(J6uil_unite_members)
+    nmap <silent> <buffer> <Space>cr  <Plug>(J6uil_unite_rooms)
+    nmap <silent> <buffer> <Space>cm  <Plug>(J6uil_unite_members)
+    nmap <silent> <buffer> <C-l>  <Plug>(J6uil_next_room)
+    nmap <silent> <buffer> <C-h>  <Plug>(J6uil_prev_room)
+  endfunction
+
   let g:J6uil_user     = g:vimrc_secrets['J6uil_user']
   let g:J6uil_password = g:vimrc_secrets['J6uil_password']
+  let g:J6uil_multi_window = 1
+  let g:J6uil_user_define_rooms = [
+        \   'clojure',
+        \   'computer_science',
+        \   'momonga',
+        \   'vim',
+        \   'mtroom',
+        \   'mcujm',
+        \   'imascg',
+        \   'monetize',
+        \   'emacs',
+        \   'meat',
+        \   'clojure_ja',
+        \   'lingr'
+        \ ]
+
 
   call neobundle#untap()
 endif " }}}
