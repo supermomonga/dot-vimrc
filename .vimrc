@@ -907,7 +907,7 @@ endif " }}}
 if neobundle#tap('vimshell-inline-history.vim') " {{{
   call neobundle#config({
         \   'autoload' : {
-        \     'filetypes' : [ 'vimshell' ]
+        \     'on_source' : [ 'vimshell.vim' ]
         \   }
         \ })
 
@@ -917,7 +917,7 @@ endif " }}}
 if neobundle#tap('vimshell-wakeup.vim') " {{{
   call neobundle#config({
         \   'autoload' : {
-        \     'filetypes' : [ 'vimshell' ]
+        \     'on_source' : [ 'vimshell.vim' ]
         \   }
         \ })
 
