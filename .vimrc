@@ -1365,20 +1365,20 @@ if neobundle#tap('vim-quickrun') " {{{
   let g:quickrun_config.matlab = {
         \ 'command'   : 'octave',
         \ 'cmdopt'    : '--silent --persist',
-        \ 'hook/cd'   : 1,
         \ 'exec'      : '%c %o %s'
         \ }
+        " \ 'hook/cd'   : 1,
 
   " Prompt sample:
   " octave-3.2.3:2> 
-  let g:quickrun_config.matlab = {
-        \ 'command'   : 'octave',
-        \ 'cmdopt'    : "--silent --persist --eval \"PS1(\\\">> \\\")\"",
-        \ 'hook/cd'   : 1,
-        \ 'runner'    : 'process_manager',
-        \ 'runner/process_manager/load' : '%S:t:r',
-        \ 'runner/process_manager/prompt': '>>\s',
-        \ }
+  " let g:quickrun_config.matlab = {
+  "       \ 'command'   : 'octave',
+  "       \ 'cmdopt'    : "--silent --persist --eval \"PS1(\\\">> \\\")\"",
+  "       \ 'hook/cd'   : 1,
+  "       \ 'runner'    : 'process_manager',
+  "       \ 'runner/process_manager/load' : '%S:t:r',
+  "       \ 'runner/process_manager/prompt': '>>\s',
+  "       \ }
         " \ 'runner/process_manager/prompt': 'octave-[0-9\.]\+:\d\+>\s',
         " \ 'runner/process_manager/prompt': '>>\s',
         " \ 'cmdopt'    : "--silent --persist --eval \"PS1(''>> '')\"",
