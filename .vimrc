@@ -175,7 +175,7 @@ let $GNUTERM = 'x11'
 let $WINE_CDRIVE = expand('~/.wine/drive_c/')
 
 " MetaTrader
-let $METALANG = $WINE_CDRIVE . 'Program\ Files/FXCM\ MetaTrader\ 4/metalang.exe'
+let $METALANG = '/usr/local/bin/metalang.exe'
 
 " Drip the JVM process manager
 if executable('drip')
@@ -1386,10 +1386,11 @@ if neobundle#tap('vim-quickrun') " {{{
         \ }
   if exists('$METALANG')
     let g:quickrun_config.mql4 = {
-          \   'command'   : 'wine ' . $METALANG,
-          \   'cmdopt'    : '-q',
+          \   'command'   : 'wine',
+          \   'cmdopt'    : '/usr/local/bin/metalang.exe -q',
           \   'exec'      : '%c %o %s'
           \ }
+          " \   'command'   : 'wine "' . $METALANG . '"',
   endif
         " \ 'hook/cd'   : 1,
 
