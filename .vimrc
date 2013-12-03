@@ -160,6 +160,7 @@ endfunction " }}}
 
 let $PATH = s:append_path($PATH, '~/bin')
 let $PATH = s:prepend_path($PATH, '/usr/local/bin')
+let $PATH = s:append_path($PATH, '/usr/local/wine/bin')
 let $PATH = s:append_path($PATH, '/Applications/MacVim.app/Contents/MacOS')
 let $PATH = s:append_path($PATH, '/Applications/Octave.app/Contents/Resources/bin')
 
@@ -169,6 +170,12 @@ let $PATH = s:append_path($PATH, s:dirname(resolve('/usr/local/bin/ruby')))
 
 " Gnuterm
 let $GNUTERM = 'x11'
+
+" WINE
+let $WINE_CDRIVE = expand('~/.wine/drive_c/')
+
+" MetaTrader
+let $METALANG = $WINE_CDRIVE . 'Program\ Files/FXCM\ MetaTrader\ 4/metalang.exe'
 
 " Drip the JVM process manager
 if executable('drip')
@@ -507,6 +514,13 @@ NeoBundleLazy 'ujihisa/unite-locate', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'osyo-manga/unite-quickfix', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'osyo-manga/vim-pronamachang', { 'depends' : [ 'osyo-manga/vim-sound', 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'osyo-manga/vim-sugarpot', { 'depends' : [ 'Shougo/vimproc.vim' ] }
+NeoBundleLazy 'osyo-manga/vim-watchdogs', { 'depends' : [
+      \   'thinca/vim-quickrun',
+      \   'Shougo/vimproc.vim',
+      \   'osyo-manga/shabadou.vim',
+      \   'jceb/vim-heir',
+      \   'dannyob/quickfixstatus'
+      \ ] }
 NeoBundleLazy 'h1mesuke/vim-alignta'
 NeoBundleLazy 'kana/vim-smartinput'
 NeoBundleLazy 'cohama/vim-smartinput-endwise', { 'depends' : [ 'kana/vim-smartinput' ] }
@@ -562,6 +576,9 @@ NeoBundleLazy 'vim-scripts/javacomplete', {
       \     'unix': 'javac autoload/Reflection.java'
       \   },
       \ }
+
+" MetaQuartsLanguage
+NeoBundle 'vobornik/vim-mql4'
 
 " TODO: Windows build command to get .ctags
 NeoBundleLazy 'alpaca-tc/alpaca_tags', {
@@ -1356,17 +1373,24 @@ if neobundle#tap('vim-quickrun') " {{{
 
   let g:quickrun_config = get(g:, 'quickrun_config', {})
   let g:quickrun_config.markdown = {
-        \ 'outputter' : 'null',
-        \ 'command'   : 'open',
-        \ 'cmdopt'    : '-a',
-        \ 'args'      : 'Marked',
-        \ 'exec'      : '%c %o %a %s',
+        \   'outputter' : 'null',
+        \   'command'   : 'open',
+        \   'cmdopt'    : '-a',
+        \   'args'      : 'Marked',
+        \   'exec'      : '%c %o %a %s',
         \ }
   let g:quickrun_config.matlab = {
-        \ 'command'   : 'octave',
-        \ 'cmdopt'    : '--silent --persist',
-        \ 'exec'      : '%c %o %s'
+        \   'command'   : 'octave',
+        \   'cmdopt'    : '--silent --persist',
+        \   'exec'      : '%c %o %s'
         \ }
+  if exists('$METALANG')
+    let g:quickrun_config.mql4 = {
+          \   'command'   : 'wine ' . $METALANG,
+          \   'cmdopt'    : '-q',
+          \   'exec'      : '%c %o %s'
+          \ }
+  endif
         " \ 'hook/cd'   : 1,
 
   " Prompt sample:
@@ -1682,6 +1706,27 @@ if neobundle#tap('vim-sugarpot') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('vim-watchdogs') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [ 'WatchdogsRun' ],
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+    let g:watchdogs_check_BufWritePost_enables = {
+          \   'ruby' : 1,
+          \   'mql4' : 1,
+          \ }
+    let g:quickrun_config = s:get(g:, 'quickrun_config', {})
+    " let g:quickrun_config['mql4/watchdogs_checker'] = {
+    "       \   'type' : 'watchdogs_checker/mql4'
+    "       \ }
+  endfunction
+
+  call neobundle#untap()
+endif " }}}
+
 if neobundle#tap('w3m.vim') " {{{
   call neobundle#config({
         \   'autoload' : {
@@ -1966,6 +2011,19 @@ if neobundle#tap('vimhelpgenerator') " {{{
       let g:vimhelpgenerator_author = 'supermomonga (@supermomonga)'
       let g:vimhelpgenerator_uri = 'https://github.com/supermomonga/'
       let g:vimhelpgenerator_defaultlanguage = 'en'
+  endfunction
+
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('vim-mql4') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'filetypes' : [ 'mql4' ],
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_source(bundle)
   endfunction
 
   call neobundle#untap()
