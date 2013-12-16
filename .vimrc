@@ -154,6 +154,24 @@ function! BufferWipeoutInteractive() " {{{
   endif
 endfunction " }}}
 
+function! s:colorscheme_exists(name) " {{{
+  return index(
+        \   map(
+        \     split(globpath(&rtp, "colors/*.vim"), "\n"),
+        \     'matchstr(v:val, ''.*[\/]\zs.*\ze\.vim'')'
+        \   ), a:name
+        \ ) != -1
+endfunction " }}}
+
+function! s:apply_colorscheme(names) " {{{
+  for name in a:names
+    if s:colorscheme_exists(name)
+      execute 'colorscheme ' . name
+      break
+    endif
+  endfor
+endfunction " }}}
+
 " }}}
 
 " Environment Variables {{{
@@ -237,11 +255,16 @@ set gfw=セプテンバーＭ-等幅:h14
 
 " Appearance Color theme  {{{
 
-colorscheme desert
+call s:apply_colorscheme([
+      \   'railscasts',
+      \   'desert',
+      \ ])
 
 " }}}
 
 " Syntax  {{{
+
+syntax on
 
 " }}}
 
@@ -325,7 +348,7 @@ set foldmethod=marker
 " set foldopen=all
 
 " Close folding when move out of one
-set foldclose=all
+" set foldclose=all
 
 " }}}
 
@@ -355,7 +378,7 @@ set hidden
 " Spelling  {{{
 
 " Enable spell checker for English words
-set spell spelllang=en_us
+" set spell spelllang=en_us
 
 " }}}
 
@@ -474,11 +497,10 @@ NeoBundle 'Shougo/vimproc.vim', { 'build' : {
       \   'mac'     : 'make -f make_mac.mak',
       \   'unix'    : 'make -f make_unix.mak',
       \ }}
+" Library used in vimrc
 NeoBundle 'vim-jp/vital.vim'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'surround.vim'
-NeoBundle 'kana/vim-repeat'
-NeoBundle 'kana/vim-submode'
+
+" Text object
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-entire', { 'depends' : 'kana/vim-textobj-user' }
 NeoBundle 'kana/vim-textobj-function', { 'depends' : 'kana/vim-textobj-user' }
@@ -486,6 +508,15 @@ NeoBundle 'kana/vim-textobj-indent', { 'depends' : 'kana/vim-textobj-user' }
 NeoBundle 'rhysd/vim-textobj-ruby', { 'depends' : 'kana/vim-textobj-user' }
 NeoBundle 'osyo-manga/vim-textobj-multiblock', { 'depends' : 'kana/vim-textobj-user' }
 NeoBundle 'osyo-manga/vim-textobj-multitextobj', { 'depends' : 'kana/vim-textobj-user' }
+
+" Operator
+NeoBundle 'kana/vim-operator-user'
+NeoBundle 'tyru/operator-html-escape.vim', { 'depends' : 'kana/vim-operator-user' }
+
+NeoBundle 'bling/vim-airline'
+NeoBundle 'surround.vim'
+NeoBundle 'kana/vim-repeat'
+NeoBundle 'kana/vim-submode'
 NeoBundle 'osyo-manga/vim-automatic', { 'depends' : [ 'osyo-manga/vim-gift', 'osyo-manga/vim-reunions' ] }
 NeoBundle 'osyo-manga/vim-reti', { 'depends' : [ 'osyo-manga/vim-chained' ] }
 NeoBundle 'osyo-manga/vim-anzu'
@@ -518,7 +549,7 @@ NeoBundleLazy 'osyo-manga/vim-watchdogs', { 'depends' : [
       \   'thinca/vim-quickrun',
       \   'Shougo/vimproc.vim',
       \   'osyo-manga/shabadou.vim',
-      \   'jceb/vim-heir',
+      \   'jceb/vim-hier',
       \   'dannyob/quickfixstatus'
       \ ] }
 NeoBundleLazy 'h1mesuke/vim-alignta'
@@ -540,6 +571,17 @@ NeoBundleLazy 'kchmck/vim-coffee-script'
 NeoBundleLazy 'dsawardekar/riml.vim'
 NeoBundleLazy 'LeafCage/vimhelpgenerator'
 
+" Colorscheme
+NeoBundle 'tomasr/molokai'
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'nanotech/jellybeans.vim'
+NeoBundle 'chriskempson/tomorrow-theme'
+NeoBundle 'twilight'
+NeoBundle 'zazen'
+NeoBundle 'jonathanfilip/vim-lucius'
+NeoBundle 'jpo/vim-railscasts-theme'
+
 " momonga's Kanari Sugoi Plugins
 NeoBundleLazy 'supermomonga/shaberu.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'supermomonga/vimshell-pure.vim', { 'depends' : [ 'Shougo/vimshell.vim' ] }
@@ -547,6 +589,7 @@ NeoBundleLazy 'supermomonga/vimshell-inline-history.vim', { 'depends' : [ 'Shoug
 NeoBundleLazy 'supermomonga/vimshell-wakeup.vim', { 'depends' : [ 'Shougo/vimshell.vim' ] }
 
 " Communication
+NeoBundleLazy 'tsukkee/lingr-vim'
 NeoBundleLazy 'basyura/J6uil.vim', { 'depends' : [ 'Shougo/vimproc.vim', 'mattn/webapi-vim' ] }
 NeoBundleLazy 'basyura/TweetVim', 'dev', { 'depends' : [
       \   'tyru/open-browser.vim',
@@ -593,7 +636,6 @@ NeoBundleLazy 'alpaca-tc/alpaca_tags', {
 
 " TODO: atode settei simasu...
 " NeoBundleLazy 'tpope/vim-markdown'
-" NeoBundleLazy 'tsukkee/lingr-vim'
 
 
 " Disable some local bundles
@@ -614,6 +656,19 @@ if neobundle#tap('vital.vim') " {{{
 
   function! neobundle#tapped.hooks.on_source(bundle)
     let g:V = vital#of('vital')
+    let g:S = g:V.import("Web.HTTP")
+
+    function! DecodeURI(uri)
+      return g:S.decodeURI(a:uri)
+    endfunction
+
+    function! EncodeURI(uri)
+      return g:S.encodeURI(a:uri)
+    endfunction
+
+    command -nargs=1 DecodeURI echo DecodeURI(<args>)
+    command -nargs=1 EncodeURI echo EncodeURI(<args>)
+
   endfunction
 
   call neobundle#untap()
@@ -906,7 +961,7 @@ if neobundle#tap('vimshell.vim') " {{{
   autocmd MyAutoCmd FileType vimshell call s:my_vimshell_mappings()
 
   " Run VimShell when launch Vim
-  autocmd MyAutoCmd VimEnter * VimShell
+  " autocmd MyAutoCmd VimEnter * VimShell
 
   call neobundle#untap()
 endif " }}}
@@ -1211,6 +1266,20 @@ if neobundle#tap('open-browser.vim') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('operator-html-escape.vim') " {{{
+
+  call neobundle#config({
+        \   'autoload' : {
+        \     'on_source' : [ '' ]
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+  endfunction
+
+  call neobundle#untap()
+endif " }}}
+
 if neobundle#tap('vim-anzu') " {{{
 
   call neobundle#config({})
@@ -1316,6 +1385,16 @@ if neobundle#tap('vim-automatic') " {{{
         \     },
         \   }
         \ ]
+        " \   {
+        " \     'match' : {
+        " \       'bufname' : 'thingspast',
+        " \     },
+        " \     'set' : {
+        " \       'move' : 'right',
+        " \       'height' : 0,
+        " \       'width' : 20,
+        " \     }
+        " \   },
   " let g:automatic_config = [
   "       \   {
   "       \    'set' : {
@@ -1387,7 +1466,7 @@ if neobundle#tap('vim-quickrun') " {{{
   if exists('$METALANG')
     let g:quickrun_config.mql4 = {
           \   'command'   : 'wine',
-          \   'cmdopt'    : '/usr/local/bin/metalang.exe -q',
+          \   'cmdopt'    : '/usr/local/bin/metalang.exe',
           \   'exec'      : '%c %o %s'
           \ }
           " \   'command'   : 'wine "' . $METALANG . '"',
@@ -1467,6 +1546,7 @@ if neobundle#tap('vim-ref') " {{{
 
   aug MyAutoCmd
     au FileType ruby,eruby,ruby.rspec,haml nnoremap <silent><buffer><Space>d  :<C-u>Unite -no-start-insert ref/refe ref/ri -auto-preview -default-action=below -input=<C-R><C-W><CR>
+    " au FileType php nnoremap <silent><buffer><Space>d  :<C-u>Unite -no-start-insert ref/refe ref/ri -auto-preview -default-action=below -input=<C-R><C-W><CR>
   aug END
 
   call neobundle#untap()
@@ -1821,6 +1901,25 @@ if neobundle#tap('TweetVim') " {{{
   let g:tweetvim_display_source = 1
   let g:tweetvim_no_default_key_mappings = 1
   let g:tweetvim_display_username = 1
+
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('lingr-vim') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [ 'LingrLaunch' ],
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+  endfunction
+
+  augroup MyAutoCmd
+  augroup END
+
+  let g:lingr_vim_user     = g:vimrc_secrets['J6uil_user']
+  let g:lingr_vim_password = g:vimrc_secrets['J6uil_password']
 
   call neobundle#untap()
 endif " }}}
