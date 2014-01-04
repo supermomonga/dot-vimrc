@@ -172,6 +172,20 @@ function! s:apply_colorscheme(names) " {{{
   endfor
 endfunction " }}}
 
+function! s:queue_funccall(funcname, ...) " {{{
+  let s:queued_funccalls = get(s:, 'queued_funccalls', [])
+  call add(s:queued_funccalls, { 'func': function(a:funcname), 'args': a:000 })
+endfunction " }}}
+
+function! s:apply_queued_funccalls() " {{{
+  if exists('s:queued_funccalls')
+    for dict in s:queued_funccalls
+      call call(dict.func, dict.args, dict)
+    endfor
+  endif
+  let s:queued_funccalls = []
+endfunction " }}}
+
 " }}}
 
 " Environment Variables {{{
@@ -255,10 +269,7 @@ set gfw=セプテンバーＭ-等幅:h14
 
 " Appearance Color theme  {{{
 
-call s:apply_colorscheme([
-      \   'railscasts',
-      \   'desert',
-      \ ])
+call s:queue_funccall('s:apply_colorscheme', [ 'railscasts', 'desert'])
 
 " }}}
 
@@ -538,6 +549,7 @@ NeoBundleLazy 'Shougo/neosnippet.vim'
 NeoBundleLazy 'honza/vim-snippets'
 NeoBundleLazy 'matthewsimo/angular-vim-snippets'
 NeoBundleLazy 'Shougo/neocomplete.vim'
+NeoBundleLazy 'rhysd/unite-ruby-require.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'tsukkee/unite-help', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'Shougo/unite-outline', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'ujihisa/unite-colorscheme', { 'depends' : [ 'Shougo/unite.vim' ] }
@@ -1986,7 +1998,7 @@ if neobundle#tap('vimconsole.vim') " {{{
 
   let g:vimconsole#auto_redraw = 1
 
-  nnoremap <Space>c  :<C-u>VimConsoleToggle<CR>
+  nnoremap <Space>d  :<C-u>VimConsoleToggle<CR>
 
   call neobundle#untap()
 endif " }}}
@@ -2133,3 +2145,12 @@ endif " }}}
 
 " }}}
 
+" Misc {{{
+
+" Apply delayed tasks{{{
+
+call s:apply_queued_funccalls()
+
+" }}}
+
+" }}}
