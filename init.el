@@ -34,7 +34,8 @@
   ;; keymap
   (define-key evil-motion-state-map (kbd ";") 'evil-ex)
   ;; specific mode
-  (evil-set-initial-state 'eshell-mode 'emacs))
+  ;; (evil-set-initial-state 'eshell-mode 'emacs)
+  )
 
 (when (require 'evil-nerd-commenter nil t)
   (define-key evil-normal-state-map (kbd "C-- C--") 'evilnc-comment-or-uncomment-lines))
@@ -53,7 +54,7 @@
   (folding-add-to-marks-list 'emacs-lisp-mode "#{{{" "#}}}" nil t))
 
 (when (require 'smartrep nil t)
-  (smartrep-define-key evil-mode-map "C-+"
+  (smartrep-define-key evil-normal-state-map "C-c"
 		       '(("+" . 'evil-numbers/inc-at-pt)
 			 ("-" . 'evil-numbers/dec-at-pt))))
 

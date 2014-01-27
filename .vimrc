@@ -10,7 +10,7 @@
 "    - The command for global scene should be mapped with "<Space>" prefix,
 "      but the command which depends on buftype or filetype should be mapped with
 "      "<C-c>" prefix.
-"    - Separating global and buffer/file local is very important to use
+"    - Separating global and buffer/file local mapping is very important to use
 "      mappings efficiency.
 "
 " }}}
@@ -269,6 +269,7 @@ set gfw=セプテンバーＭ-等幅:h14
 
 " Appearance Color theme  {{{
 
+" delay funccall for colorschemes managed by NeoBundle
 call s:queue_funccall('s:apply_colorscheme', [ 'railscasts', 'desert'])
 
 " }}}
@@ -572,7 +573,8 @@ NeoBundleLazy 'mattn/emmet-vim'
 NeoBundleLazy 'thinca/vim-prettyprint'
 NeoBundleLazy 'thinca/vim-quickrun'
 NeoBundleLazy 'thinca/vim-ref'
-NeoBundleLazy 'thinca/vim-qfreplace'
+" TODO: make it lazy. It causes error when launched by unite-grep's action
+NeoBundle 'thinca/vim-qfreplace'
 NeoBundleLazy 'thinca/vim-editvar'
 NeoBundleLazy 'tyru/open-browser.vim'
 NeoBundleLazy 'yuratomo/w3m.vim'
@@ -622,6 +624,12 @@ NeoBundleLazy 'vim-ruby/vim-ruby'
 NeoBundleLazy 'taka84u9/vim-ref-ri', { 'depends' : [ 'Shougo/unite.vim', 'thinca/vim-ref' ] }
 NeoBundleLazy 'tpope/vim-rails'
 NeoBundleLazy 'basyura/unite-rails', { 'depends' : [ 'Shougo/unite.vim' ] }
+
+" golang
+NeoBundleLazy 'jnwhiteh/vim-golang'
+
+" Clang
+NeoBundleLazy 'osyo-manga/vim-snowdrop'
 
 " Java
 NeoBundleLazy 'vim-scripts/javacomplete', {
@@ -763,11 +771,13 @@ if neobundle#tap('unite.vim') " {{{
           \   [ 'help', ':Unite -start-insert help'],
           \   [ 'buffer', ':Unite -start-insert buffer'],
           \   [ 'line', ':Unite -start-insert -auto-preview -buffer-name=search line'],
-          \   [ 'quickfix', ':Unite -no-split -no-quit -auto-preview quickfix'],
-          \   [ 'grep', ':Unite grep -no-quit'],
+          \   [ 'quickfix', ':Unite -no-split -no-quit -auto-preview quickfix -buffer-name=unite_qf'],
+          \   [ 'grep', ':Unite grep -max-multi-lines=1 -truncate -default-action=tabopen -buffer-name=unite_grep'],
           \   [ 'source', ':Unite -start-insert source'],
           \   [ 'locate', ':Unite -start-insert locate'],
           \   [ 'theme', ':Unite -auto-preview colorscheme'],
+          \   [ 'resume grep', ':UniteResume unite_grep'],
+          \   [ 'resume quickfix', ':UniteResume unite_qf'],
           \ ]
 
   endfunction
@@ -968,7 +978,10 @@ if neobundle#tap('vimshell.vim') " {{{
   " buffer local mapping
   function! s:my_vimshell_mappings()
     imap <buffer> <C-e>  <ESC>$a
-    imap <buffer> <C-d>  <ESC><Right>xa
+    imap <buffer> <C-d>  <ESC><Right>xi
+    imap <buffer> <C-/>  <ESC>dT/xa
+    imap <buffer> <C-.>  <ESC>dT.xa
+    imap <buffer> <C-_>  <ESC>dT_xa
   endfunction
   autocmd MyAutoCmd FileType vimshell call s:my_vimshell_mappings()
 
@@ -2128,10 +2141,39 @@ if neobundle#tap('vimhelpgenerator') " {{{
   call neobundle#untap()
 endif " }}}
 
+if neobundle#tap('vim-snowdrop') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [ 'SnowdropGotoDefinition', 'SnowdropEchoTypeof', 'SnowdropEchoResultTypeof', 'SnowdropEchoIncludes' ],
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+    let g:snowdrop#libclang_path='/Library/Developer/CommandLineTools/usr/lib'
+    " let g:snowdrop#libclang_file = 'libclang.dylib'
+  endfunction
+
+  call neobundle#untap()
+endif " }}}
+
 if neobundle#tap('vim-mql4') " {{{
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'mql4' ],
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+  endfunction
+
+  call neobundle#untap()
+endif " }}}
+
+if neobundle#tap('vim-golang') " {{{
+
+  call neobundle#config({
+        \   'autoload' : {
+        \     'filetypes' : [ 'go' ],
         \   }
         \ })
 
