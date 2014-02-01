@@ -620,7 +620,7 @@ NeoBundleLazy 'mopp/layoutplugin.vim'
 " Ruby
 NeoBundleLazy 'vim-ruby/vim-ruby'
 NeoBundleLazy 'taka84u9/vim-ref-ri', { 'depends' : [ 'Shougo/unite.vim', 'thinca/vim-ref' ] }
-NeoBundleLazy 'tpope/vim-rails'
+NeoBundle 'tpope/vim-rails'
 NeoBundleLazy 'basyura/unite-rails', { 'depends' : [ 'Shougo/unite.vim' ] }
 
 " golang
@@ -792,7 +792,7 @@ if neobundle#tap('unite.vim') " {{{
   nnoremap <silent> <Space>p  :<C-u>call Unite_project_files('-start-insert')<CR>
   function! Unite_project_files(options)
     if exists('b:projectlocal_root_dir')
-      execute ':Unite file:' . b:projectlocal_root_dir . ' ' . a:options
+      execute ':Unite file_rec/async:' . b:projectlocal_root_dir . ' ' . a:options
     else
       echo "You are not in any project."
     endif
@@ -1552,6 +1552,19 @@ if neobundle#tap('vim-rails') " {{{
     nnoremap <Space>cj  :<C-u>Rjavascript<CR>
     nnoremap <Space>cs  :<C-u>Rstylesheet<CR>
   endfunction
+
+  let g:rails_projections = {
+        \ "app/uploaders/*_uploader.rb": {
+        \   "command": "uploader",
+        \   "template":
+        \     "class %SUploader < CarrierWave::Uploader::Base\nend",
+        \   "test": [
+        \     "test/unit/%s_uploader_test.rb",
+        \     "spec/models/%s_uploader_spec.rb"
+        \   ],
+        \   "keywords": "process version"
+        \ },
+        \ }
 
 endif " }}}
 
