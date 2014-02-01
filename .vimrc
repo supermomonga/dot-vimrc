@@ -788,7 +788,8 @@ if neobundle#tap('unite.vim') " {{{
   nnoremap <silent> <Space>b  :<C-u>Unite -start-insert buffer<CR>
   nnoremap <silent> <Space>s  :<C-u>Unite -start-insert -auto-preview -no-split -buffer-name=search line<CR>
   nnoremap <silent> <Space>l  :<C-u>Unite -start-insert locate<CR>
-  nnoremap <silent> <Space>g  :<C-u>Unite grep -no-quit<CR>
+  nnoremap <silent> <Space>g  :<C-u>Unite grep -max-multi-lines=1 -truncate -default-action=tabopen -buffer-name=unite_grep<CR>
+
   nnoremap <silent> <Space>p  :<C-u>call Unite_project_files('-start-insert')<CR>
   function! Unite_project_files(options)
     if exists('b:projectlocal_root_dir')
