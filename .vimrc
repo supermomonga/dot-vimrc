@@ -651,6 +651,8 @@ NeoBundleLazy 'alpaca-tc/alpaca_tags', {
       \   }
       \ }
 
+NeoBundleLazy 'rbtnn/puyo.vim'
+
 
 
 " TODO: atode settei simasu...
@@ -2043,6 +2045,16 @@ if neobundle#tap('vim-golang') " {{{
         \     'filetypes' : [ 'go' ],
         \   }
         \ })
+endif " }}}
+
+if neobundle#tap('puyo.vim') " {{{
+
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [ 'Puyo', 'Puyoteto' ],
+        \   }
+        \ })
+
 endif " }}}
 
 " }}}
