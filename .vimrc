@@ -789,6 +789,9 @@ if neobundle#tap('unite.vim') " {{{
   nnoremap <silent> <Space>s  :<C-u>Unite -start-insert -auto-preview -no-split -buffer-name=search line<CR>
   nnoremap <silent> <Space>l  :<C-u>Unite -start-insert locate<CR>
   nnoremap <silent> <Space>g  :<C-u>Unite grep -max-multi-lines=1 -truncate -default-action=tabopen -buffer-name=unite_grep<CR>
+  " This <Space>j mapping is to define default behavior. Should be changed by
+  " buffer local setting.
+  nnoremap <silent> <Space>j  :<C-u>Unite -start-insert -buffer-name=files buffer_tab file_mru<CR>
 
   nnoremap <silent> <Space>p  :<C-u>call Unite_project_files('-start-insert')<CR>
   function! Unite_project_files(options)
@@ -1616,26 +1619,28 @@ if neobundle#tap('unite-rails') " {{{
         \       'rails/mailer', 'rails/model', 'rails/rake', 'rails/route', 'rails/schema', 'rails/spec',
         \       'rails/stylesheet', 'rails/view'
         \     ],
-        \     'filetypes' : [ 'ruby', 'haml', 'eruby' ],
+        \     'filetypes' : [ 'ruby', 'haml', 'eruby', 'rails' ],
         \   }
         \ })
 
   function! s:my.unite_rails_init()
     let g:UniteRailsAll = reti#lambda(':Unite -start-insert rails/model rails/controller rails/view rails/db rails/config rails/javascript rails/stylesheet rails/helper rails/mailer')
-    nnoremap <C-x>r  :<C-u>call g:UniteRailsAll()<CR>
-    nnoremap <C-x>m  :<C-u>Unite -start-insert rails/model<CR>
-    nnoremap <C-x>c  :<C-u>Unite -start-insert rails/controller<CR>
-    nnoremap <C-x>v  :<C-u>Unite -start-insert rails/view<CR>
-    nnoremap <C-x>f  :<C-u>Unite -start-insert rails/config<CR>
-    nnoremap <C-x>j  :<C-u>Unite -start-insert rails/javascript<CR>
-    nnoremap <C-x>s  :<C-u>Unite -start-insert rails/stylesheet<CR>
-    nnoremap <C-x>d  :<C-u>Unite -start-insert rails/db<CR>
-    nnoremap <C-x>l  :<C-u>Unite -start-insert rails/lib<CR>
-    nnoremap <C-x>h  :<C-u>Unite -start-insert rails/helper<CR>
+    " nnoremap <buffer> <C-x>r  :<C-u>call g:UniteRailsAll()<CR>
+    nnoremap <buffer> <C-c>m  :<C-u>Unite -start-insert rails/model<CR>
+    nnoremap <buffer> <C-c>c  :<C-u>Unite -start-insert rails/controller<CR>
+    nnoremap <buffer> <C-c>v  :<C-u>Unite -start-insert rails/view<CR>
+    nnoremap <buffer> <C-c>f  :<C-u>Unite -start-insert rails/config<CR>
+    nnoremap <buffer> <C-c>j  :<C-u>Unite -start-insert rails/javascript<CR>
+    nnoremap <buffer> <C-c>s  :<C-u>Unite -start-insert rails/stylesheet<CR>
+    nnoremap <buffer> <C-c>d  :<C-u>Unite -start-insert rails/db<CR>
+    nnoremap <buffer> <C-c>l  :<C-u>Unite -start-insert rails/lib<CR>
+    nnoremap <buffer> <C-c>h  :<C-u>Unite -start-insert rails/helper<CR>
+    nnoremap <buffer> <Space>j  :<C-u>call g:UniteRailsAll()<CR>
   endfunction
 
   aug MyAutoCmd
-    au User Rails call g:My.unite_rails_init()
+    " au User Rails call g:My.unite_rails_init()
+    au FileType *rails* call g:My.unite_rails_init()
   aug END
 
 endif " }}}
