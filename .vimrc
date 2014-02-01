@@ -497,8 +497,6 @@ call neobundle#rc(expand($VIM_REMOTE_BUNDLE_DIR))
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-
-
 " }}}
 
 " List  {{{
@@ -695,6 +693,7 @@ if neobundle#tap('vital.vim') " {{{
 endif " }}}
 
 if neobundle#tap('unite.vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [
@@ -807,6 +806,7 @@ if neobundle#tap('unite.vim') " {{{
 endif " }}}
 
 if neobundle#tap('vimfiler.vim') " {{{
+
   call neobundle#config({
         \ 'autoload' : {
         \   'commands' : [
@@ -822,8 +822,6 @@ if neobundle#tap('vimfiler.vim') " {{{
         \ }
         \ })
 
-
-
   let g:vimfiler_safe_mode_by_default = 0
   let g:unite_kind_file_use_trashbox = 1
   let g:vimfiler_as_default_explorer = 1
@@ -834,6 +832,7 @@ if neobundle#tap('vimfiler.vim') " {{{
 endif " }}}
 
 if neobundle#tap('unite-quickfix') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'unite_sources' : [
@@ -842,10 +841,10 @@ if neobundle#tap('unite-quickfix') " {{{
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('unite-outline') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'unite_sources' : [
@@ -854,10 +853,10 @@ if neobundle#tap('unite-outline') " {{{
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('unite-help') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'unite_sources' : [
@@ -866,10 +865,10 @@ if neobundle#tap('unite-help') " {{{
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('unite-ssh') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'unite_sources' : [
@@ -878,10 +877,10 @@ if neobundle#tap('unite-ssh') " {{{
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('unite-colorscheme') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'unite_sources' : [
@@ -890,10 +889,10 @@ if neobundle#tap('unite-colorscheme') " {{{
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('unite-locate') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'unite_sources' : [
@@ -902,16 +901,15 @@ if neobundle#tap('unite-locate') " {{{
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('shaberu.vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'ShaberuSay', 'ShaberuMuteOn', 'ShaberuMuteOff', 'ShaberuMuteToggle' ]
         \   }
         \ })
-
 
   let g:shaberu_user_define_say_command = 'say-openjtalk "%%TEXT%%"'
 
@@ -933,6 +931,7 @@ if neobundle#tap('shaberu.vim') " {{{
 endif " }}}
 
 if neobundle#tap('vimshell.vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'VimShell', 'VimShellPop' ]
@@ -966,6 +965,7 @@ if neobundle#tap('vimshell.vim') " {{{
 endif " }}}
 
 if neobundle#tap('vimshell-pure.vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'on_source' : [ 'vimshell.vim' ]
@@ -975,6 +975,7 @@ if neobundle#tap('vimshell-pure.vim') " {{{
 endif " }}}
 
 if neobundle#tap('vimshell-inline-history.vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'on_source' : [ 'vimshell.vim' ]
@@ -984,6 +985,7 @@ if neobundle#tap('vimshell-inline-history.vim') " {{{
 endif " }}}
 
 if neobundle#tap('vimshell-wakeup.vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'on_source' : [ 'vimshell.vim' ]
@@ -997,9 +999,6 @@ if neobundle#tap('vimshell-wakeup.vim') " {{{
 endif " }}}
 
 if neobundle#tap('vim-textobj-multiblock') " {{{
-
-  call neobundle#config({})
-
 
   let g:textobj_multiblock_blocks = [
         \   ['(', ')', 1],
@@ -1031,7 +1030,6 @@ if neobundle#tap('neocomplete.vim') " {{{
         \     'insert' : 1,
         \   }
         \ })
-
 
   " Enable at startup
   let g:neocomplete#enable_at_startup = 1
@@ -1086,7 +1084,6 @@ if neobundle#tap('neosnippet.vim') " {{{
         \   }
         \ })
 
-
   let g:neosnippet#enable_snipmate_compatibility = 1
   " My original snippets
   let g:neosnippet_snippets_directories = s:add_to_uniq_list(
@@ -1136,13 +1133,9 @@ if neobundle#tap('vim-alignta') " {{{
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('foldCC') " {{{
-
-  call neobundle#config({})
-
 
   set foldmethod=marker
   set foldtext=FoldCCtext()
@@ -1152,10 +1145,6 @@ if neobundle#tap('foldCC') " {{{
 endif " }}}
 
 if neobundle#tap('tcomment_vim') " {{{
-
-  call neobundle#config({})
-
-
 endif " }}}
 
 if neobundle#tap('vim-smartinput') " {{{
@@ -1178,7 +1167,6 @@ if neobundle#tap('vim-smartinput') " {{{
 endif " }}}
 
 if neobundle#tap('vim-smartinput-endwise') " {{{
-
 
   function! neobundle#tapped.hooks.on_post_source(bundle)
     " neosnippet and neocomplete compatible
@@ -1218,7 +1206,7 @@ if neobundle#tap('vim-submode') " {{{
     call submode#map('winsize', 'n', '', '<', '<C-w><')
     call submode#map('winsize', 'n', '', '+', '<C-w>+')
     call submode#map('winsize', 'n', '', '-', '<C-w>-')
-    " TODO: Repeat last executed macro
+    " TODO: Repeat last executed macro. umaku dekinai...
     " call submode#enter_with('macro/a', 'n', '', '@a', '@a')
     " call submode#map('macro/a', 'n', '', 'a', '@a')
   endfunction
@@ -1233,7 +1221,6 @@ if neobundle#tap('open-browser.vim') " {{{
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('operator-html-escape.vim') " {{{
@@ -1244,13 +1231,11 @@ if neobundle#tap('operator-html-escape.vim') " {{{
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('vim-anzu') " {{{
 
   call neobundle#config({})
-
 
   " Treat folding well
   nnoremap <expr> n anzu#mode#mapexpr('n', '', 'zzzv')
@@ -1269,7 +1254,6 @@ if neobundle#tap('vim-automatic') " {{{
 
   call neobundle#config({})
 
-
   nnoremap <silent> <Plug>(quit) :<C-u>q<CR>
   function! s:my_temporary_window_init(config, context)
     nmap <buffer> <C-[>  <Plug>(quit)
@@ -1286,7 +1270,6 @@ if neobundle#tap('vim-automatic') " {{{
         \   'move' : 'bottom',
         \   'apply' : function('s:my_temporary_window_init')
         \ }
-        " \   { 'match' : { 'bufname' : '^.unite' } },
   let g:automatic_config = [
         \   { 'match' : { 'buftype' : 'help' } },
         \   { 'match' : { 'bufname' : '^.vimshell' } },
@@ -1347,23 +1330,6 @@ if neobundle#tap('vim-automatic') " {{{
         \     },
         \   }
         \ ]
-        " \   {
-        " \     'match' : {
-        " \       'bufname' : 'thingspast',
-        " \     },
-        " \     'set' : {
-        " \       'move' : 'right',
-        " \       'height' : 0,
-        " \       'width' : 20,
-        " \     }
-        " \   },
-  " let g:automatic_config = [
-  "       \   {
-  "       \    'set' : {
-  "       \    'commands' : ['PP! a:context']
-  "       \    },
-  "       \   },
-  "       \ ]
 
 endif " }}}
 
@@ -1376,6 +1342,7 @@ if neobundle#tap('gist-vim') " {{{
         \ })
 
   function! neobundle#tapped.hooks.on_source(bundle)
+    " TODO: w3m
     " let g:gist_browser_command = 'w3m %URL%'
   endfunction
 
@@ -1388,24 +1355,21 @@ if neobundle#tap('gist-vim') " {{{
 endif " }}}
 
 if neobundle#tap('vim-prettyprint') " {{{
+
   call neobundle#config({
         \   'autoload' : { 'commands' : ['PP'] }
         \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    
-  endfunction
-
 endif " }}}
 
 if neobundle#tap('vim-quickrun') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'mappings' : [ '<Plug>(quickrun)' ],
         \     'commands' : [ 'QuickRun' ],
         \   }
         \ })
-
 
   let g:quickrun_config = get(g:, 'quickrun_config', {})
   let g:quickrun_config.markdown = {
@@ -1426,25 +1390,7 @@ if neobundle#tap('vim-quickrun') " {{{
           \   'cmdopt'    : '/usr/local/bin/metalang.exe',
           \   'exec'      : '%c %o %s'
           \ }
-          " \   'command'   : 'wine "' . $METALANG . '"',
   endif
-        " \ 'hook/cd'   : 1,
-
-  " Prompt sample:
-  " octave-3.2.3:2> 
-  " let g:quickrun_config.matlab = {
-  "       \ 'command'   : 'octave',
-  "       \ 'cmdopt'    : "--silent --persist --eval \"PS1(\\\">> \\\")\"",
-  "       \ 'hook/cd'   : 1,
-  "       \ 'runner'    : 'process_manager',
-  "       \ 'runner/process_manager/load' : '%S:t:r',
-  "       \ 'runner/process_manager/prompt': '>>\s',
-  "       \ }
-        " \ 'runner/process_manager/prompt': 'octave-[0-9\.]\+:\d\+>\s',
-        " \ 'runner/process_manager/prompt': '>>\s',
-        " \ 'cmdopt'    : "--silent --persist --eval \"PS1(''>> '')\"",
-        " \ 'runner/process_manager/prompt': 'octave-[0-9\.]\+:\d\+>\s',
-
   let g:quickrun_config.ruby = {
     \ 'command': 'irb',
     \ 'cmdopt': '--simple-prompt',
@@ -1481,6 +1427,7 @@ if neobundle#tap('vim-textobj-multiblock') " {{{
 endif " }}}
 
 if neobundle#tap('vim-ref') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [{
@@ -1490,7 +1437,6 @@ if neobundle#tap('vim-ref') " {{{
         \     'unite_sources' : [ 'ref' ]
         \   }
         \ })
-
 
   let g:ref_open = 'split'
   let g:ref_refe_cmd = '~/.vim/ref/ruby-refm-1.9.3-dynamic-20120829/refe-1_9_3'
@@ -1503,6 +1449,7 @@ if neobundle#tap('vim-ref') " {{{
 endif " }}}
 
 if neobundle#tap('vim-ref-ri') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'ruby', 'haml', 'eruby' ],
@@ -1510,22 +1457,21 @@ if neobundle#tap('vim-ref-ri') " {{{
         \   },
         \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-
-  endfunction
-
 endif " }}}
 
 if neobundle#tap('vim-qfreplace') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'unite', 'quickfix' ],
         \     'commands' : [ 'Qfreplace' ]
         \   }
         \ })
+
 endif " }}}
 
 if neobundle#tap('vim-editvar') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'Editvar' ],
@@ -1533,10 +1479,10 @@ if neobundle#tap('vim-editvar') " {{{
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('vim-endwise') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'ruby' ]
@@ -1564,6 +1510,7 @@ if neobundle#tap('vim-endwise') " {{{
 endif " }}}
 
 if neobundle#tap('vim-ruby') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'mappings' : [ '<Plug>(ref-keyword)' ],
@@ -1571,13 +1518,10 @@ if neobundle#tap('vim-ruby') " {{{
         \   }
         \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-
-  endfunction
-
 endif " }}}
 
 if neobundle#tap('vim-rails') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'ruby', 'haml', 'eruby' ]
@@ -1597,6 +1541,7 @@ if neobundle#tap('vim-rails') " {{{
 endif " }}}
 
 if neobundle#tap('alpaca_tags') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'AlpacaTagsUpdate', 'AlpacaTagsSet', 'AlpacaTagsBundle' ]
@@ -1627,9 +1572,11 @@ if neobundle#tap('alpaca_tags') " {{{
       au FileReadPost,BufEnter * AlpacaTagsSet
     aug END
   endfunction
+
 endif " }}}
 
 if neobundle#tap('unite-rails') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'unite_sources' : [
@@ -1662,17 +1609,17 @@ if neobundle#tap('unite-rails') " {{{
     au User Rails call g:My.unite_rails_init()
   aug END
 
-
 endif " }}}
 
 if neobundle#tap('vim-airline') " {{{
 
+  " Sugoku Kakkoii but chotto jyama with MacBookAir's small DPI display.
   " let g:airline_left_sep  = '◤ '
   " let g:airline_right_sep = ' ◥'
+
   let g:airline_left_sep  = ''
   let g:airline_right_sep = ''
-  " let g:airline_left_sep  = ''
-  " let g:airline_right_sep = ''
+
   let g:airline_detect_iminsert = 1
   let g:airline_theme = 'dark'
 
@@ -1686,6 +1633,7 @@ if neobundle#tap('vim-airline') " {{{
 endif " }}}
 
 if neobundle#tap('vim-pronamachang') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'unite_sources' : [ 'pronamachang' ],
@@ -1697,12 +1645,10 @@ if neobundle#tap('vim-pronamachang') " {{{
     let g:pronamachang_voice_root = '~/.pronamachang'
   endfunction
 
-  " let g:pronamachang_say_startup_enable = 1
-  " let g:pronamachang_say_goodbye_enable = 1
-
 endif " }}}
 
 if neobundle#tap('vim-sugarpot') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'SugarpotPreview' ],
@@ -1718,6 +1664,7 @@ if neobundle#tap('vim-sugarpot') " {{{
 endif " }}}
 
 if neobundle#tap('vim-watchdogs') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'WatchdogsRun' ],
@@ -1738,6 +1685,7 @@ if neobundle#tap('vim-watchdogs') " {{{
 endif " }}}
 
 if neobundle#tap('w3m.vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [
@@ -1776,6 +1724,7 @@ if neobundle#tap('w3m.vim') " {{{
 endif " }}}
 
 if neobundle#tap('TweetVim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [
@@ -1795,10 +1744,6 @@ if neobundle#tap('TweetVim') " {{{
         \     'unite_sources' : [ 'tweetvim/account', 'tweetvim' ],
         \   }
         \ })
-
-  function! neobundle#tapped.hooks.on_source(bundle)
-
-  endfunction
 
   function! s:my_tweetvim_mappings()
     nmap <buffer> j  <Plug>(tweetvim_action_cursor_down)
@@ -1825,6 +1770,7 @@ if neobundle#tap('TweetVim') " {{{
   autocmd MyAutoCmd FileType tweetvim call s:my_tweetvim_mappings()
   autocmd MyAutoCmd FileType tweetvim_say call s:my_tweetvim_say_mappings()
 
+  " TODO: Make macvim shows graphical sign.
   let g:tweetvim_display_icon = 1
   let g:tweetvim_display_source = 1
   let g:tweetvim_no_default_key_mappings = 1
@@ -1833,15 +1779,12 @@ if neobundle#tap('TweetVim') " {{{
 endif " }}}
 
 if neobundle#tap('lingr-vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'LingrLaunch' ],
         \   }
         \ })
-
-
-  augroup MyAutoCmd
-  augroup END
 
   let g:lingr_vim_user     = g:vimrc_secrets['J6uil_user']
   let g:lingr_vim_password = g:vimrc_secrets['J6uil_password']
@@ -1849,13 +1792,13 @@ if neobundle#tap('lingr-vim') " {{{
 endif " }}}
 
 if neobundle#tap('J6uil.vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'J6uil' ],
         \     'unite_sources' : [ 'J6uil/members', 'J6uil/rooms' ],
         \   }
         \ })
-
 
   augroup MyAutoCmd
     autocmd FileType J6uil call s:J6uil_settings()
@@ -1888,10 +1831,10 @@ if neobundle#tap('J6uil.vim') " {{{
         \   'lingr'
         \ ]
 
-
 endif " }}}
 
 if neobundle#tap('vimconsole.vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 
@@ -1902,7 +1845,6 @@ if neobundle#tap('vimconsole.vim') " {{{
         \   }
         \ })
 
-
   let g:vimconsole#auto_redraw = 1
 
   nnoremap <Space>d  :<C-u>VimConsoleToggle<CR>
@@ -1910,12 +1852,12 @@ if neobundle#tap('vimconsole.vim') " {{{
 endif " }}}
 
 if neobundle#tap('emmet-vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'html', 'php', 'erb' ],
         \   }
         \ })
-
 
   let g:user_emmet_leader_key = '<C-c>'
   let g:user_emmet_settings = {
@@ -1940,36 +1882,37 @@ if neobundle#tap('emmet-vim') " {{{
 endif " }}}
 
 if neobundle#tap('vim-less') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'less', 'html', 'haml' ],
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('riml.vim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'riml' ],
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('vim-slim') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'slim' ],
         \   }
         \ })
 
-
 endif " }}}
 
 if neobundle#tap('vim-coffee-script') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'coffee', 'html', 'haml' ],
@@ -2002,6 +1945,7 @@ if neobundle#tap('layoutplugin.vim') " {{{
 endif " }}}
 
 if neobundle#tap('vimhelpgenerator') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'LayoutPlugin', 'VimHelpGenerator', 'VimHelpGeneratorVirtual', 'HelpIntoMarkdown' ]
@@ -2018,6 +1962,7 @@ if neobundle#tap('vimhelpgenerator') " {{{
 endif " }}}
 
 if neobundle#tap('vim-snowdrop') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'SnowdropGotoDefinition', 'SnowdropEchoTypeof', 'SnowdropEchoResultTypeof', 'SnowdropEchoIncludes' ],
@@ -2032,19 +1977,23 @@ if neobundle#tap('vim-snowdrop') " {{{
 endif " }}}
 
 if neobundle#tap('vim-mql4') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'mql4' ],
         \   }
         \ })
+
 endif " }}}
 
 if neobundle#tap('vim-golang') " {{{
+
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : [ 'go' ],
         \   }
         \ })
+
 endif " }}}
 
 if neobundle#tap('puyo.vim') " {{{
