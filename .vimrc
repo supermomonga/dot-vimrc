@@ -593,11 +593,12 @@ NeoBundle 'zazen'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'jpo/vim-railscasts-theme'
 
-" momonga's Kanari Sugoi Plugins
+" momonga's Kanari Sugoi Plugins (Kanari)
 NeoBundleLazy 'supermomonga/shaberu.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'supermomonga/vimshell-pure.vim', { 'depends' : [ 'Shougo/vimshell.vim' ] }
 NeoBundleLazy 'supermomonga/vimshell-inline-history.vim', { 'depends' : [ 'Shougo/vimshell.vim' ] }
 NeoBundleLazy 'supermomonga/vimshell-wakeup.vim', { 'depends' : [ 'Shougo/vimshell.vim' ] }
+NeoBundle 'supermomonga/projectlocal.vim'
 
 " Communication
 NeoBundleLazy 'tsukkee/lingr-vim'
@@ -788,6 +789,14 @@ if neobundle#tap('unite.vim') " {{{
   nnoremap <silent> <Space>s  :<C-u>Unite -start-insert -auto-preview -no-split -buffer-name=search line<CR>
   nnoremap <silent> <Space>l  :<C-u>Unite -start-insert locate<CR>
   nnoremap <silent> <Space>g  :<C-u>Unite grep -no-quit<CR>
+  nnoremap <silent> <Space>p  :<C-u>call Unite_project_files('-start-insert')<CR>
+  function! Unite_project_files(options)
+    if exists('b:projectlocal_root_dir')
+      execute ':Unite file:' . b:projectlocal_root_dir . ' ' . a:options
+    else
+      echo "You are not in any project."
+    endif
+  endfunction
 
   " TODO: Should those mappings be moved to their own setting section?
   " That seems collect but it provides better look of the Unite-source
@@ -995,6 +1004,12 @@ if neobundle#tap('vimshell-wakeup.vim') " {{{
   function! neobundle#tapped.hooks.on_source(bundle)
     let g:vimshell_wakeup_shaberu_text = 'おわだよ'
   endfunction
+
+endif " }}}
+
+if neobundle#tap('projectlocal.vim') " {{{
+
+  " See unite.vim's setting section.
 
 endif " }}}
 
@@ -1927,8 +1942,9 @@ if neobundle#tap('vim-coffee-script') " {{{
     augroup END
 
     augroup CoffeeBufUpdate
-      autocmd!
-      autocmd User CoffeeCompile,CoffeeWatch
+      " TODO: Is this nani?
+      " autocmd!
+      " autocmd User CoffeeCompile,CoffeeWatch
     augroup END
   endfunction
 
