@@ -34,7 +34,7 @@
 " Absolute {{{
 
 " Use VIM features instead of vi
-" It canses many side effects, so you need to write the top of the ".vimrc".
+" It causes many side effects, so you need to write the top of the ".vimrc".
 set nocompatible
 
 " Reset Autocmd group
@@ -276,7 +276,7 @@ call s:queue_funccall('s:apply_colorscheme', [ 'railscasts', 'desert'])
 
 " Syntax  {{{
 
-syntax on
+syntax enable
 
 " }}}
 
@@ -500,7 +500,6 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " }}}
 
 " List  {{{
-
 NeoBundle 'Shougo/vimproc.vim', { 'build' : {
       \   'windows' : 'mingw32-make -f make_mingw32.mak',
       \   'cygwin'  : 'make -f make_cygwin.mak',
@@ -545,11 +544,12 @@ NeoBundleLazy 'ujihisa/vimshell-ssh', { 'depends' : [ 'Shougo/vimshell.vim' ] }
 NeoBundleLazy 'Shougo/vimfiler.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'Shougo/unite-ssh', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'Shougo/neosnippet.vim'
+NeoBundleLazy 'Shougo/neosnippet-snippets', { 'depends' : [ 'Shougo/neosnippet.vim' ] }
 NeoBundleLazy 'honza/vim-snippets'
 NeoBundleLazy 'matthewsimo/angular-vim-snippets'
 NeoBundleLazy 'Shougo/neocomplete.vim'
 NeoBundleLazy 'rhysd/unite-ruby-require.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
-NeoBundleLazy 'tsukkee/unite-help', { 'depends' : [ 'Shougo/unite.vim' ] }
+NeoBundleLazy 'Shougo/unite-help', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'Shougo/unite-outline', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'ujihisa/unite-colorscheme', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'ujihisa/unite-locate', { 'depends' : [ 'Shougo/unite.vim' ] }
@@ -650,8 +650,8 @@ NeoBundleLazy 'alpaca-tc/alpaca_tags', {
       \   }
       \ }
 
+" Games
 NeoBundleLazy 'rbtnn/puyo.vim'
-
 
 
 " TODO: atode settei simasu...
@@ -763,6 +763,7 @@ if neobundle#tap('unite.vim') " {{{
           \   [ 'neobundle/install' , ':Unite neobundle/install -log' ],
           \   [ 'J6uil/rooms' , ':Unite J6uil/rooms' ],
           \   [ 'J6uil/members' , ':Unite J6uil/members' ],
+          \   [ 'Blog/posts' , ':Unite file:~/Sites/blog.supermomonga.com/source/posts/' ],
           \   [ 'TweetVim' , ':Unite tweetvim' ],
           \   [ 'files', ':Unite -start-insert -buffer-name=files buffer_tab file file_mru'],
           \   [ 'function', ':Unite -start-insert -default-action=edit function'],
@@ -803,7 +804,7 @@ if neobundle#tap('unite.vim') " {{{
   endfunction
 
   " TODO: Should those mappings be moved to their own setting section?
-  " That seems collect but it provides better look of the Unite-source
+  " That seems correct but it provides better look of the Unite-source
   " mappings list.
   if neobundle#is_installed('unite-quickfix')
     nnoremap <silent> <Space>q  :<C-u>Unite -no-quit -auto-preview -no-split quickfix<CR>
@@ -1275,7 +1276,8 @@ if neobundle#tap('vim-automatic') " {{{
 
   nnoremap <silent> <Plug>(quit) :<C-u>q<CR>
   function! s:my_temporary_window_init(config, context)
-    nmap <buffer> <C-[>  <Plug>(quit)
+    " nmap <buffer> <C-[>  <Plug>(quit)
+    nnoremap <buffer> <C-[>  :<C-u>q<CR>
     " echo a:config
     " echo a:context
   endfunction
@@ -1437,11 +1439,12 @@ endif " }}}
 if neobundle#tap('vim-textobj-multiblock') " {{{
 
   function! neobundle#tapped.hooks.on_source(bundle)
-    omap ab <Plug>(textobj-multiblock-a)
-    omap ib <Plug>(textobj-multiblock-i)
-    vmap ab <Plug>(textobj-multiblock-a)
-    vmap ib <Plug>(textobj-multiblock-i)
   endfunction
+
+  omap ab <Plug>(textobj-multiblock-a)
+  omap ib <Plug>(textobj-multiblock-i)
+  vmap ab <Plug>(textobj-multiblock-a)
+  vmap ib <Plug>(textobj-multiblock-i)
 
 endif " }}}
 
@@ -1871,7 +1874,7 @@ if neobundle#tap('vimconsole.vim') " {{{
 
   call neobundle#config({
         \   'autoload' : {
-        \     'commands' : [ 
+        \     'commands' : [
         \       'VimConsole', 'VimConsoleLog', 'VimConsoleWarn', 'VimConsoleError',
         \       'VimConsoleOpen', 'VimConsoleClose', 'VimConsoleToggle', 'VimConsoleClear',
         \       'VimConsoleRedraw', 'VimConsoleDump'
@@ -2035,7 +2038,7 @@ if neobundle#tap('puyo.vim') " {{{
 
   call neobundle#config({
         \   'autoload' : {
-        \     'commands' : [ 'Puyo', 'Puyoteto' ],
+        \     'commands' : [ 'Puyo', 'PuyoTeto' ],
         \   }
         \ })
 

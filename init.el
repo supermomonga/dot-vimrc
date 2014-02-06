@@ -1,6 +1,12 @@
 
 (require 'cl)
 
+
+(require 'package)
+(add-to-list 'package-archives
+  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(print package-archives)
+
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 (unless (require 'el-get nil 'noerror)
   (with-current-buffer
@@ -9,7 +15,6 @@
     (let (el-get-master-branch)
       (goto-char (point-max))
       (eval-print-last-sexp))))
-(package-initialize)
 
 (el-get 'sync 'evil)
 ;; (el-get 'sync 'evil-elscreen)
@@ -20,6 +25,7 @@
 (el-get 'sync 'evil-numbers)
 (el-get 'sync 'evil-paredit)
 (el-get 'sync 'evil-surround)
+(el-get 'sync 'lingr)
 
 ;; TODO: improve el-get recipe
 ;; (el-get 'sync 'folding)
@@ -27,8 +33,10 @@
 (el-get 'sync 'smartrep)
 
 
-;; Evil settings
+;; Set secret settings
+(load "~/.emacs.d/secret.el" nil t)
 
+;; Evil settings
 (when (require 'evil nil t)
   (evil-mode 1)
   ;; keymap
@@ -48,7 +56,6 @@
 
 
 ;; Other packages
-
 (when (require 'folding nil t)
   (folding-mode-add-find-file-hook)
   (folding-add-to-marks-list 'emacs-lisp-mode "#{{{" "#}}}" nil t))
@@ -57,6 +64,11 @@
   (smartrep-define-key evil-normal-state-map "C-c"
 		       '(("+" . 'evil-numbers/inc-at-pt)
 			 ("-" . 'evil-numbers/dec-at-pt))))
+
+(when (require 'lingr nil t)
+  (setq lingr-username secret-lingr-username
+	lingr-password secret-lingr-password
+) 
 
 
 (eshell)
