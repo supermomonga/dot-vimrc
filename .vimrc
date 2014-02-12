@@ -581,6 +581,7 @@ NeoBundleLazy 'slim-template/vim-slim'
 NeoBundleLazy 'kchmck/vim-coffee-script'
 NeoBundleLazy 'dsawardekar/riml.vim'
 NeoBundleLazy 'LeafCage/vimhelpgenerator'
+NeoBundleLazy 'deris/vim-rengbang'
 
 " Colorscheme
 NeoBundle 'tomasr/molokai'
@@ -613,6 +614,8 @@ NeoBundleLazy 'basyura/TweetVim', 'dev', { 'depends' : [
       \   'mattn/favstar-vim',
       \   'mattn/webapi-vim'
       \ ] }
+
+NeoBundle 'sudo.vim'
 
 " Vim script
 NeoBundleLazy 'mopp/layoutplugin.vim'
@@ -1412,14 +1415,14 @@ if neobundle#tap('vim-quickrun') " {{{
           \   'exec'      : '%c %o %s'
           \ }
   endif
-  let g:quickrun_config.ruby = {
-    \ 'command': 'irb',
-    \ 'cmdopt': '--simple-prompt',
-    \ 'hook/cd': 1,
-    \ 'runner': 'process_manager',
-    \ 'runner/process_manager/load': "load %s",
-    \ 'runner/process_manager/prompt': '>>\s',
-    \ }
+  " let g:quickrun_config.ruby = {
+  "   \ 'command': 'irb',
+  "   \ 'cmdopt': '--simple-prompt',
+  "   \ 'hook/cd': 1,
+  "   \ 'runner': 'process_manager',
+  "   \ 'runner/process_manager/load': "load %s",
+  "   \ 'runner/process_manager/prompt': '>>\s',
+  "   \ }
 
   nnoremap <Space>r  :<C-u>QuickRun<CR>
 
@@ -1996,6 +1999,16 @@ if neobundle#tap('vimhelpgenerator') " {{{
       let g:vimhelpgenerator_uri = 'https://github.com/supermomonga/'
       let g:vimhelpgenerator_defaultlanguage = 'en'
   endfunction
+
+endif " }}}
+
+if neobundle#tap('vim-rengbang') " {{{
+
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [ 'RengBang', 'RengBangUsePrev' ]
+        \   }
+        \ })
 
 endif " }}}
 

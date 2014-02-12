@@ -156,6 +156,8 @@
 (el-get 'sync 'evil-paredit)
 (el-get 'sync 'evil-surround)
 (el-get 'sync 'helm)
+(el-get 'sync 'helm-descbinds)
+(el-get 'sync 'auto-complete)
 (el-get 'sync 'lingr)
 (el-get 'sync 'folding)
 (el-get 'sync 'smartrep)
@@ -210,6 +212,10 @@
   (define-key evil-normal-state-map (kbd "SPC b") 'helm-buffers-list)
   (define-key evil-normal-state-map (kbd "SPC SPC") 'helm-M-x)
 )
+
+(when (require 'helm-descbinds nil t))
+
+
 ;;}}}
 
 ;;{{{ --smartrep
@@ -241,7 +247,7 @@
   (set-face-attribute 'tabbar-button nil :box nil)
   (set-face-attribute 'tabbar-separator nil :height 1.2)
   (defvar my-tabbar-show-buffers
-    '("*scratch*" "*Messages*" "*Backtrace*" "*Colors*" "*Faces*" "*vc-" "*eshell*" "*Lingr Status*"))
+    '("*Faces*" "*vc-" "*eshell*" "*Lingr Status*"))
   (defvar my-tabbar-hide-buffers
     '("*" "Lingr["))
   (defun my-tabbar-buffer-list ()
@@ -280,8 +286,9 @@
   (evil-define-key 'normal lingr-room-map (kbd "S-s") 'lingr-show-status)
   (evil-define-key 'normal lingr-room-map (kbd "C-j") 'lingr-room-next-message)
   (evil-define-key 'normal lingr-room-map (kbd "C-k") 'lingr-room-previous-message)
-  (evil-define-key 'normal lingr-status-buffer-map (kbd "C-RET") 'lingr-status-switch-room)
-  (evil-define-key 'normal lingr-status-buffer-map (kbd "RET") 'lingr-status-switch-room-other-window)
+  ;; (evil-define-key 'normal lingr-status-buffer-map (kbd "C-RET") 'lingr-status-switch-room)
+  (evil-define-key 'normal lingr-status-buffer-map (kbd "RET") 'lingr-status-switch-room)
+  ;; (evil-define-key 'normal lingr-status-buffer-map (kbd "RET") 'lingr-status-switch-room-other-window)
   (evil-define-key 'normal lingr-status-buffer-map (kbd "n") 'lingr-room-next-message)
   (evil-define-key 'normal lingr-status-buffer-map (kbd "p") 'lingr-room-previous-message)
   (evil-define-key 'normal lingr-status-buffer-map (kbd "j") 'lingr-status-next-room)
@@ -297,6 +304,19 @@
 
 ;;}}}
 
+
+;;{{{ --eshell
+
+
+(evil-define-key 'normal eshell-mode-map (kbd "C-k") 'eshell-previous-prompt)
+(evil-define-key 'normal eshell-mode-map (kbd "C-j") 'eshell-next-prompt)
+(evil-define-key 'normal eshell-mode-map (kbd "C-p") 'eshell-previous-prompt)
+(evil-define-key 'normal eshell-mode-map (kbd "C-n") 'eshell-next-prompt)
+
+(evil-define-key 'insert eshell-mode-map (kbd "C-k") 'eshell-kill-input)
+
+
+;;}}}
 
 ;;}}}
 
