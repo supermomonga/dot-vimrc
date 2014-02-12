@@ -86,17 +86,6 @@
 (set-fontset-font "fontset-september" 'japanese-jisx0208 (font-spec :family "September" :size 15) nil 'append)
 (add-to-list 'default-frame-alist '(font . "fontset-september"))
 
-;; (when (find-font (font-spec :family "September"))
-;;   (set-frame-font "September-15")
-;;   (set-face-attribute 'default nil :family "September" :height 150)
-;;   (set-fontset-font nil 'unicode (font-spec :family "September") nil 'append)
-;;   (set-fontset-font nil '( #x3000 .  #x30ff) (font-spec :family "September") nil 'prepend)
-;;   (set-fontset-font nil '( #xff00 .  #xffef) (font-spec :family "September") nil 'prepend)
-;;   (add-to-list 'default-frame-alist '(font . "September"))
-;; )
-
-;;
-
 
 ;; --Others
 
