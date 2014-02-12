@@ -2,16 +2,18 @@
 
 (require 'cl)
 
-;;{{{ -Common settings
 
-;;{{{ --Appearance
+;; macros
+;; bundle macro
+(defmacro bundle-tap (name &rest body)
+  `(when (require ,name nil t) ,@body))
 
-;;{{{ CUI
+;; --CUI
 
 (setq whitespace-style '(spaces tabs space-mark tab-mark))
 (setq whitespace-display-mappings
       '(
-       ;; (space-mark 32 [183] [46]) ; normal space, ·
+	;; (space-mark 32 [183] [46]) ; normal space, ·
         (space-mark 160 [164] [95])
         (space-mark 2208 [2212] [95])
         (space-mark 2336 [2340] [95])
@@ -30,10 +32,9 @@
 ;; Disable startup message
 (setq inhibit-startup-message t)
 
-;;}}}
 
 
-;;{{{ GUI
+;; --GUI
 
 ;; Open file when grag and frop files from another applications
 (define-key global-map [ns-drag-file] 'ns-find-file)
@@ -52,12 +53,9 @@
 ;; Show line number
 (global-linum-mode t)
 
-;;}}}
-
-;;}}}
 
 
-;;{{{ --Language
+;; --Language
 
 ;; Use japanese
 (set-language-environment 'Japanese)
@@ -65,20 +63,20 @@
 ;; Use UTF-8 as possible as can
 (prefer-coding-system 'utf-8)
 
-;;}}}
+;;
 
-;;{{{ --Edit
+;; --Edit
 
 ;; Save cursor position
-(when (require 'saveplace nil t)
-  (setq-default save-place t))
+(bundle-tap 'saveplace
+	    (setq-default save-place t))
 
 ;; Automatically insert newline
 (setq require-final-newline t)
 
-;;}}}
+;;
 
-;;{{{ --Font
+;; --Font
 
 (when (fboundp 'global-font-lock-mode)
   (global-font-lock-mode t)
@@ -97,20 +95,19 @@
 ;;   (add-to-list 'default-frame-alist '(font . "September"))
 ;; )
 
-;;}}}
+;;
 
 
-;;{{{ --Others
+;; --Others
 
 ;; Set secret settings
 (load "~/.emacs.d/secret.el" nil t)
 
-;;}}}
-
-;;}}}
+;;
 
 
-;;{{{ -Functions
+
+;; -Functions
 
 ;; Notification center
 (defun notif (title message)
@@ -123,13 +120,13 @@
     "\"' | osascript"))
   )
 
-;;}}}
+;;
 
-;;{{{ -Package manager
+;; -Package manager
 
 (require 'package)
 (add-to-list 'package-archives
-  '("melpa" . "http://melpa.milkbox.net/packages/") t)
+	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (print package-archives)
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
@@ -141,9 +138,8 @@
       (goto-char (point-max))
       (eval-print-last-sexp))))
 
-;;}}}
+;;
 
-;;{{{ -Package list
 
 (el-get 'sync 'evil)
 ;; (el-get 'sync 'elscreen)
@@ -165,147 +161,145 @@
 (el-get 'sync 'popwin)
 (el-get 'sync 'color-theme-railscasts)
 
-;;}}}
 
 
-;;{{{ -Evil settings
+;; -Evil settings
 
-(when (require 'evil nil t)
-  (evil-mode 1)
-  ;; keymap
-  (define-key evil-motion-state-map (kbd ";") 'evil-ex)
-  ;; specific mode
-  ;; (evil-set-initial-state 'eshell-mode 'emacs)
-  ;; Fix cursor color
-  (setq evil-default-cursor t)
-  (set-cursor-color "#DCDCCC")
-  )
+(bundle-tap 'evil
+	    (evil-mode 1)
+	    ;; keymap
+	    (define-key evil-motion-state-map (kbd ";") 'evil-ex)
+	    ;; specific mode
+	    ;; (evil-set-initial-state 'eshell-mode 'emacs)
+	    ;; Fix cursor color
+	    (setq evil-default-cursor t)
+	    (set-cursor-color "#DCDCCC")
+	    )
 
 (when (require 'evil-nerd-commenter nil t)
   (define-key evil-normal-state-map (kbd "C-- C--") 'evilnc-comment-or-uncomment-lines))
 
-(when (require 'surround nil t)
-  (global-surround-mode 1))
+(bundle-tap 'surround
+	    (global-surround-mode 1))
 
 (when (require 'evil-matchit nil t)
   (global-evil-matchit-mode 1))
 
 (when (require 'evil-elscreen nil t))
 
-;;}}}
+;;
 
 
-;;{{{ -Other packages
+;; -Other packages
 
-;;{{{ --folding.el
-(when (require 'folding nil t)
-  ;; (autoload 'folding-mode "folding" "Folding mode" t)
-  (folding-mode-add-find-file-hook)
-  (add-hook 'emacs-lisp-mode-hook 'folding-mode)
-  (define-key evil-normal-state-map (kbd "z a") 'folding-toggle-show-hide)
-)
-;;}}}
+;; --folding.el
+(bundle-tap 'folding
+	    ;; (autoload 'folding-mode "folding" "Folding mode" t)
+	    (folding-mode-add-find-file-hook)
+	    (add-hook 'emacs-lisp-mode-hook 'folding-mode)
+	    (define-key evil-normal-state-map (kbd "z a") 'folding-toggle-show-hide)
+	    )
+;;
 
-;;{{{ --helm
-(when (require 'helm nil t)
-  (define-key evil-normal-state-map (kbd "SPC f") 'helm-mini)
-  (define-key evil-normal-state-map (kbd "SPC b") 'helm-buffers-list)
-  (define-key evil-normal-state-map (kbd "SPC SPC") 'helm-M-x)
-)
+;; --helm
+(bundle-tap 'helm
+	    (define-key evil-normal-state-map (kbd "SPC f") 'helm-mini)
+	    (define-key evil-normal-state-map (kbd "SPC b") 'helm-buffers-list)
+	    (define-key evil-normal-state-map (kbd "SPC SPC") 'helm-M-x)
+	    )
 
 (when (require 'helm-descbinds nil t))
 
 
-;;}}}
 
-;;{{{ --smartrep
-(when (require 'smartrep nil t)
-  (smartrep-define-key evil-normal-state-map "C-c"
-		       '(("+" . 'evil-numbers/inc-at-pt)
-			 ("-" . 'evil-numbers/dec-at-pt)))
-  (when (require 'tabbar nil t)
-    (smartrep-define-key evil-normal-state-map "g"
-      '(("t" . 'tabbar-forward-tab)
-	("T" . 'tabbar-backward-tab)))
-    )
-)
-;;}}}
+;; --smartrep
+(bundle-tap 'smartrep
+	    (smartrep-define-key evil-normal-state-map "C-c"
+	      '(("+" . 'evil-numbers/inc-at-pt)
+		("-" . 'evil-numbers/dec-at-pt)))
+	    (bundle-tap 'tabbar
+			(smartrep-define-key evil-normal-state-map "g"
+			  '(("t" . 'tabbar-forward-tab)
+			    ("T" . 'tabbar-backward-tab)))
+			)
+	    )
+;;
 
-;;{{{ --tabbar
+;; --tabbar
 
-(when (require 'tabbar nil t)
-  (tabbar-mode 1)
-  (tabbar-mwheel-mode -1)
-  (setq tabbar-buffer-groups-function nil)
-  (dolist (btn '(tabbar-buffer-home-button tabbar-scroll-left-button tabbar-scroll-right-button))
-    (set btn (cons (cons "" nil) (cons "" nil))))
-  ;; (setq tabbar-auto-scroll-flag nil)
-  (setq tabbar-separator '(1.5))
-  (set-face-attribute 'tabbar-default nil :family "September" :background "black" :foreground "gray72" :height 0.9)
-  (set-face-attribute 'tabbar-unselected nil :background "black" :foreground "grey72" :box nil)
-  (set-face-attribute 'tabbar-selected nil :background "black" :foreground "#c82829" :box nil)
-  (set-face-attribute 'tabbar-button nil :box nil)
-  (set-face-attribute 'tabbar-separator nil :height 1.2)
-  (defvar my-tabbar-show-buffers
-    '("*Faces*" "*vc-" "*eshell*" "*Lingr Status*"))
-  (defvar my-tabbar-hide-buffers
-    '("*" "Lingr["))
-  (defun my-tabbar-buffer-list ()
-    ;; (let* ((hides (list ?\  ?\*))
-    (let* ((hides (regexp-opt my-tabbar-hide-buffers))
-	   (shows (regexp-opt my-tabbar-show-buffers))
-	   (cur-buf (current-buffer))
-	   (tabs (delq
-		  nil
-		  (mapcar (lambda (buf)
-			    (let ((name (buffer-name buf)))
-			      (when (or (string-match shows name)
-					(not (string-match hides name)))
-				buf)))
-			  (buffer-list)))))
-      (if (memq cur-buf tabs) tabs (cons cur-buf tabs))))
-  (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
-)
+(bundle-tap 'tabbar
+	    (tabbar-mode 1)
+	    (tabbar-mwheel-mode -1)
+	    (setq tabbar-buffer-groups-function nil)
+	    (dolist (btn '(tabbar-buffer-home-button tabbar-scroll-left-button tabbar-scroll-right-button))
+	      (set btn (cons (cons "" nil) (cons "" nil))))
+	    ;; (setq tabbar-auto-scroll-flag nil)
+	    (setq tabbar-separator '(1.5))
+	    (set-face-attribute 'tabbar-default nil :family "September" :background "black" :foreground "gray72" :height 0.9)
+	    (set-face-attribute 'tabbar-unselected nil :background "black" :foreground "grey72" :box nil)
+	    (set-face-attribute 'tabbar-selected nil :background "black" :foreground "#c82829" :box nil)
+	    (set-face-attribute 'tabbar-button nil :box nil)
+	    (set-face-attribute 'tabbar-separator nil :height 1.2)
+	    (defvar my-tabbar-show-buffers
+	      '("*Faces*" "*vc-" "*eshell*" "*Lingr Status*"))
+	    (defvar my-tabbar-hide-buffers
+	      '("*" "Lingr["))
+	    (defun my-tabbar-buffer-list ()
+	      ;; (let* ((hides (list ?\  ?\*))
+	      (let* ((hides (regexp-opt my-tabbar-hide-buffers))
+		     (shows (regexp-opt my-tabbar-show-buffers))
+		     (cur-buf (current-buffer))
+		     (tabs (delq
+			    nil
+			    (mapcar (lambda (buf)
+				      (let ((name (buffer-name buf)))
+					(when (or (string-match shows name)
+						  (not (string-match hides name)))
+					  buf)))
+				    (buffer-list)))))
+		(if (memq cur-buf tabs) tabs (cons cur-buf tabs))))
+	    (setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
+	    )
 
-;;}}}
-
-
-;;{{{ --lingr
-
-(when (require 'lingr nil t)
-  (setq lingr-username secret-lingr-username
-	lingr-password secret-lingr-password
-	lingr-icon-mode t
-	lingr-image-convert-program "/usr/local/bin/convert"
-	lingr-icon-fix-size 24
-	)
-  (evil-define-key 'normal lingr-room-map (kbd "j") 'lingr-room-next-nick)
-  (evil-define-key 'normal lingr-room-map (kbd "k") 'lingr-room-previous-nick)
-  (evil-define-key 'normal lingr-room-map (kbd "s") 'lingr-say-command)
-  (evil-define-key 'normal lingr-room-map (kbd "r") 'lingr-refresh-room)
-  (evil-define-key 'normal lingr-room-map (kbd "S-s") 'lingr-show-status)
-  (evil-define-key 'normal lingr-room-map (kbd "C-j") 'lingr-room-next-message)
-  (evil-define-key 'normal lingr-room-map (kbd "C-k") 'lingr-room-previous-message)
-  ;; (evil-define-key 'normal lingr-status-buffer-map (kbd "C-RET") 'lingr-status-switch-room)
-  (evil-define-key 'normal lingr-status-buffer-map (kbd "RET") 'lingr-status-switch-room)
-  ;; (evil-define-key 'normal lingr-status-buffer-map (kbd "RET") 'lingr-status-switch-room-other-window)
-  (evil-define-key 'normal lingr-status-buffer-map (kbd "n") 'lingr-room-next-message)
-  (evil-define-key 'normal lingr-status-buffer-map (kbd "p") 'lingr-room-previous-message)
-  (evil-define-key 'normal lingr-status-buffer-map (kbd "j") 'lingr-status-next-room)
-  (evil-define-key 'normal lingr-status-buffer-map (kbd "k") 'lingr-status-previous-room)
-  (evil-define-key 'normal lingr-status-buffer-map (kbd "f") 'lingr-status-jump-message)
-  ;; (evil-define-key 'insert lingr-status-buffer-map (kbd "C-RET") ')
-  ;; (print lingr-say-buffer-map)
-  (defun lingr-notif-message (message)
-    (notif (concat "Lingr " (lingr-message-room message))
-    	   (concat (lingr-message-nick message) ":" (lingr-message-text message))))
-  (add-hook 'lingr-message-hook 'lingr-notif-message)
-)
-
-;;}}}
+;;
 
 
-;;{{{ --eshell
+;; --lingr
+
+(bundle-tap 'lingr
+	    (setq lingr-username secret-lingr-username
+		  lingr-password secret-lingr-password
+		  lingr-icon-mode t
+		  lingr-image-convert-program "/usr/local/bin/convert"
+		  lingr-icon-fix-size 24
+		  )
+	    (evil-define-key 'normal lingr-room-map (kbd "j") 'lingr-room-next-nick)
+	    (evil-define-key 'normal lingr-room-map (kbd "k") 'lingr-room-previous-nick)
+	    (evil-define-key 'normal lingr-room-map (kbd "s") 'lingr-say-command)
+	    (evil-define-key 'normal lingr-room-map (kbd "r") 'lingr-refresh-room)
+	    (evil-define-key 'normal lingr-room-map (kbd "S-s") 'lingr-show-status)
+	    (evil-define-key 'normal lingr-room-map (kbd "C-j") 'lingr-room-next-message)
+	    (evil-define-key 'normal lingr-room-map (kbd "C-k") 'lingr-room-previous-message)
+	    ;; (evil-define-key 'normal lingr-status-buffer-map (kbd "C-RET") 'lingr-status-switch-room)
+	    (evil-define-key 'normal lingr-status-buffer-map (kbd "RET") 'lingr-status-switch-room)
+	    ;; (evil-define-key 'normal lingr-status-buffer-map (kbd "RET") 'lingr-status-switch-room-other-window)
+	    (evil-define-key 'normal lingr-status-buffer-map (kbd "n") 'lingr-room-next-message)
+	    (evil-define-key 'normal lingr-status-buffer-map (kbd "p") 'lingr-room-previous-message)
+	    (evil-define-key 'normal lingr-status-buffer-map (kbd "j") 'lingr-status-next-room)
+	    (evil-define-key 'normal lingr-status-buffer-map (kbd "k") 'lingr-status-previous-room)
+	    (evil-define-key 'normal lingr-status-buffer-map (kbd "f") 'lingr-status-jump-message)
+	    ;; (evil-define-key 'insert lingr-status-buffer-map (kbd "C-RET") ')
+	    ;; (print lingr-say-buffer-map)
+	    (defun lingr-notif-message (message)
+	      (notif (concat "Lingr " (lingr-message-room message))
+		     (concat (lingr-message-nick message) ":" (lingr-message-text message))))
+	    (add-hook 'lingr-message-hook 'lingr-notif-message)
+	    )
+
+;;
+
+
+;; --eshell
 
 
 (evil-define-key 'normal eshell-mode-map (kbd "C-k") 'eshell-previous-prompt)
@@ -316,18 +310,16 @@
 (evil-define-key 'insert eshell-mode-map (kbd "C-k") 'eshell-kill-input)
 
 
-;;}}}
-
-;;}}}
 
 
-;;{{{ -Theme
+
+;; -Theme
 
 (add-to-list 'custom-theme-load-path "~/.emacs.d/el-get/")
 ;; (load-theme 'zenburn t)
 (when (require 'color-theme-railscasts nil t))
 
-;;}}}
+;;
 
 
 (eshell)
