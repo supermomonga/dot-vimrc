@@ -5,8 +5,31 @@
 
 ;; macros
 ;; bundle macro
-(defmacro bundle-tap (name &rest body)
+(defmacro bundle (name &rest body)
   `(when (require ,name nil t) ,@body))
+
+
+;; PATH
+(defun append-path (path)
+  (setenv "PATH" (concat (file-truename path)":" (getenv "PATH")))
+  (setq eshell-path-env (getenv "PATH"))
+  (setq exec-path (split-string (getenv "PATH") ":"))
+  (print exec-path)
+)
+
+;; Add some pathes
+(append-path "~/.rbenv/bin/")
+(append-path "~/.rbenv/shims/")
+
+
+;; Emacsclient
+(bundle 'server
+	(unless (server-running-p)
+	  (server-start))
+)
+
+;; Emacs lisp
+(show-paren-mode t)
 
 ;; --CUI
 
@@ -51,7 +74,7 @@
 ;; (column-number-mode t)
 
 ;; Show line number
-(global-linum-mode t)
+;; (global-linum-mode t)
 
 
 
@@ -68,7 +91,7 @@
 ;; --Edit
 
 ;; Save cursor position
-(bundle-tap 'saveplace
+(bundle 'saveplace
 	    (setq-default save-place t))
 
 ;; Automatically insert newline
@@ -109,7 +132,7 @@
     "\"' | osascript"))
   )
 
-;;
+
 
 ;; -Package manager
 
@@ -127,7 +150,6 @@
       (goto-char (point-max))
       (eval-print-last-sexp))))
 
-;;
 
 
 (el-get 'sync 'evil)
@@ -143,21 +165,29 @@
 (el-get 'sync 'helm)
 (el-get 'sync 'helm-descbinds)
 (el-get 'sync 'auto-complete)
+(el-get 'sync 'pos-tip)
 (el-get 'sync 'lingr)
 (el-get 'sync 'folding)
 (el-get 'sync 'smartrep)
 (el-get 'sync 'tabbar)
 (el-get 'sync 'popwin)
 (el-get 'sync 'color-theme-railscasts)
+(el-get 'sync 'rbenv)
+(el-get 'sync 'Enhanced-Ruby-Mode)
+(el-get 'sync 'robe)
+(el-get 'sync 'ruby-end)
+(el-get 'sync 'ruby-block)
 
 
 
 ;; -Evil settings
 
-(bundle-tap 'evil
+(bundle 'evil
 	    (evil-mode 1)
 	    ;; keymap
 	    (define-key evil-motion-state-map (kbd ";") 'evil-ex)
+	    (define-key evil-insert-state-map (kbd "C-k") 'kill-line)
+	    (define-key evil-insert-state-map (kbd "C-e") 'end-of-line)
 	    ;; specific mode
 	    ;; (evil-set-initial-state 'eshell-mode 'emacs)
 	    ;; Fix cursor color
@@ -168,7 +198,7 @@
 (when (require 'evil-nerd-commenter nil t)
   (define-key evil-normal-state-map (kbd "C-- C--") 'evilnc-comment-or-uncomment-lines))
 
-(bundle-tap 'surround
+(bundle 'surround
 	    (global-surround-mode 1))
 
 (when (require 'evil-matchit nil t)
@@ -182,7 +212,7 @@
 ;; -Other packages
 
 ;; --folding.el
-(bundle-tap 'folding
+(bundle 'folding
 	    ;; (autoload 'folding-mode "folding" "Folding mode" t)
 	    (folding-mode-add-find-file-hook)
 	    (add-hook 'emacs-lisp-mode-hook 'folding-mode)
@@ -191,7 +221,7 @@
 ;;
 
 ;; --helm
-(bundle-tap 'helm
+(bundle 'helm
 	    (define-key evil-normal-state-map (kbd "SPC f") 'helm-mini)
 	    (define-key evil-normal-state-map (kbd "SPC b") 'helm-buffers-list)
 	    (define-key evil-normal-state-map (kbd "SPC SPC") 'helm-M-x)
@@ -202,11 +232,11 @@
 
 
 ;; --smartrep
-(bundle-tap 'smartrep
+(bundle 'smartrep
 	    (smartrep-define-key evil-normal-state-map "C-c"
 	      '(("+" . 'evil-numbers/inc-at-pt)
 		("-" . 'evil-numbers/dec-at-pt)))
-	    (bundle-tap 'tabbar
+	    (bundle 'tabbar
 			(smartrep-define-key evil-normal-state-map "g"
 			  '(("t" . 'tabbar-forward-tab)
 			    ("T" . 'tabbar-backward-tab)))
@@ -216,7 +246,7 @@
 
 ;; --tabbar
 
-(bundle-tap 'tabbar
+(bundle 'tabbar
 	    (tabbar-mode 1)
 	    (tabbar-mwheel-mode -1)
 	    (setq tabbar-buffer-groups-function nil)
@@ -255,7 +285,7 @@
 
 ;; --lingr
 
-(bundle-tap 'lingr
+(bundle 'lingr
 	    (setq lingr-username secret-lingr-username
 		  lingr-password secret-lingr-password
 		  lingr-icon-mode t
@@ -296,10 +326,64 @@
 (evil-define-key 'normal eshell-mode-map (kbd "C-p") 'eshell-previous-prompt)
 (evil-define-key 'normal eshell-mode-map (kbd "C-n") 'eshell-next-prompt)
 
-(evil-define-key 'insert eshell-mode-map (kbd "C-k") 'eshell-kill-input)
+(evil-define-key 'insert eshell-mode-map (kbd "C-p") 'eshell-previous-matching-input-from-input)
+(evil-define-key 'insert eshell-mode-map (kbd "C-n") 'eshell-next-matching-input-from-input)
 
+;; popwin
+(bundle 'popwin
+	(popwin-mode 1)
+	(push '("*helm*") popwin:special-display-config)
+	(push '("*ruby*") popwin:special-display-config)
+)
 
+;; --auto-complete
 
+;; (bundle 'pos-tip)
+(bundle 'auto-complete
+	(require 'auto-complete-config)
+	(add-to-list 'ac-dictionary-directories "~/.emacs.d/ac-dict")
+	(ac-config-default)
+	(setq ac-use-menu-map t)
+	(setq ac-menu-height 20)
+	;; (print ac-modes)
+	;; (set-face-background 'ac-candidate-face "lightgray")
+	;; (set-face-underline 'ac-candidate-face "darkgray")
+	;; (set-face-background 'ac-selection-face "steelblue")
+	;; (print ac-use-quick-help)
+	(setq ac-quick-help-delay 0.1)
+	(add-to-list 'ac-modes 'enh-ruby-mode)
+	)
+
+(bundle 'rbenv)
+
+(bundle 'inf-ruby
+	(add-hook 'after-init-hook 'inf-ruby-switch-setup)
+	(add-hook 'enh-ruby-mode-hook 'inf-ruby-minor-mode)
+)
+
+;; (print exec-path)
+
+(bundle 'Enhanced-Ruby-Mode
+	(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
+	(add-to-list 'auto-mode-alist '("Gemfile$" . enh-ruby-mode))
+	(add-to-list 'interpreter-mode-alist '("ruby" . enh-ruby-mode))
+	)
+
+(bundle 'ruby-block
+	(ruby-block-mode t)
+	(setq ruby-block-highlight-toggle t)
+)
+
+(bundle 'robe
+	(require 'robe-ac)
+	(add-hook 'enh-ruby-mode-hook 'robe-mode)
+	(add-hook 'robe-mode-hook 'robe-ac-setup)
+	;; (add-hook 'robe-mode-hook (lambda ()
+	;;   (inf-ruby)
+	;;   (robe-start)
+	;;   (robe-ac-setup)
+	;;   ))
+	)
 
 
 ;; -Theme
