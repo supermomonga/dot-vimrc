@@ -20,6 +20,7 @@
 ;; Add some pathes
 (append-path "~/.rbenv/bin/")
 (append-path "~/.rbenv/shims/")
+(append-path "/usr/local/bin")
 
 
 ;; Emacsclient
@@ -107,6 +108,7 @@
 
 (create-fontset-from-ascii-font "September-15:weight=normal:slant=normal" nil "september")
 (set-fontset-font "fontset-september" 'japanese-jisx0208 (font-spec :family "September" :size 15) nil 'append)
+(set-fontset-font "fontset-september" 'katakana-jisx0201 (font-spec :family "September" :size 15) nil 'append) ;; hankaku kana
 (add-to-list 'default-frame-alist '(font . "fontset-september"))
 
 
@@ -177,6 +179,7 @@
 (el-get 'sync 'robe)
 (el-get 'sync 'ruby-end)
 (el-get 'sync 'ruby-block)
+(el-get 'sync 'twittering-mode)
 
 
 
@@ -315,8 +318,13 @@
 	    (add-hook 'lingr-message-hook 'lingr-notif-message)
 	    )
 
-;;
 
+(bundle 'twittering-mode
+	(require 'epa-file nil t)
+	(setq twittering-use-master-password t)
+	(setq twittering-icon-mode t)
+	(setq twittering-timer-interval 300)
+)
 
 ;; --eshell
 

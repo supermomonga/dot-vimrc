@@ -262,8 +262,8 @@ set ambiwidth=double
 
 " Appearance Font  {{{
 
-set gfn=セプテンバーＭ-等幅:h14
-set gfw=セプテンバーＭ-等幅:h14
+set gfn=セプテンバーＭ-等幅:h16
+set gfw=セプテンバーＭ-等幅:h16
 
 " }}}
 
@@ -539,6 +539,7 @@ NeoBundle 'tpope/vim-rbenv'
 NeoBundle 'thinca/vim-scall'
 NeoBundle 'thinca/vim-singleton'
 NeoBundleLazy 'Shougo/unite.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
+NeoBundle 'Shougo/neomru.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'Shougo/vimshell.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'ujihisa/vimshell-ssh', { 'depends' : [ 'Shougo/vimshell.vim' ] }
 NeoBundleLazy 'Shougo/vimfiler.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
@@ -546,6 +547,7 @@ NeoBundleLazy 'Shougo/unite-ssh', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'Shougo/neosnippet.vim'
 NeoBundleLazy 'Shougo/neosnippet-snippets', { 'depends' : [ 'Shougo/neosnippet.vim' ] }
 NeoBundleLazy 'honza/vim-snippets'
+NeoBundleLazy 'carlosgaldino/elixir-snippets'
 NeoBundleLazy 'matthewsimo/angular-vim-snippets'
 NeoBundleLazy 'Shougo/neocomplete.vim'
 NeoBundleLazy 'rhysd/unite-ruby-require.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
@@ -615,8 +617,6 @@ NeoBundleLazy 'basyura/TweetVim', 'dev', { 'depends' : [
       \   'mattn/webapi-vim'
       \ ] }
 
-NeoBundle 'sudo.vim'
-
 " Vim script
 NeoBundleLazy 'mopp/layoutplugin.vim'
 
@@ -625,6 +625,9 @@ NeoBundleLazy 'vim-ruby/vim-ruby'
 NeoBundleLazy 'taka84u9/vim-ref-ri', { 'depends' : [ 'Shougo/unite.vim', 'thinca/vim-ref' ] }
 NeoBundle 'tpope/vim-rails'
 NeoBundleLazy 'basyura/unite-rails', { 'depends' : [ 'Shougo/unite.vim' ] }
+
+" Elixir
+NeoBundleLazy 'elixir-lang/vim-elixir'
 
 " golang
 NeoBundleLazy 'jnwhiteh/vim-golang'
@@ -748,6 +751,27 @@ if neobundle#tap('unite.vim') " {{{
     let g:unite_source_directory_mru_long_limit = 100000
     let g:unite_prompt = '❯ '
 
+    " Use buffer name instead of file path for buffer / buffer_tab source
+    let s:filter = { 'name' : 'converter_buffer_word' }
+
+    function! s:filter.filter(candidates, context)
+      for candidate in a:candidates
+        " if !filereadable(candidate.word)
+        "   let candidate.word = bufname(candidate.action__buffer_nr)
+        " endif
+        let candidate.word = bufname(candidate.action__buffer_nr)
+        if candidate.word == ''
+          let candidate.word = 'No Name'
+        end
+      endfor
+      return a:candidates
+    endfunction
+
+    call unite#define_filter(s:filter)
+    unlet s:filter
+    call unite#custom_source('buffer', 'converters', 'converter_buffer_word')
+    call unite#custom_source('buffer_tab', 'converters', 'converter_buffer_word')
+
     " Unite-menu
     let g:unite_source_menu_menus = get(g:, 'unite_source_menu_menus', {})
     let g:unite_source_menu_menus.global = { 'description' : 'global shortcut' }
@@ -760,6 +784,9 @@ if neobundle#tap('unite.vim') " {{{
           \   [ '[terminal] VimShell' , ':VimShell' ],
           \   [ '[twitter] TweetVim' , ':Unite tweetvim' ],
           \   [ '[lingr] J6uil' , ':J6uil' ],
+          \   [ '[shaberu] toggle' , ':ShaberuMuteToggle' ],
+          \   [ '[shaberu] mute on' , ':ShaberuMuteOn' ],
+          \   [ '[shaberu] mute off' , ':ShaberuMuteOff' ],
           \ ]
     let g:unite_source_menu_menus.unite.candidates = [
           \   [ 'neobundle/update' , ':Unite neobundle/update -log' ],
@@ -783,6 +810,7 @@ if neobundle#tap('unite.vim') " {{{
           \   [ 'resume grep', ':UniteResume unite_grep'],
           \   [ 'resume quickfix', ':UniteResume unite_qf'],
           \ ]
+
 
   endfunction
 
@@ -929,10 +957,11 @@ if neobundle#tap('shaberu.vim') " {{{
         \ })
 
   let g:shaberu_user_define_say_command = 'say-openjtalk "%%TEXT%%"'
+  let g:shaberu_user_define_say_command = 'say -v Kyoko "%%TEXT%%"'
 
   " Vim core
-  autocmd MyAutoCmd VimEnter * ShaberuSay 'ビムにようこそ'
-  autocmd MyAutoCmd VimLeave * ShaberuSay 'さようなら'
+  autocmd MyAutoCmd VimEnter * ShaberuSay '進捗どうですか'
+  autocmd MyAutoCmd VimLeave * ShaberuSay '再起動フラグ'
 
   " VimShell
   autocmd MyAutoCmd FileType vimshell
@@ -1138,6 +1167,16 @@ if neobundle#tap('vim-snippets') " {{{
 
 endif " }}}
 
+if neobundle#tap('elixir-snippets') " {{{
+
+  let g:neosnippet_snippets_directories = s:add_to_uniq_list(
+        \   s:get_list(g:, 'neosnippet_snippets_directories'),
+        \   $VIM_REMOTE_BUNDLE_DIR . '/elixir-snippets/snippets'
+        \ )
+  let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
+
+endif " }}}
+
 if neobundle#tap('angular-vim-snippets') " {{{
 
   let g:neosnippet_snippets_directories = s:add_to_uniq_list(
@@ -1285,6 +1324,11 @@ if neobundle#tap('vim-automatic') " {{{
     " echo a:context
   endfunction
 
+  function! s:my_unite_window_init(config, context)
+    nmap <silent> <buffer> <C-c> <Plug>(unite_print_candidate)
+    call s:my_temporary_window_init(a:config, a:context)
+  endfunction
+
   let g:automatic_enable_autocmd_Futures = {}
   let g:automatic_default_match_config = {
         \   'is_open_other_window' : 1,
@@ -1300,6 +1344,9 @@ if neobundle#tap('vim-automatic') " {{{
         \   { 'match' : {
         \      'autocmd_history_pattern' : 'BufWinEnterFileType$',
         \      'filetype' : 'unite'
+        \     },
+        \     'set' : {
+        \       'apply' : function('s:my_unite_window_init')
         \     }
         \   },
         \   {
@@ -1415,14 +1462,14 @@ if neobundle#tap('vim-quickrun') " {{{
           \   'exec'      : '%c %o %s'
           \ }
   endif
-  " let g:quickrun_config.ruby = {
-  "   \ 'command': 'irb',
-  "   \ 'cmdopt': '--simple-prompt',
-  "   \ 'hook/cd': 1,
-  "   \ 'runner': 'process_manager',
-  "   \ 'runner/process_manager/load': "load %s",
-  "   \ 'runner/process_manager/prompt': '>>\s',
-  "   \ }
+  let g:quickrun_config.ruby = {
+    \ 'command': 'irb',
+    \ 'cmdopt': '--simple-prompt',
+    \ 'hook/cd': 1,
+    \ 'runner': 'process_manager',
+    \ 'runner/process_manager/load': "load %s",
+    \ 'runner/process_manager/prompt': '>>\s',
+    \ }
 
   nnoremap <Space>r  :<C-u>QuickRun<CR>
 
@@ -1648,6 +1695,16 @@ if neobundle#tap('unite-rails') " {{{
     " au User Rails call g:My.unite_rails_init()
     au FileType *rails* call g:My.unite_rails_init()
   aug END
+
+endif " }}}
+
+if neobundle#tap('vim-elixir') " {{{
+
+  call neobundle#config({
+        \   'autoload' : {
+        \     'filetypes' : [ 'elixir' ],
+        \   }
+        \ })
 
 endif " }}}
 
@@ -2016,13 +2073,12 @@ if neobundle#tap('vim-snowdrop') " {{{
 
   call neobundle#config({
         \   'autoload' : {
-        \     'commands' : [ 'SnowdropGotoDefinition', 'SnowdropEchoTypeof', 'SnowdropEchoResultTypeof', 'SnowdropEchoIncludes' ],
+        \     'commands' : [ 'SnowdropGotoDefinition', 'SnowdropEchoTypeof', 'SnowdropEchoResultTypeof', 'SnowdropEchoIncludes', 'SnowdropVerify' ],
         \   }
         \ })
 
   function! neobundle#tapped.hooks.on_source(bundle)
     let g:snowdrop#libclang_path='/Library/Developer/CommandLineTools/usr/lib'
-    " let g:snowdrop#libclang_file = 'libclang.dylib'
   endfunction
 
 endif " }}}
@@ -2070,3 +2126,4 @@ call s:apply_queued_funccalls()
 " }}}
 
 " }}}
+
