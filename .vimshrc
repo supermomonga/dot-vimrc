@@ -11,4 +11,4 @@ alias ls = 'ls -a '
 alias lsl = 'ls -la '
 alias cl = clear
 alias op = 'open .'
-
+alias be = 'bundle exec'
