@@ -712,6 +712,8 @@ NeoBundleLazy 'thinca/vim-threes'
 NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
 
 
+" Temporary
+NeoBundle 'osyo-manga/vital-reunions'
 
 
 " TODO: atode settei simasu...
