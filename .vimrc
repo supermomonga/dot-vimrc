@@ -102,12 +102,12 @@ endfunction " }}}
 
 function! s:prepend_path(current, path) "  {{{
   return a:current == '' ?
-        \ a:path : a:path . s:path_separator() . a:current
+        \ a:path : ( expand(a:path) . s:path_separator() . a:current )
 endfunction " }}}
 
 function! s:append_path(current, path) "  {{{
   return a:current == '' ?
-        \ a:path : ( a:current . s:path_separator() . a:path )
+        \ a:path : ( a:current . s:path_separator() . expand(a:path) )
 endfunction " }}}
 
 function! s:dirname(path) "  {{{
@@ -625,7 +625,7 @@ NeoBundle 'twilight'
 NeoBundle 'zazen'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'jpo/vim-railscasts-theme'
-NeoBundleLazy 'thinca/vim-splash'
+NeoBundle 'thinca/vim-splash'
 
 " momonga's Kanari Sugoi Plugins (Kanari)
 NeoBundleLazy 'supermomonga/shaberu.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
@@ -710,6 +710,8 @@ NeoBundleLazy 'thinca/vim-threes'
 
 " Musics
 NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
+
+
 
 
 " TODO: atode settei simasu...
@@ -1520,7 +1522,24 @@ if neobundle#tap('vim-automatic') " {{{
         \ }
   let g:automatic_config = [
         \   { 'match' : { 'buftype' : 'help' } },
-        \   { 'match' : { 'bufname' : '^.vimshell' } },
+        \   { 'match' : { 
+        \       'filetype' : 'vimshell',
+        \       'autocmds' : ['FileType', 'BufWinEnter']
+        \     },
+        \     'set' : {
+        \       'commands' : [ 'setl nonumber' ]
+        \     }
+        \   },
+        \   { 'match' : { 
+        \       'filetype' : 'vimshell',
+        \       'is_open_other_window' : 0,
+        \       'autocmds' : ['FileType', 'BufWinEnter']
+        \     },
+        \     'set' : {
+        \       'unsettings' : [ 'resize', 'move', 'apply' ],
+        \       'commands' : [ 'setl nonumber' ],
+        \     }
+        \   },
         \   { 'match' : {
         \      'autocmd_history_pattern' : 'BufWinEnterFileType$',
         \      'filetype' : 'unite'
@@ -2251,7 +2270,7 @@ if neobundle#tap('vim-rengbang') " {{{
 
   call neobundle#config({
         \   'autoload' : {
-        \     'commands' : [ 'RengBang', 'RengBangUsePrev' ]
+        \     'commands' : [ 'RengBang', 'RengBangUsePrev', 'RengBangConfirm' ]
         \   }
         \ })
 
@@ -2470,7 +2489,7 @@ if neobundle#tap('vim-splash') " {{{
 
   function! neobundle#tapped.hooks.on_source(bundle)
   endfunction
-  let g:splash#path = expand('~/.vim/splash.txt')
+  " let g:splash#path = expand('~/.vim/splash.txt')
   let g:splash#path = expand('~/.vim/splasht.txt')
 
 endif " }}}
