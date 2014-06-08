@@ -625,7 +625,7 @@ NeoBundle 'twilight'
 NeoBundle 'zazen'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'jpo/vim-railscasts-theme'
-NeoBundle 'thinca/vim-splash'
+" NeoBundle 'thinca/vim-splash'
 
 " momonga's Kanari Sugoi Plugins (Kanari)
 NeoBundleLazy 'supermomonga/shaberu.vim', { 'depends' : [ 'Shougo/vimproc.vim' ] }
@@ -703,6 +703,9 @@ NeoBundleLazy 'alpaca-tc/alpaca_tags', {
       \     'unix' : 'wget https://raw.github.com/alpaca-tc/alpaca_tags/master/.ctags -O ~/.ctags',
       \   }
       \ }
+
+" Library and Frameworks to create Vim Plugins
+NeoBundleLazy 'rbtnn/rabbit-ui.vim'
 
 " Games
 NeoBundleLazy 'rbtnn/puyo.vim'
@@ -792,7 +795,12 @@ if neobundle#tap('unite.vim') " {{{
         \ })
 
   " Use The Silver Searcher for grep
-  if executable('ag')
+  if executable('the_platinum_searcher')
+    let g:unite_source_grep_command = 'the_platinum_searcher'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+    let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_grep_encoding = 'utf-8'
+  elseif executable('ag')
     let g:unite_source_grep_command = 'ag'
     let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
     let g:unite_source_grep_recursive_opt = ''
@@ -874,6 +882,9 @@ if neobundle#tap('unite.vim') " {{{
           \   [ '[shaberu] mute on' , ':ShaberuMuteOn' ],
           \   [ '[shaberu] mute off' , ':ShaberuMuteOff' ],
           \ ]
+    " let g:unite_source_menu_menus.shaberu.candidates = [
+    "       \   [ '' , ':VimShell' ],
+    "       \ ]
           " \   [ '[music] Play JAZZRADIO.com' , ':Unite jazzradio -update-time=75 -buffer-name=unite_jazzradio' ],
     let g:unite_source_menu_menus.unite.candidates = []
     let g:unite_source_menu_filetype_candidates = {}
@@ -1128,9 +1139,9 @@ if neobundle#tap('vimshell.vim') " {{{
         \   }
         \ })
 
-  " function! neobundle#tapped.hooks.on_source(bundle)
-  "   let g:unite_source_vimshell_external_history_path = expand('~/.zsh_history')
-  " endfunction
+  function! neobundle#tapped.hooks.on_source(bundle)
+    " let g:unite_source_vimshell_external_history_path = expand('~/.zsh_history')
+  endfunction
 
   nnoremap <C-x><C-v>  :<C-u>VimShellPop -toggle<CR>
   inoremap <C-x><C-v>  :<C-u>VimShellPop -toggle<CR>
@@ -1148,6 +1159,27 @@ if neobundle#tap('vimshell.vim') " {{{
     imap <buffer> <C-_>  <ESC>dT_xa
   endfunction
   au MyAutoCmd FileType vimshell call s:my_vimshell_mappings()
+
+  function! s:my_vimshell_aliases()
+    call vimshell#set_alias('edit', 'vim --split=tabedit $$args')
+    call vimshell#set_alias('e', 'edit')
+    call vimshell#set_alias('reload', 'vimsh ~/.vimshrc')
+    call vimshell#set_alias('rl', 'reload')
+    call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
+    call vimshell#set_alias('l', 'quicklook')
+    call vimshell#set_alias('ls', 'ls -a ')
+    call vimshell#set_alias('lsl', 'ls -la ')
+    call vimshell#set_alias('cl', 'clear')
+    call vimshell#set_alias('op', 'open .')
+    call vimshell#set_alias('be', 'bundle exec')
+    call vimshell#set_alias('j', ':Unite -buffer-name=files
+          \ -default-action=lcd -no-split -input=$$args directory_mru')
+    " Shaberu
+    call vimshell#set_alias('hello'      , ':call shaberu#say("こんにちは")')
+    call vimshell#set_alias('time?'      , ':call shaberu#say(strftime("はいっ。今は%H時%M分です"))')
+    call vimshell#set_alias('I_love_you' , ':call shaberu#say("ありがとうございます")')
+  endfunction
+  au MyAutoCmd FileType vimshell call s:my_vimshell_aliases()
 
   " Run VimShell when launch Vim
   " au MyAutoCmd VimEnter * VimShell
@@ -1231,7 +1263,7 @@ if neobundle#tap('vim-operator-blockwise') " {{{
   nmap YY <Plug>(operator-blockwise-yank)
   nmap DD <Plug>(operator-blockwise-delete)
   nmap CC <Plug>(operator-blockwise-change)
-  nnoremap <expr> SS operator#blockwise#mapexpr("\<Plug>(operator-replace)")
+  nmap <expr> SS operator#blockwise#mapexpr("\<Plug>(operator-replace)")
 
 endif " }}}
 
@@ -2069,7 +2101,7 @@ if neobundle#tap('TweetVim') " {{{
     nmap <buffer> i  <Plug>(tweetvim_action_in_reply_to)
     nmap <buffer> r  <Plug>(tweetvim_action_retweet)
     nmap <buffer> q  <Plug>(tweetvim_action_qt)
-    nmap <buffer> gg  <Plug>(tweetvim_action_reload)
+    nmap <buffer> l  <Plug>(tweetvim_action_reload)
     nmap <buffer> u  <Plug>(tweetvim_action_user_timeline)
     nnoremap <buffer> s  :<C-u>TweetVimSay<CR>
     nmap <buffer> <CR>  <Plug>(tweetvim_action_enter)
@@ -2087,10 +2119,11 @@ if neobundle#tap('TweetVim') " {{{
   au MyAutoCmd FileType tweetvim_say call s:my_tweetvim_say_mappings()
 
   " TODO: Make macvim shows graphical sign.
+  let g:tweetvim_display_separator = 0
   let g:tweetvim_display_icon = 1
-  let g:tweetvim_display_source = 1
-  let g:tweetvim_no_default_key_mappings = 1
+  let g:tweetvim_display_source = 0
   let g:tweetvim_display_username = 1
+  let g:tweetvim_no_default_key_mappings = 1
 
 endif " }}}
 
@@ -2540,6 +2573,20 @@ if neobundle#tap('nebula.vim') " {{{
         \ {'autoload': {'commands': ['NebulaPutLazy', 'NebulaPutFromClipboard', 'NebulaYankOptions', 'NebulaYankConfig', 'NebulaPutConfig', 'NebulaYankTap']}})
 
 endif " }}}
+
+if neobundle#tap('rabbit-ui.vim') " {{{
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+  endfunction
+
+  call neobundle#config({
+        \ 'autoload' : {
+        \   'function_prefix' : 'rabbit_ui'
+        \ }
+        \ })
+
+endif " }}}
+
 
 " }}}
 
