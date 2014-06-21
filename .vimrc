@@ -420,6 +420,8 @@ set hidden
 
 " Basic Key Mapping  {{{
 
+let maplocalleader = ','
+
 " [Emacs] Increment, Decrement by -, +
 " Because I want to use <C-x> for Emacs-like mapping
 " For test: [1, 6]
@@ -876,12 +878,13 @@ if neobundle#tap('unite.vim') " {{{
           \   [ '[terminal] VimShell' , ':VimShell' ],
           \   [ '[twitter] TweetVim' , ':Unite tweetvim' ],
           \   [ '[lingr] J6uil' , ':J6uil' ],
-          \   [ '[music] Play JAZZRADIO.com' , ':Unite jazzradio -update-time=75 -no-quit -keep-focus -buffer-name=unite_jazzradio' ],
+          \   [ '[music] Play JAZZRADIO.com' , ':Unite jazzradio -update-time=75 -buffer-name=unite_jazzradio' ],
           \   [ '[music] Stop JAZZRADIO.com' , ':JazzradioStop' ],
           \   [ '[shaberu] toggle' , ':ShaberuMuteToggle' ],
           \   [ '[shaberu] mute on' , ':ShaberuMuteOn' ],
           \   [ '[shaberu] mute off' , ':ShaberuMuteOff' ],
           \ ]
+          " \   [ '[music] Play JAZZRADIO.com' , ':Unite jazzradio -update-time=75 -no-quit -keep-focus -buffer-name=unite_jazzradio' ],
     " let g:unite_source_menu_menus.shaberu.candidates = [
     "       \   [ '' , ':VimShell' ],
     "       \ ]
@@ -973,6 +976,8 @@ if neobundle#tap('sonictemplate-vim') " {{{
         \   'function_prefix' : 'sonictemplate'
         \ }
         \ })
+
+  let g:sonictemplate_vim_template_dir = $VIM_DOTVIM_DIR . '/templates/'
 
 endif " }}}
 
@@ -1175,9 +1180,13 @@ if neobundle#tap('vimshell.vim') " {{{
     call vimshell#set_alias('j', ':Unite -buffer-name=files
           \ -default-action=lcd -no-split -input=$$args directory_mru')
     " Shaberu
-    call vimshell#set_alias('hello'      , ':call shaberu#say("こんにちは")')
-    call vimshell#set_alias('time?'      , ':call shaberu#say(strftime("はいっ。今は%H時%M分です"))')
-    call vimshell#set_alias('I_love_you' , ':call shaberu#say("ありがとうございます")')
+    call vimshell#set_alias('hello', ':call shaberu#say("こんにちは")')
+    call vimshell#set_alias('kawaii', ':call shaberu#say("ありがとうございます")')
+    call vimshell#set_alias('nemui', ':call shaberu#say("そろそろ寝ましょう")')
+    call vimshell#set_alias('work', ':call shaberu#say("進捗どうですか")')
+    call vimshell#set_alias('time?', ':call shaberu#say(strftime("はいっ。今は%H時%M分です"))')
+    call vimshell#set_alias('kora', ':call shaberu#say("ごめんなさい")')
+    call vimshell#set_alias('sl', ':call shaberu#say("きしゃぽっぽ。きしゃぽっぽ。ぽぽ")')
   endfunction
   au MyAutoCmd FileType vimshell call s:my_vimshell_aliases()
 
@@ -1556,7 +1565,7 @@ if neobundle#tap('vim-automatic') " {{{
         \ }
   let g:automatic_config = [
         \   { 'match' : { 'buftype' : 'help' } },
-        \   { 'match' : { 
+        \   { 'match' : {
         \       'filetype' : 'vimshell',
         \       'autocmds' : ['FileType', 'BufWinEnter']
         \     },
