@@ -199,7 +199,9 @@ let $PATH = s:append_path($PATH, '/Applications/Octave.app/Contents/Resources/bi
 " Automatic detect current ruby's bin directory.
 " Including "gem", "rails", and others.
 " let $PATH = s:append_path($PATH, s:dirname(resolve('/usr/local/bin/ruby')))
+let $PATH = s:prepend_path($PATH, s:dirname('~/.rbenv/shims/ruby'))
 let $PATH = s:append_path($PATH, s:dirname('~/.rbenv/shims/ruby'))
+let $RBENV_ROOT = expand('~/.rbenv')
 
 " Gnuterm
 let $GNUTERM = 'x11'
@@ -600,6 +602,7 @@ NeoBundleLazy 'mattn/gist-vim', { 'depends' : [ 'mattn/webapi-vim' ] }
 NeoBundleLazy 'mattn/emmet-vim'
 NeoBundleLazy 'thinca/vim-prettyprint'
 NeoBundleLazy 'thinca/vim-quickrun'
+" NeoBundleLazy 'osyo-manga/quickrun-hook-u-nya-', { 'depends' : [ 'thinca/vim-quickrun' ] }
 NeoBundleLazy 'thinca/vim-ref'
 NeoBundleLazy 'thinca/vim-qfreplace'
 NeoBundleLazy 'thinca/vim-editvar'
@@ -663,12 +666,14 @@ NeoBundleLazy 'taka84u9/vim-ref-ri', { 'depends' : [ 'Shougo/unite.vim', 'thinca
 NeoBundle 'tpope/vim-rails'
 NeoBundleLazy 'basyura/unite-rails', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 't9md/vim-ruby-xmpfilter'
+NeoBundleLazy 'osyo-manga/vim-monster'
 
 " Elixir
 NeoBundleLazy 'elixir-lang/vim-elixir'
 
 " golang
-NeoBundle 'fatih/vim-go', { 'depends' : [ 'Shougo/neosnippet.vim' ] }
+NeoBundle 'vim-jp/go-vim'
+" NeoBundle 'fatih/vim-go', { 'depends' : [ 'Shougo/neosnippet.vim' ] }
 " NeoBundleLazy 'jnwhiteh/vim-golang'
 " NeoBundleLazy 'Blackrush/vim-gocode'
 
@@ -678,6 +683,7 @@ NeoBundleLazy 'osyo-manga/vim-snowdrop'
 " Clojure
 NeoBundleLazy 'emanon001/fclojure.vim'
 NeoBundleLazy 'thinca/vim-ft-clojure'
+NeoBundleLazy 'ujihisa/neoclojure.vim'
 
 " Java
 NeoBundleLazy 'Shougo/javacomplete', {
@@ -711,7 +717,9 @@ NeoBundleLazy 'rbtnn/rabbit-ui.vim'
 
 " Games
 NeoBundleLazy 'rbtnn/puyo.vim'
+NeoBundleLazy 'rbtnn/mario.vim'
 NeoBundleLazy 'thinca/vim-threes'
+NeoBundleLazy 'mattn/flappyvird-vim'
 
 " Musics
 NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
@@ -1690,46 +1698,79 @@ if neobundle#tap('vim-quickrun') " {{{
         \   }
         \ })
 
-  let g:quickrun_config = get(g:, 'quickrun_config', {})
-  let g:quickrun_config.markdown = {
-        \   'outputter' : 'null',
-        \   'command'   : 'open',
-        \   'cmdopt'    : '-a',
-        \   'args'      : 'Marked',
-        \   'exec'      : '%c %o %a %s',
-        \ }
-  let g:quickrun_config.matlab = {
-        \   'command'   : 'octave',
-        \   'cmdopt'    : '--silent --persist',
-        \   'exec'      : '%c %o %s'
-        \ }
-  let g:quickrun_config.clojure = {
-        \   'command'   : 'lein repl',
-        \   'runner': 'process_manager',
-        \   'runner/process_manager/load': '(load-file "%S")',
-        \   'runner/process_manager/prompt': 'user=> '
-        \ }
-  " let g:quickrun_config.clojure = {
-  "       \   'command'   : 'java -jar /usr/local/Cellar/clojure/1.5.1/clojure-1.5.1.jar',
-  "       \   'runner': 'process_manager',
-  "       \   'runner/process_manager/load': '(load-file "%S")',
-  "       \   'runner/process_manager/prompt': 'user=> '
-  "       \ }
-  if exists('$METALANG')
-    let g:quickrun_config.mql4 = {
-          \   'command'   : 'wine',
-          \   'cmdopt'    : '/usr/local/bin/metalang.exe',
+  function! neobundle#tapped.hooks.on_source(bundle)
+    call quickrun#module#register(shabadou#make_quickrun_hook_anim(
+          \  'santi_pinch',
+          \  ['＼(・ω・＼)　SAN値！', '　(／・ω・)／ピンチ！'],
+          \  12
+          \), 1)
+    let g:quickrun_config = get(g:, 'quickrun_config', {})
+    let g:quickrun_config._ = {
+          \   'runner': 'vimproc',
+          \   'runner/vimproc/updatetime': 40,
+          \   'hook/santi_pinch/enable': 1,
+          \   'hook/echo/enable' : 1,
+          \   'hook/echo/enable_output_exit' : 1,
+          \   'hook/echo/priority_exit' : 10000,
+          \   'hook/echo/output_success': 'benri',
+          \   'hook/echo/output_failure': 'huben'
+          \ }
+    let g:quickrun_config.markdown = {
+          \   'outputter' : 'null',
+          \   'command'   : 'open',
+          \   'cmdopt'    : '-a',
+          \   'args'      : 'Marked',
+          \   'exec'      : '%c %o %a %s',
+          \ }
+    let g:quickrun_config.matlab = {
+          \   'command'   : 'octave',
+          \   'cmdopt'    : '--silent --persist',
           \   'exec'      : '%c %o %s'
           \ }
-  endif
-  " let g:quickrun_config.ruby = {
-  "   \ 'command': 'irb',
-  "   \ 'cmdopt': '--simple-prompt',
-  "   \ 'hook/cd': 1,
-  "   \ 'runner': 'process_manager',
-  "   \ 'runner/process_manager/load': "load %s",
-  "   \ 'runner/process_manager/prompt': '>>\s',
-  "   \ }
+    let g:quickrun_config.lein_clojure = {
+          \   'command': 'lein',
+          \   'cmdopt': 'repl',
+          \   'runner': 'process_manager',
+          \   'runner/process_manager/load': '(load-file "%S")',
+          \   'runner/process_manager/prompt': 'user=> '
+          \ }
+    let g:quickrun_config.clojure = {
+          \   'type': 'lein_clojure'
+          \ }
+    let g:quickrun_config.clojure = {
+          \   'runner': 'neoclojure',
+          \   'command': 'dummy',
+          \   'tempfile' : '%{tempname()}.clj'
+          \ }
+    " let g:quickrun_config.clojure = {
+    "       \   'command': 'lein repl',
+    "       \   'runner': 'process_manager',
+    "       \   'runner/process_manager/load': '(load-file "%S")',
+    "       \   'runner/process_manager/prompt': 'user=> '
+    "       \ }
+    " let g:quickrun_config.clojure = {
+    "       \   'command'   : 'java -jar /usr/local/Cellar/clojure/1.5.1/clojure-1.5.1.jar',
+    "       \   'runner': 'process_manager',
+    "       \   'runner/process_manager/load': '(load-file "%S")',
+    "       \   'runner/process_manager/prompt': 'user=> '
+    "       \ }
+    if exists('$METALANG')
+      let g:quickrun_config.mql4 = {
+            \   'command'   : 'wine',
+            \   'cmdopt'    : '/usr/local/bin/metalang.exe',
+            \   'exec'      : '%c %o %s'
+            \ }
+    endif
+    " let g:quickrun_config.ruby = {
+    "   \ 'command': 'irb',
+    "   \ 'cmdopt': '--simple-prompt',
+    "   \ 'hook/cd': 1,
+    "   \ 'runner': 'process_manager',
+    "   \ 'runner/process_manager/load': "load %s",
+    "   \ 'runner/process_manager/prompt': '>>\s',
+    "   \ }
+  endfunction
+
 
   nnoremap <Space>r  :<C-u>QuickRun<CR>
 
@@ -2143,7 +2184,7 @@ if neobundle#tap('lingr-vim') " {{{
         \     'commands' : [ 'LingrLaunch' ],
         \   }
         \ })
-
+  let g:J6uil_display_icon = 1
   let g:lingr_vim_user     = g:vimrc_secrets['J6uil_user']
   let g:lingr_vim_password = g:vimrc_secrets['J6uil_password']
 
@@ -2344,6 +2385,29 @@ if neobundle#tap('vim-mql4') " {{{
 
 endif " }}}
 
+if neobundle#tap('go-vim') " {{{
+
+  " au MyAutoCmd FileType go nmap <buffer> <C-c><C-i> <Plug>(go-import)
+
+  call neobundle#config({
+        \   'autoload': {
+        \     'filetypes' : [ 'go', 'godoc' ],
+        \     'mappings': [['n', '<Plug>(godoc-keyword)']],
+        \     'commands': [{
+        \       'complete': 'customlist,go#complete#Package',
+        \       'name': 'Godoc'
+        \     }]
+        \   }
+        \ })
+
+  let $GOPATH = expand('~/.go')
+  let $PATH = s:append_path($PATH, $GOPATH . '/bin')
+  let $PATH = s:append_path($PATH, fnamemodify(resolve(exepath('go')), ":h"))
+
+  au MyAutoCmd FileType go compiler go
+
+endif " }}}
+
 if neobundle#tap('vim-go') " {{{
 
   let g:go_import_commands = 1
@@ -2455,7 +2519,27 @@ if neobundle#tap('puyo.vim') " {{{
 
   call neobundle#config({
         \   'autoload' : {
-        \     'commands' : [ 'Puyo', 'PuyoTeto' ],
+        \     'commands' : [ 'Puyo' ],
+        \   }
+        \ })
+
+endif " }}}
+
+if neobundle#tap('mario.vim') " {{{
+
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [ 'Mario' ],
+        \   }
+        \ })
+
+endif " }}}
+
+if neobundle#tap('flappyvird-vim') " {{{
+
+  call neobundle#config({
+        \   'autoload' : {
+        \     'commands' : [ 'FlappyVird' ],
         \   }
         \ })
 
@@ -2522,6 +2606,18 @@ if neobundle#tap('vim-ruby-xmpfilter') " {{{
 
 endif " }}}
 
+if neobundle#tap('vim-monster') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'filetypes' : 'ruby'
+        \   }
+        \ })
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+  endfunction
+
+endif " }}}
+
 if neobundle#tap('thingspast.vim') " {{{
 
   function! neobundle#tapped.hooks.on_source(bundle)
@@ -2552,6 +2648,27 @@ if neobundle#tap('fclojure.vim') " {{{
 endif " }}}
 
 if neobundle#tap('vim-ft-clojure') " {{{
+
+endif " }}}
+
+if neobundle#tap('neoclojure.vim') " {{{
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+  endfunction
+
+  let g:neoclojure_autowarmup = 1
+
+  call neobundle#config({
+        \ 'autoload' : {
+        \   'function_prefix' : 'neoclojure'
+        \ }
+        \ })
+
+  augroup vimrc-neoclojure
+    autocmd!
+    autocmd FileType clojure setlocal omnifunc=neoclojure#complete#omni
+    " autocmd FileType clojure setlocal omnifunc=neoclojure#complete_timed
+  augroup END
 
 endif " }}}
 
