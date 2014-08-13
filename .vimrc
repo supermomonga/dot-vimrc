@@ -550,6 +550,9 @@ NeoBundle 'tyru/operator-html-escape.vim', { 'depends' : 'kana/vim-operator-user
 NeoBundle 'osyo-manga/vim-operator-blockwise', { 'depends' : 'osyo-manga/vim-textobj-blockwise' }
 NeoBundle 'osyo-manga/vim-operator-block', { 'depends' : 'kana/vim-textobj-user' }
 
+NeoBundle 'osyo-manga/vim-jplus'
+
+
 NeoBundle 'bling/vim-airline'
 NeoBundle 'surround.vim'
 NeoBundle 'kana/vim-repeat'
@@ -618,6 +621,7 @@ NeoBundleLazy 'LeafCage/vimhelpgenerator'
 NeoBundleLazy 'deris/vim-rengbang'
 NeoBundleLazy 'mattn/emoji-vim'
 
+" Utility
 NeoBundleLazy 'LeafCage/nebula.vim'
 
 " Colorscheme
@@ -684,6 +688,7 @@ NeoBundleLazy 'osyo-manga/vim-snowdrop'
 NeoBundleLazy 'emanon001/fclojure.vim'
 NeoBundleLazy 'thinca/vim-ft-clojure'
 NeoBundleLazy 'ujihisa/neoclojure.vim'
+NeoBundleLazy 'amdt/vim-niji'
 
 " Java
 NeoBundleLazy 'Shougo/javacomplete', {
@@ -716,13 +721,14 @@ NeoBundleLazy 'alpaca-tc/alpaca_tags', {
 NeoBundleLazy 'rbtnn/rabbit-ui.vim'
 
 " Games
-NeoBundleLazy 'rbtnn/puyo.vim'
-NeoBundleLazy 'rbtnn/mario.vim'
+NeoBundleLazy 'rbtnn/puyo.vim', { 'depends' : [ 'rbtnn/game_engine.vim' ] }
+NeoBundleLazy 'rbtnn/mario.vim', { 'depends' : [ 'rbtnn/game_engine.vim' ] }
 NeoBundleLazy 'thinca/vim-threes'
 NeoBundleLazy 'mattn/flappyvird-vim'
 
 " Musics
 NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
+NeoBundleLazy 'supermomonga/skyfm.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
 
 
 " Temporary
@@ -888,6 +894,8 @@ if neobundle#tap('unite.vim') " {{{
           \   [ '[lingr] J6uil' , ':J6uil' ],
           \   [ '[music] Play JAZZRADIO.com' , ':Unite jazzradio -update-time=75 -buffer-name=unite_jazzradio' ],
           \   [ '[music] Stop JAZZRADIO.com' , ':JazzradioStop' ],
+          \   [ '[music] Play SKY.FM' , ':Unite skyfm -update-time=75 -buffer-name=unite_skyfm' ],
+          \   [ '[music] Stop SKY.FM' , ':SkyfmStop' ],
           \   [ '[shaberu] toggle' , ':ShaberuMuteToggle' ],
           \   [ '[shaberu] mute on' , ':ShaberuMuteOn' ],
           \   [ '[shaberu] mute off' , ':ShaberuMuteOff' ],
@@ -1337,12 +1345,12 @@ if neobundle#tap('neocomplete.vim') " {{{
 
   let g:neocomplete#sources#omni#input_patterns = get(g:, 'neocomplete#sources#omni#input_patterns', {})
   let g:neocomplete#sources#omni#input_patterns.go = '\h\w\.\w*'
-  let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+  let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
   " let g:neocomplete#sources#omni#input_patterns.go = ''
 
   " Omni completion functions
   let g:neocomplete#sources#omni#functions = get(g:, 'neocomplete#sources#omni#functions', {})
-  let g:neocomplete#sources#omni#functions.ruby = 'rubycomplete#Complete'
+  let g:neocomplete#sources#omni#functions.ruby = 'monster#complete'
   " let g:neocomplete#sources#omni#functions.go = 'go#complete#Complete'
 
 endif " }}}
@@ -1812,7 +1820,7 @@ if neobundle#tap('vim-ref') " {{{
         \ })
 
   let g:ref_open = 'split'
-  let g:ref_refe_cmd = '~/.vim/ref/ruby-refm-1.9.3-dynamic-20120829/refe-1_9_3'
+  let g:ref_refe_cmd = '/Users/momonga/.rbenv/shims/refe'
 
   aug MyAutoCmd
     au FileType ruby,eruby,ruby.rspec,haml nnoremap <silent><buffer><Space>d  :<C-u>Unite -no-start-insert ref/refe ref/ri -auto-preview -default-action=below -input=<C-R><C-W><CR>
@@ -2584,6 +2592,25 @@ if neobundle#tap('jazzradio.vim') " {{{
         \ })
 endif " }}}
 
+if neobundle#tap('skyfm.vim') " {{{
+  call neobundle#config({
+        \   'autoload' : {
+        \     'unite_sources' : [
+        \       'skyfm'
+        \     ],
+        \     'commands' : [
+        \       'SkyfmUpdateChannels',
+        \       'SkyfmStop',
+        \       {
+        \         'name' : 'SkyfmPlay',
+        \         'complete' : 'customlist,skyfm#channel_key_complete'
+        \       }
+        \     ],
+        \     'function_prefix' : 'skyfm'
+        \   }
+        \ })
+endif " }}}
+
 if neobundle#tap('vim-ruby-xmpfilter') " {{{
   call neobundle#config({
         \   'autoload' : {
@@ -2664,11 +2691,11 @@ if neobundle#tap('neoclojure.vim') " {{{
         \ }
         \ })
 
-  augroup vimrc-neoclojure
-    autocmd!
-    autocmd FileType clojure setlocal omnifunc=neoclojure#complete#omni
-    " autocmd FileType clojure setlocal omnifunc=neoclojure#complete_timed
-  augroup END
+  " augroup vimrc-neoclojure
+  "   autocmd!
+  "   autocmd FileType clojure setlocal omnifunc=neoclojure#complete#omni
+  "   " autocmd FileType clojure setlocal omnifunc=neoclojure#complete_timed
+  " augroup END
 
 endif " }}}
 
@@ -2700,6 +2727,31 @@ if neobundle#tap('nebula.vim') " {{{
 
 endif " }}}
 
+if neobundle#tap('vim-jplus') " {{{
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+  endfunction
+
+  call neobundle#config({
+        \   'autoload' : {
+        \     'function_prefix' : 'jplus'
+        \   }
+        \ })
+
+  let g:jplus#config = {
+        \   'ruby' : {
+        \     'left_matchstr_pattern' : '^.\{-}\%(\ze\s*\\$\|$\)',
+        \   },
+        \   'vim' : {
+        \     'right_matchstr_pattern' : '^\s*\\\s*\zs.*',
+        \   }
+        \ }
+
+  nmap J <Plug>(jplus)
+  vmap J <Plug>(jplus)
+
+endif " }}}
+
 if neobundle#tap('rabbit-ui.vim') " {{{
 
   function! neobundle#tapped.hooks.on_source(bundle)
@@ -2710,6 +2762,25 @@ if neobundle#tap('rabbit-ui.vim') " {{{
         \   'function_prefix' : 'rabbit_ui'
         \ }
         \ })
+
+endif " }}}
+
+if neobundle#tap('vim-niji') " {{{
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+  endfunction
+
+  call neobundle#config({
+        \ 'autoload' : {
+        \   'filetypes' : [ 'clojure' ],
+        \   'function_prefix' : 'niji'
+        \ }
+        \ })
+
+  augroup niji
+    autocmd!
+    autocmd FileType,VimEnter * nested call niji#load()
+  augroup END
 
 endif " }}}
 
@@ -2729,5 +2800,27 @@ call s:apply_queued_funccalls()
 " }}}
 
 " Pre-plugin {{{
+
+function! s:my_ruby_initializer()
+  let def_line      = getpos('.')[1]
+  let end_line      = searchpairpos(
+        \   '\<\%(if\|unless\|case\|while\|until\|for\|do\|class\|module\|def\|begin\)\>=\@!',
+        \   '\<\%(else\|elsif\|ensure\|when\|rescue\|break\|redo\|next\|retry\)\>',
+        \   '\<end\>',
+        \   'n'
+        \ )[0]
+  let lines         = getline(def_line, end_line)
+  let line          = join(lines, "\n")
+  let result        = eval(system("ruby ~/Develops/ruby-initialize-benrier.vim/benrier.rb \"" . line . "\""))
+  let single_indent = &expandtab ? repeat(" ", &tabstop) : "\t"
+  let indent        = repeat(single_indent, indent(".") / &tabstop + 1)
+  let statements    = map(result, 'indent . "@" . v:val . " = " . v:val')
+  call append(def_line, statements)
+endfunction
+
+command! Benri call s:my_ruby_initializer()
+nnoremap <Space>i :<C-u>Benri<CR>
+
+
 " }}}
 
