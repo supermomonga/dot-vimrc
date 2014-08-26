@@ -268,6 +268,12 @@ set showmatch
 " Fix zenkaku chars' width
 set ambiwidth=double
 
+" Don't show scrollbar
+set guioptions-=r
+set guioptions-=R
+set guioptions-=l
+set guioptions-=L
+
 " }}}
 
 " Appearance Font  {{{
@@ -564,6 +570,7 @@ NeoBundle 'jceb/vim-hier'
 NeoBundle 'LeafCage/foldCC'
 NeoBundle 'vim-jp/vimdoc-ja'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundleLazy 'cohama/agit.vim'
 NeoBundle 'gregsexton/gitv', { 'depends' : [ 'tpope/vim-fugitive' ] }
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'tpope/vim-rbenv'
@@ -589,6 +596,7 @@ NeoBundleLazy 'supermomonga/unite-goimport.vim', { 'depends' : [ 'Shougo/unite.v
 NeoBundleLazy 'ujihisa/unite-colorscheme', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'ujihisa/unite-locate', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'osyo-manga/unite-quickfix', { 'depends' : [ 'Shougo/unite.vim' ] }
+NeoBundleLazy 'osyo-manga/unite-highlight', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'osyo-manga/vim-pronamachang', { 'depends' : [ 'osyo-manga/vim-sound', 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'osyo-manga/vim-sugarpot', { 'depends' : [ 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'osyo-manga/vim-watchdogs', { 'depends' : [
@@ -1052,6 +1060,18 @@ if neobundle#tap('unite-quickfix') " {{{
 
 endif " }}}
 
+if neobundle#tap('unite-highlight') " {{{
+
+  call neobundle#config({
+        \   'autoload' : {
+        \     'unite_sources' : [
+        \       'highlight',
+        \     ],
+        \   }
+        \ })
+
+endif " }}}
+
 if neobundle#tap('unite-goimport.vim') " {{{
 
   call neobundle#config({
@@ -1182,6 +1202,10 @@ if neobundle#tap('vimshell.vim') " {{{
   au MyAutoCmd FileType vimshell call s:my_vimshell_mappings()
 
   function! s:my_vimshell_aliases()
+    call vimshell#set_alias('git', 'gh')
+    call vimshell#set_alias('heroku', 'hk')
+    call vimshell#set_alias('gs', 'git status')
+    call vimshell#set_alias('gd', 'git diff')
     call vimshell#set_alias('edit', 'vim --split=tabedit $$args')
     call vimshell#set_alias('e', 'edit')
     call vimshell#set_alias('reload', 'vimsh ~/.vimshrc')
@@ -1193,6 +1217,7 @@ if neobundle#tap('vimshell.vim') " {{{
     call vimshell#set_alias('cl', 'clear')
     call vimshell#set_alias('op', 'open .')
     call vimshell#set_alias('be', 'bundle exec')
+    call vimshell#set_alias('bi', 'bundle install')
     call vimshell#set_alias('j', ':Unite -buffer-name=files
           \ -default-action=lcd -no-split -input=$$args directory_mru')
     " Shaberu
@@ -1340,17 +1365,14 @@ if neobundle#tap('neocomplete.vim') " {{{
 
   " Omni completion patterns
   let g:neocomplete#force_omni_input_patterns = get(g:, 'neocomplete#force_omni_input_patterns', {})
-  " let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
   " let g:neocomplete#force_omni_input_patterns.go = '\h\w*\.\?'
 
   let g:neocomplete#sources#omni#input_patterns = get(g:, 'neocomplete#sources#omni#input_patterns', {})
   let g:neocomplete#sources#omni#input_patterns.go = '\h\w\.\w*'
-  let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
   " let g:neocomplete#sources#omni#input_patterns.go = ''
 
   " Omni completion functions
   let g:neocomplete#sources#omni#functions = get(g:, 'neocomplete#sources#omni#functions', {})
-  let g:neocomplete#sources#omni#functions.ruby = 'monster#complete'
   " let g:neocomplete#sources#omni#functions.go = 'go#complete#Complete'
 
 endif " }}}
@@ -2306,6 +2328,17 @@ if neobundle#tap('vim-slim') " {{{
         \   }
         \ })
 
+  function! Html2Slim(html)
+    if !executable('html2slim')
+      return ''
+    endif
+    let input = tempname()
+    call writefile(split(a:html, "\n"), input)
+    let output = tempname()
+    call system(printf("html2slim %s %s", input, output))
+    return join(readfile(output), "\n")
+  endfunction
+
 endif " }}}
 
 if neobundle#tap('vim-coffee-script') " {{{
@@ -2637,11 +2670,25 @@ if neobundle#tap('vim-monster') " {{{
   call neobundle#config({
         \   'autoload' : {
         \     'filetypes' : 'ruby'
-        \   }
+        \   },
+        \   'commands': [ 'MonsterDebugLog' ],
+        \   'function_prefix' : 'monster'
         \ })
 
   function! neobundle#tapped.hooks.on_source(bundle)
   endfunction
+
+  " Async
+  let g:neocomplete#force_omni_input_patterns = get(g:, 'neocomplete#force_omni_input_patterns', {})
+  let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
+  let g:monster#completion#rcodetools#backend = "async_rct_complete"
+
+  " Sync
+  " let g:neocomplete#sources#omni#input_patterns = get(g:, 'neocomplete#sources#omni#input_patterns', {})
+  " let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+
+  " let g:neocomplete#sources#omni#functions = get(g:, 'neocomplete#sources#omni#functions', {})
+  " let g:neocomplete#sources#omni#functions.ruby = 'monster#omnifunc'
 
 endif " }}}
 
@@ -2649,6 +2696,23 @@ if neobundle#tap('thingspast.vim') " {{{
 
   function! neobundle#tapped.hooks.on_source(bundle)
   endfunction
+  call neobundle#config({
+        \   'autoload': {
+        \     'mappings': [
+        \       [ 'n', '<Plug>(thingspast#' ]
+        \     ]
+        \   }
+        \ })
+
+  let g:thingspast_hooks = get(g:, 'thingspast_hooks', {})
+  let g:thingspast_hooks.on_add = get(g:thingspast_hooks, 'on_add', {})
+
+  function! s:my_thingspast_on_add(thing)
+    let speech = '新着通知、' . a:thing['message']
+    call shaberu#say(speech)
+  endfunction
+  let g:thingspast_hooks.on_add['shaberu'] = function('s:my_thingspast_on_add')
+  let g:thingspast_mark_arrow = '❯'
 
 endif " }}}
 
@@ -2784,6 +2848,19 @@ if neobundle#tap('vim-niji') " {{{
 
 endif " }}}
 
+if neobundle#tap('agit.vim') " {{{
+
+  function! neobundle#tapped.hooks.on_source(bundle)
+  endfunction
+
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands': ['Agit']
+      \   }
+      \ })
+
+endif " }}}
+
 
 " }}}
 
@@ -2823,4 +2900,10 @@ nnoremap <Space>i :<C-u>Benri<CR>
 
 
 " }}}
+
+
+
+autocmd MyAutoCmd FileType unite imap <buffer> <ESC> <Plug>(unite_exit)
+
+
 
