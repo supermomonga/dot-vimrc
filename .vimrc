@@ -819,8 +819,8 @@ if neobundle#tap('unite.vim') " {{{
         \ })
 
   " Use The Silver Searcher for grep
-  if executable('the_platinum_searcher')
-    let g:unite_source_grep_command = 'the_platinum_searcher'
+  if executable('pt')
+    let g:unite_source_grep_command = 'pt'
     let g:unite_source_grep_default_opts = '--nogroup --nocolor'
     let g:unite_source_grep_recursive_opt = ''
     let g:unite_source_grep_encoding = 'utf-8'
@@ -922,6 +922,7 @@ if neobundle#tap('unite.vim') " {{{
           \   [ 'J6uil/members' , ':Unite J6uil/members' ],
           \   [ 'Blog/posts' , ':Unite file:~/Sites/blog.supermomonga.com/source/posts/' ],
           \   [ 'TweetVim' , ':Unite tweetvim' ],
+          \   [ 'gdrive gdocs', ':Unite -start-insert gdrive_gdocs'],
           \   [ 'files', ':Unite -start-insert -buffer-name=files buffer_tab file file_mru'],
           \   [ 'function', ':Unite -start-insert -default-action=edit function'],
           \   [ 'variable', ':Unite -start-insert -default-action=edit variable'],
@@ -1065,7 +1066,7 @@ if neobundle#tap('unite-highlight') " {{{
   call neobundle#config({
         \   'autoload' : {
         \     'unite_sources' : [
-        \       'highlight',
+        \       '',
         \     ],
         \   }
         \ })
@@ -1543,6 +1544,7 @@ if neobundle#tap('open-browser.vim') " {{{
   call neobundle#config({
         \   'autoload' : {
         \     'commands' : [ 'OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch' ],
+        \     'function_prefix' : 'openbrowser',
         \   }
         \ })
 
@@ -2878,32 +2880,52 @@ call s:apply_queued_funccalls()
 
 " Pre-plugin {{{
 
-function! s:my_ruby_initializer()
-  let def_line      = getpos('.')[1]
-  let end_line      = searchpairpos(
-        \   '\<\%(if\|unless\|case\|while\|until\|for\|do\|class\|module\|def\|begin\)\>=\@!',
-        \   '\<\%(else\|elsif\|ensure\|when\|rescue\|break\|redo\|next\|retry\)\>',
-        \   '\<end\>',
-        \   'n'
-        \ )[0]
-  let lines         = getline(def_line, end_line)
-  let line          = join(lines, "\n")
-  let result        = eval(system("ruby ~/Develops/ruby-initialize-benrier.vim/benrier.rb \"" . line . "\""))
-  let single_indent = &expandtab ? repeat(" ", &tabstop) : "\t"
-  let indent        = repeat(single_indent, indent(".") / &tabstop + 1)
-  let statements    = map(result, 'indent . "@" . v:val . " = " . v:val')
-  call append(def_line, statements)
+" GooleDocs in GoogleDrive {{{
+
+" call unite#custom#source('gdrive_gdocs', 'matchers', 'matcher_migemo')
+let g:unite_source_gdrive_gdocs_directory = '~/GoogleDrive/'
+let g:unite_source_gdrive_gdocs_directory = get(g:, 'unite_source_gdrive_gdocs_directory', '~/Google Drive/')
+
+let s:source = {
+      \   'name' : 'gdrive_gdocs',
+      \   'description' : 'List Google document files in Google Drive directory.',
+      \   'action_table' : {
+      \     'open' : {
+      \       'is_selectable' : 1,
+      \     },
+      \   },
+      \   'default_action' : 'open'
+      \ }
+
+function! s:source.action_table.open.func(candidates)
+  for candidate in a:candidates
+    let file = readfile(candidate.file_path)
+    let url = matchlist(file[0], '{"url":\s"\([^"]\+\)"')[1]
+    call openbrowser#open(url)
+  endfor
 endfunction
 
-command! Benri call s:my_ruby_initializer()
-nnoremap <Space>i :<C-u>Benri<CR>
+function! s:source.gather_candidates(args, context)
+  let dir = expand(g:unite_source_gdrive_gdocs_directory)
+  let files = split(
+        \   vimproc#system('find ' . dir . ' -name "**.gdoc" -o -name "**.gsheet" -o -name "**.gslides"'),
+        \   '\n'
+        \ )
+  return map(files, '{
+        \   "word" : substitute(v:val, "' . dir . '", "", ""),
+        \   "file_path" : v:val,
+        \ }')
+endfunction
 
+call unite#define_source(s:source)
+unlet s:source
+
+" }}}
 
 " }}}
 
 
 
-autocmd MyAutoCmd FileType unite imap <buffer> <ESC> <Plug>(unite_exit)
 
 
 
