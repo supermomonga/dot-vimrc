@@ -597,6 +597,7 @@ NeoBundleLazy 'ujihisa/unite-colorscheme', { 'depends' : [ 'Shougo/unite.vim' ] 
 NeoBundleLazy 'ujihisa/unite-locate', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'osyo-manga/unite-quickfix', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'osyo-manga/unite-highlight', { 'depends' : [ 'Shougo/unite.vim' ] }
+NeoBundleLazy 'osyo-manga/unite-vimpatches', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'osyo-manga/vim-pronamachang', { 'depends' : [ 'osyo-manga/vim-sound', 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'osyo-manga/vim-sugarpot', { 'depends' : [ 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'osyo-manga/vim-watchdogs', { 'depends' : [
@@ -1073,6 +1074,18 @@ if neobundle#tap('unite-highlight') " {{{
 
 endif " }}}
 
+if neobundle#tap('unite-vimpatches') " {{{
+
+  call neobundle#config({
+        \   'autoload' : {
+        \     'unite_sources' : [
+        \       'vimpatches',
+        \     ],
+        \   }
+        \ })
+
+endif " }}}
+
 if neobundle#tap('unite-goimport.vim') " {{{
 
   call neobundle#config({
@@ -1167,7 +1180,7 @@ if neobundle#tap('shaberu.vim') " {{{
         \| call vimshell#hook#add('notfound', 'my_vimshell_notfound', reti#lambda(":call shaberu#say('コマンドが見つかりません') | return a:1"))
 
   " .vimrc保存時に自動的にsource
-  au MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC | ShaberuSay 'ビムアールシーを読み込みました'
+  " au MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC | ShaberuSay 'ビムアールシーを読み込みました'
   " 開発用ディレクトリ内.vimファイルに関して、ファイル保存時に自動でsourceする
   execute 'au MyAutoCmd BufWritePost,FileWritePost' $VIM_LOCAL_BUNDLE_DIR . '*.vim' 'source <afile> | echo "sourced : " . bufname("%") | ShaberuSay "ソースしました"'
 
@@ -2206,6 +2219,31 @@ if neobundle#tap('TweetVim') " {{{
   let g:tweetvim_display_source = 0
   let g:tweetvim_display_username = 1
   let g:tweetvim_no_default_key_mappings = 1
+
+  function! s:my_tweetvim_hook_fav(user, status)
+    call thingspast#add('TweetVim', 'Favorite', a:user, a:status, 'tweetvim#timeline', ['favorites', tweetvim#account#current().screen_name])
+  endfunction
+
+  function! s:my_tweetvim_hook_test(...)
+    call thingspast#add('TweetVim', 'Test', '', '', 'tweetvim#timeline', ['favorites', tweetvim#account#current().screen_name])
+  endfunction
+
+  let g:tweetvim_filters = []
+  call tweetvim#hook#remove('notify_fav', function('s:my_tweetvim_hook_fav'))
+  call tweetvim#hook#add('notify_fav', function('s:my_tweetvim_hook_fav'))
+
+  call tweetvim#hook#remove('write_screen_name', function('s:my_tweetvim_hook_test'))
+  call tweetvim#hook#remove('write_hash_tag', function('s:my_tweetvim_hook_test'))
+  call tweetvim#hook#remove('notify_fav', function('s:my_tweetvim_hook_test'))
+  call tweetvim#hook#remove('notify_unfav', function('s:my_tweetvim_hook_test'))
+  call tweetvim#hook#remove('notify_retweet', function('s:my_tweetvim_hook_test'))
+  call tweetvim#hook#remove('notify_mention', function('s:my_tweetvim_hook_test'))
+  call tweetvim#hook#add('write_screen_name', function('s:my_tweetvim_hook_test'))
+  call tweetvim#hook#add('write_hash_tag', function('s:my_tweetvim_hook_test'))
+  call tweetvim#hook#add('notify_fav', function('s:my_tweetvim_hook_test'))
+  call tweetvim#hook#add('notify_unfav', function('s:my_tweetvim_hook_test'))
+  call tweetvim#hook#add('notify_retweet', function('s:my_tweetvim_hook_test'))
+  call tweetvim#hook#add('notify_mention', function('s:my_tweetvim_hook_test'))
 
 endif " }}}
 
