@@ -1166,8 +1166,22 @@ if neobundle#tap('shaberu.vim') " {{{
         \   }
         \ })
 
+  let g:shaberu_use_voicetext_api = 0
+  let g:shaberu_voicetext_apikey = g:vimrc_secrets['shaberu_voicetext_apikey']
+  let g:shaberu_voicetext_speaker = 'show'
+  let g:shaberu_voicetext_speaker = 'takeru'
+  let g:shaberu_voicetext_speaker = 'hikari'
   let g:shaberu_user_define_say_command = 'say-openjtalk "%%TEXT%%"'
   " let g:shaberu_user_define_say_command = 'say -v Kyoko "%%TEXT%%"'
+  let g:shaberu_dicts          = get(g:, 'shaberu_dicts', {})
+  let g:shaberu_dicts.benri  = [
+        \   ['test', 'テスト'],
+        \   ['\(ujihisa|ujm\)', 'うじひさ'],
+        \   ['thinca', 'シンカ'],
+        \   ['aomoriringo', 'りんご'],
+        \   ['supermomonga', 'スーパーモモンガ'],
+        \   ['ｗ\+$', '笑い。'],
+        \ ]
 
   " Vim core
   au MyAutoCmd VimEnter * ShaberuSay '進捗どうですか'
@@ -1180,6 +1194,7 @@ if neobundle#tap('shaberu.vim') " {{{
         \| call vimshell#hook#add('notfound', 'my_vimshell_notfound', reti#lambda(":call shaberu#say('コマンドが見つかりません') | return a:1"))
 
   " .vimrc保存時に自動的にsource
+  au MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC
   " au MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC | ShaberuSay 'ビムアールシーを読み込みました'
   " 開発用ディレクトリ内.vimファイルに関して、ファイル保存時に自動でsourceする
   execute 'au MyAutoCmd BufWritePost,FileWritePost' $VIM_LOCAL_BUNDLE_DIR . '*.vim' 'source <afile> | echo "sourced : " . bufname("%") | ShaberuSay "ソースしました"'
@@ -1603,7 +1618,7 @@ if neobundle#tap('vim-automatic') " {{{
   endfunction
 
   function! s:my_unite_window_init(config, context)
-    nmap <silent> <buffer> <C-c> <Plug>(unite_print_candidate)
+    " nmap <silent> <buffer> <C-c> <Plug>(unite_print_candidate)
     call s:my_temporary_window_init(a:config, a:context)
   endfunction
 
@@ -1626,7 +1641,7 @@ if neobundle#tap('vim-automatic') " {{{
         \       'commands' : [ 'setl nonumber' ]
         \     }
         \   },
-        \   { 'match' : { 
+        \   { 'match' : {
         \       'filetype' : 'vimshell',
         \       'is_open_other_window' : 0,
         \       'autocmds' : ['FileType', 'BufWinEnter']
@@ -1637,11 +1652,20 @@ if neobundle#tap('vim-automatic') " {{{
         \     }
         \   },
         \   { 'match' : {
-        \      'autocmd_history_pattern' : 'BufWinEnterFileType$',
-        \      'filetype' : 'unite'
+        \      'preset' : 'unite_split',
+        \     },
+        \     'set' : { }
+        \   },
+        \   { 'match' : {
+        \      'preset' : 'unite_split',
+        \      'unite_sources' : ['outline']
         \     },
         \     'set' : {
-        \       'apply' : function('s:my_unite_window_init')
+        \       'move' : 'right',
+        \       'width' : '30%',
+        \       'height' : '100%',
+        \       'apply' : '',
+        \       'unsettings' : [ 'apply' ]
         \     }
         \   },
         \   {
@@ -2185,6 +2209,7 @@ if neobundle#tap('TweetVim') " {{{
         \       'TweetVimSearch'
         \     ],
         \     'unite_sources' : [ 'tweetvim/account', 'tweetvim' ],
+        \     'function_prefix' : 'tweetvim',
         \   }
         \ })
 
@@ -2251,12 +2276,31 @@ if neobundle#tap('lingr-vim') " {{{
 
   call neobundle#config({
         \   'autoload' : {
-        \     'commands' : [ 'LingrLaunch' ],
+        \     'commands' : [ 'LingrLaunch', 'LingrExit' ],
+        \     'function_prefix' : 'lingr'
         \   }
         \ })
   let g:J6uil_display_icon = 1
   let g:lingr_vim_user     = g:vimrc_secrets['J6uil_user']
   let g:lingr_vim_password = g:vimrc_secrets['J6uil_password']
+
+  let g:lingr_vim_nickname = 'supermomonga'
+  function! s:my_lingr_hook_message(mes)
+    if !empty(a:mes) && a:mes.nickname != g:lingr_vim_nickname
+      call thingspast#add('Lingr', 'Message', a:mes.nickname, a:mes.text, function('s:my_lingr_launch'), [])
+    endif
+  endfunction
+
+  function! s:my_lingr_launch()
+    if lingr#status() != 'connected'
+      LingrLaunch
+    endif
+  endfunction
+
+  augroup lingr-vim
+    autocmd!
+    autocmd User plugin-lingr-message call s:my_lingr_hook_message(lingr#get_last_message())
+  augroup END
 
 endif " }}}
 
@@ -2846,6 +2890,9 @@ if neobundle#tap('vim-jplus') " {{{
         \   'ruby' : {
         \     'left_matchstr_pattern' : '^.\{-}\%(\ze\s*\\$\|$\)',
         \   },
+        \   'slim' : {
+        \     'right_matchstr_pattern' : '^\s*|\s*\zs.*',
+        \   },
         \   'vim' : {
         \     'right_matchstr_pattern' : '^\s*\\\s*\zs.*',
         \   }
@@ -2963,7 +3010,54 @@ unlet s:source
 " }}}
 
 
+function! s:outline(name)
+  let self = {}
+  let self.name = a:name
 
+  function! self.open(...)
+    let option = get(a:, 1, "")
+    execute "Unite outline -no-quit -buffer-name=" . self.name . " " . option
+  endfunction
+
+  function! self.close()
+    execute "UniteClose " . self.name
+  endfunction
+
+  function! self.toggle(...)
+    let option = get(a:, 1, "")
+    return self.open("-toggle " . option)
+  endfunction
+
+  function! self.update()
+    let winnr = unite#helper#get_unite_winnr(self.name)
+    if winnr != -1
+      call unite#force_redraw(winnr)
+    endif
+  endfunction
+  return self
+endfunction
+
+let s:momonga = s:outline("outline_side")
+command! -nargs=* -complete=customlist,unite#complete#source
+      \ MomongaOpen call s:momonga.open(<q-args>)
+command! -nargs=* -complete=customlist,unite#complete#source
+      \ MomongaToggle call s:momonga.toggle(<q-args>)
+command! -bar MomongaClose call s:momonga.close()
+command! -bar MomongaUpdate call s:momonga.update()
+
+
+let s:momonga_update = 0
+augroup momonga
+  autocmd!
+  autocmd TextChangedI * let s:momonga_update = 1
+  autocmd TextChanged * let s:momonga_update = 1
+  autocmd CursorHold *
+        \	if s:momonga_update
+        \|		MomongaUpdate
+        \|		let s:momonga_update = 0
+        \|	endif
+  autocmd BufEnter * MomongaUpdate
+augroup END
 
 
 
