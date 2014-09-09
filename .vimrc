@@ -505,8 +505,8 @@ au MyAutoCmd BufRead,BufNewFile *.md  setfiletype markdown
 
 " This file contains only g:vimrc_secrets.
 if filereadable(expand('~/.secret_vimrc'))
-  let g:vimrc_secrets = {}
-  execute 'source' expand('~/.secret_vimrc')
+let g:vimrc_secrets = {}
+execute 'source' expand('~/.secret_vimrc')
 endif
 
 " }}}
@@ -515,9 +515,9 @@ endif
 
 " To use NeoBundle, manually add to runtimepath
 if has('vim_starting')
-  set runtimepath+=$VIM_NEOBUNDLE_DIR
-  " To load my local development plugin
-  call neobundle#local(expand($VIM_LOCAL_BUNDLE_DIR), { 'resettable' : 0 })
+set runtimepath+=$VIM_NEOBUNDLE_DIR
+" To load my local development plugin
+call neobundle#local(expand($VIM_LOCAL_BUNDLE_DIR), { 'resettable' : 0 })
 endif
 " To load remote plugin
 call neobundle#rc(expand($VIM_REMOTE_BUNDLE_DIR))
@@ -532,13 +532,14 @@ let g:neobundle#types#git#default_protocol = 'ssh'
 
 " List  {{{
 NeoBundle 'Shougo/vimproc.vim', { 'build' : {
-      \   'windows' : 'mingw32-make -f make_mingw32.mak',
-      \   'cygwin'  : 'make -f make_cygwin.mak',
-      \   'mac'     : 'make -f make_mac.mak',
-      \   'unix'    : 'make -f make_unix.mak',
-      \ }}
+    \   'windows' : 'mingw32-make -f make_mingw32.mak',
+    \   'cygwin'  : 'make -f make_cygwin.mak',
+    \   'mac'     : 'make -f make_mac.mak',
+    \   'unix'    : 'make -f make_unix.mak',
+    \ }}
 " Library used in vimrc
 NeoBundle 'vim-jp/vital.vim'
+NeoBundleLazy 'osyo-manga/vital-reunions'
 
 " Text object
 NeoBundle 'kana/vim-textobj-user'
@@ -592,6 +593,8 @@ NeoBundleLazy 'Shougo/neocomplete.vim'
 NeoBundleLazy 'rhysd/unite-ruby-require.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'Shougo/unite-help', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'Shougo/unite-outline', { 'depends' : [ 'Shougo/unite.vim' ] }
+NeoBundleLazy 'ujihisa/unite-font', { 'depends' : [ 'Shougo/unite.vim' ] }
+NeoBundleLazy 'osyo-manga/unite-vital-module', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'supermomonga/unite-goimport.vim', { 'depends' : [ 'Shougo/unite.vim', 'fatih/vim-go' ] }
 NeoBundleLazy 'ujihisa/unite-colorscheme', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'ujihisa/unite-locate', { 'depends' : [ 'Shougo/unite.vim' ] }
@@ -601,12 +604,12 @@ NeoBundleLazy 'osyo-manga/unite-vimpatches', { 'depends' : [ 'Shougo/unite.vim' 
 NeoBundleLazy 'osyo-manga/vim-pronamachang', { 'depends' : [ 'osyo-manga/vim-sound', 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'osyo-manga/vim-sugarpot', { 'depends' : [ 'Shougo/vimproc.vim' ] }
 NeoBundleLazy 'osyo-manga/vim-watchdogs', { 'depends' : [
-      \   'thinca/vim-quickrun',
-      \   'Shougo/vimproc.vim',
-      \   'osyo-manga/shabadou.vim',
-      \   'jceb/vim-hier',
-      \   'dannyob/quickfixstatus'
-      \ ] }
+    \   'thinca/vim-quickrun',
+    \   'Shougo/vimproc.vim',
+    \   'osyo-manga/shabadou.vim',
+    \   'jceb/vim-hier',
+    \   'dannyob/quickfixstatus'
+    \ ] }
 NeoBundleLazy 'h1mesuke/vim-alignta'
 NeoBundleLazy 'kana/vim-smartinput'
 NeoBundleLazy 'cohama/vim-smartinput-endwise', { 'depends' : [ 'kana/vim-smartinput' ] }
@@ -657,15 +660,15 @@ NeoBundle 'supermomonga/thingspast.vim'
 NeoBundleLazy 'tsukkee/lingr-vim'
 NeoBundleLazy 'basyura/J6uil.vim', { 'depends' : [ 'Shougo/vimproc.vim', 'mattn/webapi-vim' ] }
 NeoBundleLazy 'basyura/TweetVim', 'dev', { 'depends' : [
-      \   'tyru/open-browser.vim',
-      \   'basyura/twibill.vim',
-      \   'basyura/bitly.vim',
-      \   'Shougo/unite.vim',
-      \   'Shougo/unite-outline',
-      \   'Shougo/vimproc.vim',
-      \   'mattn/favstar-vim',
-      \   'mattn/webapi-vim'
-      \ ] }
+    \   'tyru/open-browser.vim',
+    \   'basyura/twibill.vim',
+    \   'basyura/bitly.vim',
+    \   'Shougo/unite.vim',
+    \   'Shougo/unite-outline',
+    \   'Shougo/vimproc.vim',
+    \   'mattn/favstar-vim',
+    \   'mattn/webapi-vim'
+    \ ] }
 
 " Programming
 NeoBundleLazy 'kien/rainbow_parentheses.vim'
@@ -701,30 +704,30 @@ NeoBundleLazy 'amdt/vim-niji'
 
 " Java
 NeoBundleLazy 'Shougo/javacomplete', {
-      \   'build': {
-      \     'cygwin': 'javac autoload/Reflection.java',
-      \     'mac': 'javac autoload/Reflection.java',
-      \     'unix': 'javac autoload/Reflection.java'
-      \   },
-      \ }
+    \   'build': {
+    \     'cygwin': 'javac autoload/Reflection.java',
+    \     'mac': 'javac autoload/Reflection.java',
+    \     'unix': 'javac autoload/Reflection.java'
+    \   },
+    \ }
 NeoBundleLazy 'KamunagiChiduru/unite-javaimport', { 'depends' : [
-      \   'Shougo/unite.vim',
-      \   'yuratomo/w3m.vim',
-      \   'KamunagiChiduru/vim-javaclasspath',
-      \   'KamunagiChiduru/vim-javalang',
-      \ ] }
+    \   'Shougo/unite.vim',
+    \   'yuratomo/w3m.vim',
+    \   'KamunagiChiduru/vim-javaclasspath',
+    \   'KamunagiChiduru/vim-javalang',
+    \ ] }
 
 " MetaQuartsLanguage
 NeoBundle 'vobornik/vim-mql4'
 
 " TODO: Windows build command to get .ctags
 NeoBundleLazy 'alpaca-tc/alpaca_tags', {
-      \   'depends' : [ 'Shougo/vimproc.vim' ],
-      \   'build' : {
-      \     'mac' : 'wget https://raw.github.com/alpaca-tc/alpaca_tags/master/.ctags -O ~/.ctags',
-      \     'unix' : 'wget https://raw.github.com/alpaca-tc/alpaca_tags/master/.ctags -O ~/.ctags',
-      \   }
-      \ }
+    \   'depends' : [ 'Shougo/vimproc.vim' ],
+    \   'build' : {
+    \     'mac' : 'wget https://raw.github.com/alpaca-tc/alpaca_tags/master/.ctags -O ~/.ctags',
+    \     'unix' : 'wget https://raw.github.com/alpaca-tc/alpaca_tags/master/.ctags -O ~/.ctags',
+    \   }
+    \ }
 
 " Library and Frameworks to create Vim Plugins
 NeoBundleLazy 'rbtnn/rabbit-ui.vim'
@@ -738,10 +741,6 @@ NeoBundleLazy 'mattn/flappyvird-vim'
 " Musics
 NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
 NeoBundleLazy 'supermomonga/skyfm.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
-
-
-" Temporary
-NeoBundle 'osyo-manga/vital-reunions'
 
 
 " TODO: atode settei simasu...
@@ -764,737 +763,761 @@ filetype plugin indent on
 
 if neobundle#tap('vital.vim') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    let g:V = vital#of('vital')
-    let g:S = g:V.import("Web.HTTP")
-    let g:L = g:V.import("Data.List")
+function! neobundle#tapped.hooks.on_source(bundle)
+  let g:V = vital#of('vital')
+  let g:S = g:V.import("Web.HTTP")
+  let g:L = g:V.import("Data.List")
 
-    function! DecodeURI(uri)
-      return g:S.decodeURI(a:uri)
-    endfunction
-
-    function! EncodeURI(uri)
-      return g:S.encodeURI(a:uri)
-    endfunction
-
-    command -nargs=1 DecodeURI echo DecodeURI(<args>)
-    command -nargs=1 EncodeURI echo EncodeURI(<args>)
-
+  function! DecodeURI(uri)
+    return g:S.decodeURI(a:uri)
   endfunction
+
+  function! EncodeURI(uri)
+    return g:S.encodeURI(a:uri)
+  endfunction
+
+  command -nargs=1 DecodeURI echo DecodeURI(<args>)
+  command -nargs=1 EncodeURI echo EncodeURI(<args>)
+
+endfunction
 
 endif " }}}
 
 if neobundle#tap('riml.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'riml' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'riml' ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-riml.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'riml' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'riml' ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('unite.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [
-        \       {
-        \         'name' : 'Unite',
-        \         'complete' : 'customlist,unite#complete_source'
-        \       },
-        \       'UniteWithCursorWord',
-        \       'UniteWithInput'
-        \     ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [
+      \       {
+      \         'name' : 'Unite',
+      \         'complete' : 'customlist,unite#complete_source'
+      \       },
+      \       'UniteWithCursorWord',
+      \       'UniteWithInput'
+      \     ]
+      \   }
+      \ })
 
-  " Use The Silver Searcher for grep
-  if executable('pt')
-    let g:unite_source_grep_command = 'pt'
-    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-    let g:unite_source_grep_recursive_opt = ''
-    let g:unite_source_grep_encoding = 'utf-8'
-  elseif executable('ag')
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
-    let g:unite_source_grep_recursive_opt = ''
+" Use The Silver Searcher for grep
+if executable('pt')
+  let g:unite_source_grep_command = 'pt'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+  let g:unite_source_grep_recursive_opt = ''
+  let g:unite_source_grep_encoding = 'utf-8'
+elseif executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+  let g:unite_source_grep_recursive_opt = ''
+endif
+
+function! s:unite_menu_map_func(key, value)
+  let [word, value] = a:value
+  if isdirectory(value)
+    return {
+          \   'word' : '[directory] ' . word,
+          \   'kind' : 'directory',
+          \   'action__directory' : value
+          \ }
+  elseif !empty(glob(value))
+    return {
+          \   'word' : '[file] ' . word,
+          \   'kind' : 'file',
+          \   'default_action' : 'tabdrop',
+          \   'action__path' : value,
+          \ }
+  else
+    return {
+          \   'word' : '[command] ' . word,
+          \   'kind' : 'command',
+          \   'action__command' : value
+          \ }
   endif
+endfunction
 
-  function! s:unite_menu_map_func(key, value)
-    let [word, value] = a:value
-    if isdirectory(value)
-      return {
-            \   'word' : '[directory] ' . word,
-            \   'kind' : 'directory',
-            \   'action__directory' : value
-            \ }
-    elseif !empty(glob(value))
-      return {
-            \   'word' : '[file] ' . word,
-            \   'kind' : 'file',
-            \   'default_action' : 'tabdrop',
-            \   'action__path' : value,
-            \ }
-    else
-      return {
-            \   'word' : '[command] ' . word,
-            \   'kind' : 'command',
-            \   'action__command' : value
-            \ }
-    endif
+function! neobundle#tapped.hooks.on_source(bundle)
+
+  " General
+  let g:unite_force_overwrite_statusline = 0
+  let g:unite_kind_jump_list_after_jump_scroll=0
+  let g:unite_enable_start_insert = 0
+  let g:unite_source_rec_min_cache_files = 1000
+  let g:unite_source_rec_max_cache_files = 5000
+  let g:unite_source_file_mru_long_limit = 100000
+  let g:unite_source_file_mru_limit = 100000
+  let g:unite_source_directory_mru_long_limit = 100000
+  let g:unite_prompt = '❯ '
+
+  " Use buffer name instead of file path for buffer / buffer_tab source
+  let s:filter = { 'name' : 'converter_buffer_word' }
+
+  function! s:filter.filter(candidates, context)
+    for candidate in a:candidates
+      " if !filereadable(candidate.word)
+      "   let candidate.word = bufname(candidate.action__buffer_nr)
+      " endif
+      let candidate.word = bufname(candidate.action__buffer_nr)
+      if candidate.word == ''
+        let candidate.word = 'No Name'
+      end
+    endfor
+    return a:candidates
   endfunction
 
-  function! neobundle#tapped.hooks.on_source(bundle)
+  call unite#define_filter(s:filter)
+  unlet s:filter
+  call unite#custom_source('buffer', 'converters', 'converter_buffer_word')
+  call unite#custom_source('buffer_tab', 'converters', 'converter_buffer_word')
 
-    " General
-    let g:unite_force_overwrite_statusline = 0
-    let g:unite_kind_jump_list_after_jump_scroll=0
-    let g:unite_enable_start_insert = 0
-    let g:unite_source_rec_min_cache_files = 1000
-    let g:unite_source_rec_max_cache_files = 5000
-    let g:unite_source_file_mru_long_limit = 100000
-    let g:unite_source_file_mru_limit = 100000
-    let g:unite_source_directory_mru_long_limit = 100000
-    let g:unite_prompt = '❯ '
-
-    " Use buffer name instead of file path for buffer / buffer_tab source
-    let s:filter = { 'name' : 'converter_buffer_word' }
-
-    function! s:filter.filter(candidates, context)
-      for candidate in a:candidates
-        " if !filereadable(candidate.word)
-        "   let candidate.word = bufname(candidate.action__buffer_nr)
-        " endif
-        let candidate.word = bufname(candidate.action__buffer_nr)
-        if candidate.word == ''
-          let candidate.word = 'No Name'
-        end
-      endfor
-      return a:candidates
-    endfunction
-
-    call unite#define_filter(s:filter)
-    unlet s:filter
-    call unite#custom_source('buffer', 'converters', 'converter_buffer_word')
-    call unite#custom_source('buffer_tab', 'converters', 'converter_buffer_word')
-
-    " Unite-menu
-    let g:unite_source_menu_menus = get(g:, 'unite_source_menu_menus', {})
-    let g:unite_source_menu_menus.global = { 'description' : 'global shortcut' }
-    let g:unite_source_menu_menus.unite = { 'description' : 'unite shortcut' }
-    let g:unite_source_menu_menus.global.map = function('s:unite_menu_map_func')
-    let g:unite_source_menu_menus.unite.map = function('s:unite_menu_map_func')
-    let g:unite_source_menu_menus.global.candidates = [
-          \   [ '[edit] vimrc' , $MYVIMRC ],
-          \   [ '[edit] secret_vimrc' , expand('~/.secret_vimrc') ],
-          \   [ '[terminal] VimShell' , ':VimShell' ],
-          \   [ '[twitter] TweetVim' , ':Unite tweetvim' ],
-          \   [ '[lingr] J6uil' , ':J6uil' ],
-          \   [ '[music] Play JAZZRADIO.com' , ':Unite jazzradio -update-time=75 -buffer-name=unite_jazzradio' ],
-          \   [ '[music] Stop JAZZRADIO.com' , ':JazzradioStop' ],
-          \   [ '[music] Play SKY.FM' , ':Unite skyfm -update-time=75 -buffer-name=unite_skyfm' ],
-          \   [ '[music] Stop SKY.FM' , ':SkyfmStop' ],
-          \   [ '[shaberu] toggle' , ':ShaberuMuteToggle' ],
-          \   [ '[shaberu] mute on' , ':ShaberuMuteOn' ],
-          \   [ '[shaberu] mute off' , ':ShaberuMuteOff' ],
-          \ ]
-          " \   [ '[music] Play JAZZRADIO.com' , ':Unite jazzradio -update-time=75 -no-quit -keep-focus -buffer-name=unite_jazzradio' ],
-    " let g:unite_source_menu_menus.shaberu.candidates = [
-    "       \   [ '' , ':VimShell' ],
-    "       \ ]
-          " \   [ '[music] Play JAZZRADIO.com' , ':Unite jazzradio -update-time=75 -buffer-name=unite_jazzradio' ],
-    let g:unite_source_menu_menus.unite.candidates = []
-    let g:unite_source_menu_filetype_candidates = {}
-    let g:unite_source_menu_filetype_candidates._ = [
-          \   [ 'neobundle/update' , ':Unite neobundle/update -log' ],
-          \   [ 'neobundle/install' , ':Unite neobundle/install -log' ],
-          \   [ 'J6uil/rooms' , ':Unite J6uil/rooms' ],
-          \   [ 'J6uil/members' , ':Unite J6uil/members' ],
-          \   [ 'Blog/posts' , ':Unite file:~/Sites/blog.supermomonga.com/source/posts/' ],
-          \   [ 'TweetVim' , ':Unite tweetvim' ],
-          \   [ 'gdrive gdocs', ':Unite -start-insert gdrive_gdocs'],
-          \   [ 'files', ':Unite -start-insert -buffer-name=files buffer_tab file file_mru'],
-          \   [ 'function', ':Unite -start-insert -default-action=edit function'],
-          \   [ 'variable', ':Unite -start-insert -default-action=edit variable'],
-          \   [ 'outline', ':Unite -start-insert outline'],
-          \   [ 'help', ':Unite -start-insert help'],
-          \   [ 'buffer', ':Unite -start-insert buffer'],
-          \   [ 'line', ':Unite -start-insert -auto-preview -buffer-name=search line'],
-          \   [ 'quickfix', ':Unite -no-split -no-quit -auto-preview quickfix -buffer-name=unite_qf'],
-          \   [ 'grep', ':Unite grep -max-multi-lines=1 -truncate -default-action=tabopen -buffer-name=unite_grep'],
-          \   [ 'source', ':Unite -start-insert source'],
-          \   [ 'locate', ':Unite -start-insert locate'],
-          \   [ 'theme', ':Unite -auto-preview colorscheme'],
-          \   [ 'resume grep', ':UniteResume unite_grep'],
-          \   [ 'resume quickfix', ':UniteResume unite_qf'],
-          \ ]
-    let g:unite_source_menu_filetype_candidates.go = [
-          \   [ 'golang/import', ':Unite goimport -start-insert' ],
-          \ ]
+  " Unite-menu
+  let g:unite_source_menu_menus = get(g:, 'unite_source_menu_menus', {})
+  let g:unite_source_menu_menus.global = { 'description' : 'global shortcut' }
+  let g:unite_source_menu_menus.unite = { 'description' : 'unite shortcut' }
+  let g:unite_source_menu_menus.global.map = function('s:unite_menu_map_func')
+  let g:unite_source_menu_menus.unite.map = function('s:unite_menu_map_func')
+  let g:unite_source_menu_menus.global.candidates = [
+        \   [ '[edit] vimrc' , $MYVIMRC ],
+        \   [ '[edit] secret_vimrc' , expand('~/.secret_vimrc') ],
+        \   [ '[terminal] VimShell' , ':VimShell' ],
+        \   [ '[twitter] TweetVim' , ':Unite tweetvim' ],
+        \   [ '[lingr] J6uil' , ':J6uil' ],
+        \   [ '[music] Play JAZZRADIO.com' , ':Unite jazzradio -update-time=75 -buffer-name=unite_jazzradio' ],
+        \   [ '[music] Stop JAZZRADIO.com' , ':JazzradioStop' ],
+        \   [ '[music] Play SKY.FM' , ':Unite skyfm -update-time=75 -buffer-name=unite_skyfm' ],
+        \   [ '[music] Stop SKY.FM' , ':SkyfmStop' ],
+        \   [ '[shaberu] toggle' , ':ShaberuMuteToggle' ],
+        \   [ '[shaberu] mute on' , ':ShaberuMuteOn' ],
+        \   [ '[shaberu] mute off' , ':ShaberuMuteOff' ],
+        \ ]
+        " \   [ '[music] Play JAZZRADIO.com' , ':Unite jazzradio -update-time=75 -no-quit -keep-focus -buffer-name=unite_jazzradio' ],
+  " let g:unite_source_menu_menus.shaberu.candidates = [
+  "       \   [ '' , ':VimShell' ],
+  "       \ ]
+        " \   [ '[music] Play JAZZRADIO.com' , ':Unite jazzradio -update-time=75 -buffer-name=unite_jazzradio' ],
+  let g:unite_source_menu_menus.unite.candidates = []
+  let g:unite_source_menu_filetype_candidates = {}
+  let g:unite_source_menu_filetype_candidates._ = [
+        \   [ 'neobundle/update' , ':Unite neobundle/update -log' ],
+        \   [ 'neobundle/install' , ':Unite neobundle/install -log' ],
+        \   [ 'J6uil/rooms' , ':Unite J6uil/rooms' ],
+        \   [ 'J6uil/members' , ':Unite J6uil/members' ],
+        \   [ 'Blog/posts' , ':Unite file:~/Sites/blog.supermomonga.com/source/posts/' ],
+        \   [ 'TweetVim' , ':Unite tweetvim' ],
+        \   [ 'gdrive gdocs', ':Unite -start-insert gdrive_gdocs'],
+        \   [ 'files', ':Unite -start-insert -buffer-name=files buffer_tab file file_mru'],
+        \   [ 'function', ':Unite -start-insert -default-action=edit function'],
+        \   [ 'variable', ':Unite -start-insert -default-action=edit variable'],
+        \   [ 'outline', ':Unite -start-insert outline'],
+        \   [ 'help', ':Unite -start-insert help'],
+        \   [ 'buffer', ':Unite -start-insert buffer'],
+        \   [ 'line', ':Unite -start-insert -auto-preview -buffer-name=search line'],
+        \   [ 'quickfix', ':Unite -no-split -no-quit -auto-preview quickfix -buffer-name=unite_qf'],
+        \   [ 'grep', ':Unite grep -max-multi-lines=1 -truncate -default-action=tabopen -buffer-name=unite_grep'],
+        \   [ 'source', ':Unite -start-insert source'],
+        \   [ 'locate', ':Unite -start-insert locate'],
+        \   [ 'theme', ':Unite -auto-preview colorscheme'],
+        \   [ 'resume grep', ':UniteResume unite_grep'],
+        \   [ 'resume quickfix', ':UniteResume unite_qf'],
+        \ ]
+  let g:unite_source_menu_filetype_candidates.go = [
+        \   [ 'golang/import', ':Unite goimport -start-insert' ],
+        \ ]
 
 
-  endfunction
+endfunction
 
-  nnoremap <silent> <Space>u  :<C-u>call Unite_filetype_menu('-start-insert')<CR>
-  function! Unite_filetype_menu(options)
-    let filetypes = split(&ft, '\.')
-    let candidate_sets = map(
-          \   add(filter(filetypes, 'has_key(g:unite_source_menu_filetype_candidates, v:val)'), '_'),
-          \   'g:unite_source_menu_filetype_candidates[v:val]'
-          \ )
-    let candidates = g:L.flatten(candidate_sets, 1)
-    let g:unite_source_menu_menus.unite.candidates = candidates
-    execute ':Unite menu:unite ' . a:options
-  endfunction
-  nnoremap <silent> <Space>m  :<C-u>Unite -start-insert menu:global<CR>
-  nnoremap <silent> <Space>f  :<C-u>Unite -start-insert -buffer-name=files buffer_tab file_mru<CR>
-  nnoremap <silent> <Space>b  :<C-u>Unite -start-insert buffer<CR>
-  nnoremap <silent> <Space>s  :<C-u>Unite -start-insert -auto-preview -no-split -buffer-name=search line<CR>
-  nnoremap <silent> <Space>l  :<C-u>Unite -start-insert locate<CR>
-  nnoremap <silent> <Space>g  :<C-u>Unite grep -max-multi-lines=1 -truncate -default-action=tabopen -buffer-name=unite_grep<CR>
-  " This <Space>j mapping is to define default behavior. Should be changed by
-  " buffer local setting.
-  nnoremap <silent> <Space>j  :<C-u>Unite -start-insert -buffer-name=files buffer_tab file_mru<CR>
+nnoremap <silent> <Space>u  :<C-u>call Unite_filetype_menu('-start-insert')<CR>
+function! Unite_filetype_menu(options)
+  let filetypes = split(&ft, '\.')
+  let candidate_sets = map(
+        \   add(filter(filetypes, 'has_key(g:unite_source_menu_filetype_candidates, v:val)'), '_'),
+        \   'g:unite_source_menu_filetype_candidates[v:val]'
+        \ )
+  let candidates = g:L.flatten(candidate_sets, 1)
+  let g:unite_source_menu_menus.unite.candidates = candidates
+  execute ':Unite menu:unite ' . a:options
+endfunction
+nnoremap <silent> <Space>m  :<C-u>Unite -start-insert menu:global<CR>
+nnoremap <silent> <Space>f  :<C-u>Unite -start-insert -buffer-name=files buffer_tab file_mru<CR>
+nnoremap <silent> <Space>b  :<C-u>Unite -start-insert buffer<CR>
+nnoremap <silent> <Space>s  :<C-u>Unite -start-insert -auto-preview -no-split -buffer-name=search line<CR>
+nnoremap <silent> <Space>l  :<C-u>Unite -start-insert locate<CR>
+nnoremap <silent> <Space>g  :<C-u>Unite grep -max-multi-lines=1 -truncate -default-action=tabopen -buffer-name=unite_grep<CR>
+" This <Space>j mapping is to define default behavior. Should be changed by
+" buffer local setting.
+nnoremap <silent> <Space>j  :<C-u>Unite -start-insert -buffer-name=files buffer_tab file_mru<CR>
 
-  nnoremap <silent> <Space>p  :<C-u>call Unite_project_files('-start-insert')<CR>
-  function! Unite_project_files(options)
-    if exists('b:projectlocal_root_dir')
-      execute ':Unite file_rec/async:' . b:projectlocal_root_dir . ' ' . a:options
-    else
-      echo "You are not in any project."
-    endif
-  endfunction
-
-  " TODO: Should those mappings be moved to their own setting section?
-  " That seems correct but it provides better look of the Unite-source
-  " mappings list.
-  if neobundle#is_installed('unite-quickfix')
-    nnoremap <silent> <Space>q  :<C-u>Unite -no-quit -auto-preview -no-split quickfix<CR>
+nnoremap <silent> <Space>p  :<C-u>call Unite_project_files('-start-insert')<CR>
+function! Unite_project_files(options)
+  if exists('b:projectlocal_root_dir')
+    execute ':Unite file_rec/async:' . b:projectlocal_root_dir . ' ' . a:options
+  else
+    echo "You are not in any project."
   endif
-  if neobundle#is_installed('unite-help')
-    nnoremap <silent> <Space>o  :<C-u>Unite -start-insert -auto-preview
-          \ -no-split outline<CR>
-  endif
-  if neobundle#is_installed('unite-outline')
-    nnoremap <silent> <Space>h  :<C-u>Unite -start-insert help<CR>
-  endif
+endfunction
+
+" TODO: Should those mappings be moved to their own setting section?
+" That seems correct but it provides better look of the Unite-source
+" mappings list.
+if neobundle#is_installed('unite-quickfix')
+  nnoremap <silent> <Space>q  :<C-u>Unite -no-quit -auto-preview -no-split quickfix<CR>
+endif
+if neobundle#is_installed('unite-help')
+  nnoremap <silent> <Space>o  :<C-u>Unite -start-insert -auto-preview
+        \ -no-split outline<CR>
+endif
+if neobundle#is_installed('unite-outline')
+  nnoremap <silent> <Space>h  :<C-u>Unite -start-insert help<CR>
+endif
 
 endif " }}}
 
 if neobundle#tap('sonictemplate-vim') " {{{
 
-  call neobundle#config({
-        \ 'autoload' : {
-        \   'commands' : [
-        \     { 'name' : 'Template', 'complete' : 'customlist,sonictemplate#complete' },
-        \   ],
-        \   'function_prefix' : 'sonictemplate'
-        \ }
-        \ })
+call neobundle#config({
+      \ 'autoload' : {
+      \   'commands' : [
+      \     { 'name' : 'Template', 'complete' : 'customlist,sonictemplate#complete' },
+      \   ],
+      \   'function_prefix' : 'sonictemplate'
+      \ }
+      \ })
 
-  let g:sonictemplate_vim_template_dir = $VIM_DOTVIM_DIR . '/templates/'
+let g:sonictemplate_vim_template_dir = $VIM_DOTVIM_DIR . '/templates/'
 
 endif " }}}
 
 if neobundle#tap('vimfiler.vim') " {{{
 
-  call neobundle#config({
-        \ 'autoload' : {
-        \   'commands' : [
-        \     { 'name' : 'VimFiler', 'complete' : 'customlist,vimfiler#complete' },
-        \     { 'name' : 'VimFilerExplorer', 'complete' : 'customlist,vimfiler#complete' },
-        \     { 'name' : 'Edit', 'complete' : 'customlist,vimfiler#complete' },
-        \     { 'name' : 'Write', 'complete' : 'customlist,vimfiler#complete' },
-        \     'Read',
-        \     'Source'
-        \   ],
-        \   'mappings' : '<Plug>(vimfiler_',
-        \   'explorer' : 1,
-        \ }
-        \ })
+call neobundle#config({
+      \ 'autoload' : {
+      \   'commands' : [
+      \     { 'name' : 'VimFiler', 'complete' : 'customlist,vimfiler#complete' },
+      \     { 'name' : 'VimFilerExplorer', 'complete' : 'customlist,vimfiler#complete' },
+      \     { 'name' : 'Edit', 'complete' : 'customlist,vimfiler#complete' },
+      \     { 'name' : 'Write', 'complete' : 'customlist,vimfiler#complete' },
+      \     'Read',
+      \     'Source'
+      \   ],
+      \   'mappings' : '<Plug>(vimfiler_',
+      \   'explorer' : 1,
+      \ }
+      \ })
 
-  let g:vimfiler_safe_mode_by_default = 0
-  let g:unite_kind_file_use_trashbox = 1
-  let g:vimfiler_as_default_explorer = 1
-  let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
+let g:unite_kind_file_use_trashbox = 1
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_as_default_explorer = 1
 
-  nnoremap <Space>e  :<C-u>VimFilerExplorer -winwidth=65<CR>
+nnoremap <Space>e  :<C-u>VimFilerExplorer -winwidth=65<CR>
 
 endif " }}}
 
 if neobundle#tap('unite-javaimport') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'javaimport',
-        \     ],
-        \     'commands' : [
-        \       'JavaImportClearCache',
-        \       'JavaImportSortStatements',
-        \       'JavaImportRemoveUnnecessaries',
-        \     ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'javaimport',
+      \     ],
+      \     'commands' : [
+      \       'JavaImportClearCache',
+      \       'JavaImportSortStatements',
+      \       'JavaImportRemoveUnnecessaries',
+      \     ]
+      \   }
+      \ })
+
+endif " }}}
+
+if neobundle#tap('unite-font') " {{{
+
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'font',
+      \     ],
+      \   }
+      \ })
+
+endif " }}}
+
+if neobundle#tap('unite-vital-module') " {{{
+
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'vital-module',
+      \     ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('unite-quickfix') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'quickfix',
-        \     ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'quickfix',
+      \     ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('unite-highlight') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       '',
-        \     ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       '',
+      \     ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('unite-vimpatches') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'vimpatches',
-        \     ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'vimpatches',
+      \     ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('unite-goimport.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'goimport',
-        \     ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'goimport',
+      \     ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('unite-outline') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'outline',
-        \     ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'outline',
+      \     ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('unite-help') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'help',
-        \     ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'help',
+      \     ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('unite-ssh') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'ssh',
-        \     ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'ssh',
+      \     ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('unite-colorscheme') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'colorscheme',
-        \     ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'colorscheme',
+      \     ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('unite-locate') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'locate',
-        \     ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'locate',
+      \     ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('shaberu.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'ShaberuSay', 'ShaberuMuteOn', 'ShaberuMuteOff', 'ShaberuMuteToggle' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'ShaberuSay', 'ShaberuMuteOn', 'ShaberuMuteOff', 'ShaberuMuteToggle' ]
+      \   }
+      \ })
 
-  let g:shaberu_use_voicetext_api = 0
-  let g:shaberu_voicetext_apikey = g:vimrc_secrets['shaberu_voicetext_apikey']
-  let g:shaberu_voicetext_speaker = 'show'
-  let g:shaberu_voicetext_speaker = 'takeru'
-  let g:shaberu_voicetext_speaker = 'hikari'
-  let g:shaberu_user_define_say_command = 'say-openjtalk "%%TEXT%%"'
-  " let g:shaberu_user_define_say_command = 'say -v Kyoko "%%TEXT%%"'
-  let g:shaberu_dicts          = get(g:, 'shaberu_dicts', {})
-  let g:shaberu_dicts.benri  = [
-        \   ['test', 'テスト'],
-        \   ['\(ujihisa|ujm\)', 'うじひさ'],
-        \   ['thinca', 'シンカ'],
-        \   ['aomoriringo', 'りんご'],
-        \   ['supermomonga', 'スーパーモモンガ'],
-        \   ['ｗ\+$', '笑い。'],
-        \ ]
+let g:shaberu_use_voicetext_api = 0
+let g:shaberu_voicetext_apikey = g:vimrc_secrets['shaberu_voicetext_apikey']
+let g:shaberu_voicetext_speaker = 'show'
+let g:shaberu_voicetext_speaker = 'takeru'
+let g:shaberu_voicetext_speaker = 'hikari'
+let g:shaberu_user_define_say_command = 'say-openjtalk "%%TEXT%%"'
+" let g:shaberu_user_define_say_command = 'say -v Kyoko "%%TEXT%%"'
+let g:shaberu_dicts          = get(g:, 'shaberu_dicts', {})
+let g:shaberu_dicts.benri  = [
+      \   ['test', 'テスト'],
+      \   ['\(ujihisa|ujm\)', 'うじひさ'],
+      \   ['thinca', 'シンカ'],
+      \   ['aomoriringo', 'りんご'],
+      \   ['supermomonga', 'スーパーモモンガ'],
+      \   ['ｗ\+$', '笑い。'],
+      \ ]
 
-  " Vim core
-  au MyAutoCmd VimEnter * ShaberuSay '進捗どうですか'
-  au MyAutoCmd VimLeave * ShaberuSay '再起動フラグ'
+" Vim core
+au MyAutoCmd VimEnter * ShaberuSay '進捗どうですか'
+au MyAutoCmd VimLeave * ShaberuSay '再起動フラグ'
 
-  " VimShell
-  au MyAutoCmd FileType vimshell
-        \ call vimshell#hook#add('chpwd' , 'my_vimshell_chpwd' , reti#lambda(":ShaberuSay 'よっこいしょ'"))
-        \| call vimshell#hook#add('emptycmd', 'my_vimshell_emptycmd', reti#lambda(":call shaberu#say('コマンドを入力してください') | return a:1"))
-        \| call vimshell#hook#add('notfound', 'my_vimshell_notfound', reti#lambda(":call shaberu#say('コマンドが見つかりません') | return a:1"))
+" VimShell
+au MyAutoCmd FileType vimshell
+      \ call vimshell#hook#add('chpwd' , 'my_vimshell_chpwd' , reti#lambda(":ShaberuSay 'よっこいしょ'"))
+      \| call vimshell#hook#add('emptycmd', 'my_vimshell_emptycmd', reti#lambda(":call shaberu#say('コマンドを入力してください') | return a:1"))
+      \| call vimshell#hook#add('notfound', 'my_vimshell_notfound', reti#lambda(":call shaberu#say('コマンドが見つかりません') | return a:1"))
 
-  " .vimrc保存時に自動的にsource
-  au MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC
-  " au MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC | ShaberuSay 'ビムアールシーを読み込みました'
-  " 開発用ディレクトリ内.vimファイルに関して、ファイル保存時に自動でsourceする
-  execute 'au MyAutoCmd BufWritePost,FileWritePost' $VIM_LOCAL_BUNDLE_DIR . '*.vim' 'source <afile> | echo "sourced : " . bufname("%") | ShaberuSay "ソースしました"'
+" .vimrc保存時に自動的にsource
+au MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC
+" au MyAutoCmd BufWritePost .vimrc nested source $MYVIMRC | ShaberuSay 'ビムアールシーを読み込みました'
+" 開発用ディレクトリ内.vimファイルに関して、ファイル保存時に自動でsourceする
+execute 'au MyAutoCmd BufWritePost,FileWritePost' $VIM_LOCAL_BUNDLE_DIR . '*.vim' 'source <afile> | echo "sourced : " . bufname("%") | ShaberuSay "ソースしました"'
 
 endif " }}}
 
 if neobundle#tap('vimshell.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'VimShell', 'VimShellPop' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'VimShell', 'VimShellPop' ]
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    " let g:unite_source_vimshell_external_history_path = expand('~/.zsh_history')
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+  " let g:unite_source_vimshell_external_history_path = expand('~/.zsh_history')
+endfunction
 
-  nnoremap <C-x><C-v>  :<C-u>VimShellPop -toggle<CR>
-  inoremap <C-x><C-v>  :<C-u>VimShellPop -toggle<CR>
-  nnoremap <Space>vp  :<C-u>VimShellPop -toggle<CR>
-  nnoremap <Space>vb  :<C-u>VimShellBufferDir<CR>
-  nnoremap <Space>vd  :<C-u>VimShellCurrentDir<CR>
-  nnoremap <Space>vv  :<C-u>VimShell<CR>
+nnoremap <C-x><C-v>  :<C-u>VimShellPop -toggle<CR>
+inoremap <C-x><C-v>  :<C-u>VimShellPop -toggle<CR>
+nnoremap <Space>vp  :<C-u>VimShellPop -toggle<CR>
+nnoremap <Space>vb  :<C-u>VimShellBufferDir<CR>
+nnoremap <Space>vd  :<C-u>VimShellCurrentDir<CR>
+nnoremap <Space>vv  :<C-u>VimShell<CR>
 
-  " buffer local mapping
-  function! s:my_vimshell_mappings()
-    imap <buffer> <C-e>  <ESC>$a
-    imap <buffer> <C-d>  <ESC><Right>xi
-    imap <buffer> <C-/>  <ESC>dT/xa
-    imap <buffer> <C-.>  <ESC>dT.xa
-    imap <buffer> <C-_>  <ESC>dT_xa
-  endfunction
-  au MyAutoCmd FileType vimshell call s:my_vimshell_mappings()
+" buffer local mapping
+function! s:my_vimshell_mappings()
+  imap <buffer> <C-e>  <ESC>$a
+  imap <buffer> <C-d>  <ESC><Right>xi
+  imap <buffer> <C-/>  <ESC>dT/xa
+  imap <buffer> <C-.>  <ESC>dT.xa
+  imap <buffer> <C-_>  <ESC>dT_xa
+endfunction
+au MyAutoCmd FileType vimshell call s:my_vimshell_mappings()
 
-  function! s:my_vimshell_aliases()
-    call vimshell#set_alias('git', 'gh')
-    call vimshell#set_alias('heroku', 'hk')
-    call vimshell#set_alias('gs', 'git status')
-    call vimshell#set_alias('gd', 'git diff')
-    call vimshell#set_alias('edit', 'vim --split=tabedit $$args')
-    call vimshell#set_alias('e', 'edit')
-    call vimshell#set_alias('reload', 'vimsh ~/.vimshrc')
-    call vimshell#set_alias('rl', 'reload')
-    call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
-    call vimshell#set_alias('l', 'quicklook')
-    call vimshell#set_alias('ls', 'ls -a ')
-    call vimshell#set_alias('lsl', 'ls -la ')
-    call vimshell#set_alias('cl', 'clear')
-    call vimshell#set_alias('op', 'open .')
-    call vimshell#set_alias('be', 'bundle exec')
-    call vimshell#set_alias('bi', 'bundle install')
-    call vimshell#set_alias('j', ':Unite -buffer-name=files
-          \ -default-action=lcd -no-split -input=$$args directory_mru')
-    " Shaberu
-    call vimshell#set_alias('hello', ':call shaberu#say("こんにちは")')
-    call vimshell#set_alias('kawaii', ':call shaberu#say("ありがとうございます")')
-    call vimshell#set_alias('nemui', ':call shaberu#say("そろそろ寝ましょう")')
-    call vimshell#set_alias('work', ':call shaberu#say("進捗どうですか")')
-    call vimshell#set_alias('time?', ':call shaberu#say(strftime("はいっ。今は%H時%M分です"))')
-    call vimshell#set_alias('kora', ':call shaberu#say("ごめんなさい")')
-    call vimshell#set_alias('sl', ':call shaberu#say("きしゃぽっぽ。きしゃぽっぽ。ぽぽ")')
-  endfunction
-  au MyAutoCmd FileType vimshell call s:my_vimshell_aliases()
+function! s:my_vimshell_aliases()
+  call vimshell#set_alias('git', 'gh')
+  call vimshell#set_alias('heroku', 'hk')
+  call vimshell#set_alias('gs', 'git status')
+  call vimshell#set_alias('gd', 'git diff')
+  call vimshell#set_alias('edit', 'vim --split=tabedit $$args')
+  call vimshell#set_alias('e', 'edit')
+  call vimshell#set_alias('reload', 'vimsh ~/.vimshrc')
+  call vimshell#set_alias('rl', 'reload')
+  call vimshell#set_alias('quicklook', 'qlmanage -p $$args')
+  call vimshell#set_alias('l', 'quicklook')
+  call vimshell#set_alias('ls', 'ls -a ')
+  call vimshell#set_alias('lsl', 'ls -la ')
+  call vimshell#set_alias('cl', 'clear')
+  call vimshell#set_alias('op', 'open .')
+  call vimshell#set_alias('be', 'bundle exec')
+  call vimshell#set_alias('bi', 'bundle install')
+  call vimshell#set_alias('j', ':Unite -buffer-name=files
+        \ -default-action=lcd -no-split -input=$$args directory_mru')
+  " Shaberu
+  call vimshell#set_alias('hello', ':call shaberu#say("こんにちは")')
+  call vimshell#set_alias('kawaii', ':call shaberu#say("ありがとうございます")')
+  call vimshell#set_alias('nemui', ':call shaberu#say("そろそろ寝ましょう")')
+  call vimshell#set_alias('work', ':call shaberu#say("進捗どうですか")')
+  call vimshell#set_alias('time?', ':call shaberu#say(strftime("はいっ。今は%H時%M分です"))')
+  call vimshell#set_alias('kora', ':call shaberu#say("ごめんなさい")')
+  call vimshell#set_alias('sl', ':call shaberu#say("きしゃぽっぽ。きしゃぽっぽ。ぽぽ")')
+endfunction
+au MyAutoCmd FileType vimshell call s:my_vimshell_aliases()
 
-  " Run VimShell when launch Vim
-  " au MyAutoCmd VimEnter * VimShell
+" Run VimShell when launch Vim
+" au MyAutoCmd VimEnter * VimShell
 
 endif " }}}
 
 if neobundle#tap('vimshell-pure.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'on_source' : [ 'vimshell.vim' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'on_source' : [ 'vimshell.vim' ]
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vimshell-inline-history.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'on_source' : [ 'vimshell.vim' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'on_source' : [ 'vimshell.vim' ]
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vimshell-wakeup.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'on_source' : [ 'vimshell.vim' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'on_source' : [ 'vimshell.vim' ]
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    let g:vimshell_wakeup_shaberu_text = 'おわだよ'
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+  let g:vimshell_wakeup_shaberu_text = 'おわだよ'
+endfunction
 
 endif " }}}
 
 if neobundle#tap('projectlocal.vim') " {{{
 
-  " See unite.vim's setting section.
+" See unite.vim's setting section.
 
 endif " }}}
 
 if neobundle#tap('vim-textobj-multiblock') " {{{
 
-  let g:textobj_multiblock_blocks = [
-        \   ['(', ')', 1],
-        \   ['[', ']', 1],
-        \   ['{', '}', 1],
-        \   ['<', '>', 1],
-        \   ['"', '"', 1],
-        \   ["'", "'", 1],
-        \   ['`', '`', 1],
-        \   ['|', '|', 1],
-        \ ]
-  let g:textobj_multiblock_search_limit = 20
+let g:textobj_multiblock_blocks = [
+      \   ['(', ')', 1],
+      \   ['[', ']', 1],
+      \   ['{', '}', 1],
+      \   ['<', '>', 1],
+      \   ['"', '"', 1],
+      \   ["'", "'", 1],
+      \   ['`', '`', 1],
+      \   ['|', '|', 1],
+      \ ]
+let g:textobj_multiblock_search_limit = 20
 
-        " Couldn't use multiple chars
-        " \   ['if', 'elsif'],
-        " \   ['if', 'else'],
-        " \   ['if', 'end'],
-        " \   ['elsif', 'end'],
-        " \   ['elsif', 'elsif'],
-        " \   ['elsif', 'else'],
-        " \   ['else', 'end'],
-        " \   ['do', 'end'],
+      " Couldn't use multiple chars
+      " \   ['if', 'elsif'],
+      " \   ['if', 'else'],
+      " \   ['if', 'end'],
+      " \   ['elsif', 'end'],
+      " \   ['elsif', 'elsif'],
+      " \   ['elsif', 'else'],
+      " \   ['else', 'end'],
+      " \   ['do', 'end'],
 
 endif " }}}
 
 if neobundle#tap('vim-textobj-blockwise') " {{{
 
-  vmap <expr> iw mode() == "\<C-v>" ? textobj#blockwise#mapexpr('iw') : 'iw'
+vmap <expr> iw mode() == "\<C-v>" ? textobj#blockwise#mapexpr('iw') : 'iw'
 
 endif " }}}
 
 if neobundle#tap('vim-operator-blockwise') " {{{
 
-  nmap YY <Plug>(operator-blockwise-yank)
-  nmap DD <Plug>(operator-blockwise-delete)
-  nmap CC <Plug>(operator-blockwise-change)
-  nmap <expr> SS operator#blockwise#mapexpr("\<Plug>(operator-replace)")
+nmap YY <Plug>(operator-blockwise-yank)
+nmap DD <Plug>(operator-blockwise-delete)
+nmap CC <Plug>(operator-blockwise-change)
+nmap <expr> SS operator#blockwise#mapexpr("\<Plug>(operator-replace)")
 
 endif " }}}
 
 if neobundle#tap('vim-operator-block') " {{{
 
-  nmap sy <Plug>(operator-block-yank)
-  nmap sp <Plug>(operator-block-paste)
-  nmap sd <Plug>(operator-block-delete)
+nmap sy <Plug>(operator-block-yank)
+nmap sp <Plug>(operator-block-paste)
+nmap sd <Plug>(operator-block-delete)
 
 endif " }}}
 
 if neobundle#tap('neocomplete.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'insert' : 1,
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'insert' : 1,
+      \   }
+      \ })
 
-  " Enable at startup
-  let g:neocomplete#enable_at_startup = 1
+" Enable at startup
+let g:neocomplete#enable_at_startup = 1
 
-  " Smartcase
-  let g:neocomplete#enable_smart_case = 1
+" Smartcase
+let g:neocomplete#enable_smart_case = 1
 
-  " Enable _ separated completion
-  let g:neocomplete_enable_underbar_completion = 1
+" Enable _ separated completion
+let g:neocomplete_enable_underbar_completion = 1
 
-  " Minimum length to cache
-  let g:neocomplete_min_syntax_length = 3
+" Minimum length to cache
+let g:neocomplete_min_syntax_length = 3
 
-  " Max size of candidates to show
-  let g:neocomplete#max_list = 1000
+" Max size of candidates to show
+let g:neocomplete#max_list = 1000
 
-  " How many length to need to start completion
-  let g:neocomplete_auto_completion_start_length = 3
+" How many length to need to start completion
+let g:neocomplete_auto_completion_start_length = 3
 
-  " Auto select the first candidate
-  " let g:neocomplete_enable_auto_select = 1
+" Auto select the first candidate
+" let g:neocomplete_enable_auto_select = 1
 
-  " Force to overwrite complete func
-  let g:neocomplete_force_overwrite_completefunc = 1
+" Force to overwrite complete func
+let g:neocomplete_force_overwrite_completefunc = 1
 
-  " let g:neocomplete_enable_camel_case_completion = 1
-  let g:neocomplete#skip_auto_completion_time = '0.2'
+" let g:neocomplete_enable_camel_case_completion = 1
+let g:neocomplete#skip_auto_completion_time = '0.2'
 
-  " Cancel and close popup
-  " imap <expr><C-g> neocomplete#cancel_popup()
+" Cancel and close popup
+" imap <expr><C-g> neocomplete#cancel_popup()
 
-  " Omni completion patterns
-  let g:neocomplete#force_omni_input_patterns = get(g:, 'neocomplete#force_omni_input_patterns', {})
-  " let g:neocomplete#force_omni_input_patterns.go = '\h\w*\.\?'
+" Omni completion patterns
+let g:neocomplete#force_omni_input_patterns = get(g:, 'neocomplete#force_omni_input_patterns', {})
+" let g:neocomplete#force_omni_input_patterns.go = '\h\w*\.\?'
 
-  let g:neocomplete#sources#omni#input_patterns = get(g:, 'neocomplete#sources#omni#input_patterns', {})
-  let g:neocomplete#sources#omni#input_patterns.go = '\h\w\.\w*'
-  " let g:neocomplete#sources#omni#input_patterns.go = ''
+let g:neocomplete#sources#omni#input_patterns = get(g:, 'neocomplete#sources#omni#input_patterns', {})
+let g:neocomplete#sources#omni#input_patterns.go = '\h\w\.\w*'
+" let g:neocomplete#sources#omni#input_patterns.go = ''
 
-  " Omni completion functions
-  let g:neocomplete#sources#omni#functions = get(g:, 'neocomplete#sources#omni#functions', {})
-  " let g:neocomplete#sources#omni#functions.go = 'go#complete#Complete'
+" Omni completion functions
+let g:neocomplete#sources#omni#functions = get(g:, 'neocomplete#sources#omni#functions', {})
+" let g:neocomplete#sources#omni#functions.go = 'go#complete#Complete'
 
 endif " }}}
 
 if neobundle#tap('neosnippet.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'insert' : 1,
-        \     'filetype' : 'snippet',
-        \     'commands' : [ 'NeoSnippetEdit', 'NeoSnippetSource' ],
-        \     'filetypes' : [ 'nsnippet' ],
-        \     'unite_sources' :
-        \       ['snippet', 'neosnippet/user', 'neosnippet/runtime']
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'insert' : 1,
+      \     'filetype' : 'snippet',
+      \     'commands' : [ 'NeoSnippetEdit', 'NeoSnippetSource' ],
+      \     'filetypes' : [ 'nsnippet' ],
+      \     'unite_sources' :
+      \       ['snippet', 'neosnippet/user', 'neosnippet/runtime']
+      \   }
+      \ })
 
-  let g:neosnippet#enable_snipmate_compatibility = 1
-  " My original snippets
-  let g:neosnippet_snippets_directories = s:add_to_uniq_list(
-        \   s:get_list(g:, 'neosnippet_snippets_directories'),
-        \   '~/.vim/snippets'
-        \ )
-  let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
-  " <CR> to expand snippet if can
-  imap <expr><CR> !pumvisible() ? "\<CR>" :
-        \ neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" :
-        \ neocomplete#close_popup()
-  " supertab.
-  imap <expr><TAB> pumvisible() ? "\<C-n>" :
-        \ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" :
-        \ "\<TAB>"
-  smap <expr><TAB> pumvisible() ? "\<C-n>" :
-        \ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" :
-        \ "\<TAB>"
+let g:neosnippet#enable_snipmate_compatibility = 1
+" My original snippets
+let g:neosnippet_snippets_directories = s:add_to_uniq_list(
+      \   s:get_list(g:, 'neosnippet_snippets_directories'),
+      \   '~/.vim/snippets'
+      \ )
+let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
+" <CR> to expand snippet if can
+imap <expr><CR> !pumvisible() ? "\<CR>" :
+      \ neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" :
+      \ neocomplete#close_popup()
+" supertab.
+imap <expr><TAB> pumvisible() ? "\<C-n>" :
+      \ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" :
+      \ "\<TAB>"
+smap <expr><TAB> pumvisible() ? "\<C-n>" :
+      \ neosnippet#jumpable() ? "\<Plug>(neosnippet_jump)" :
+      \ "\<TAB>"
 
 endif " }}}
 
 if neobundle#tap('neosnippet-snippets') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-snippets') " {{{
 
-  let g:neosnippet_snippets_directories = s:add_to_uniq_list(
-        \   s:get_list(g:, 'neosnippet_snippets_directories'),
-        \   $VIM_REMOTE_BUNDLE_DIR . '/vim-snippets/snippets'
-        \ )
-  let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
+let g:neosnippet_snippets_directories = s:add_to_uniq_list(
+      \   s:get_list(g:, 'neosnippet_snippets_directories'),
+      \   $VIM_REMOTE_BUNDLE_DIR . '/vim-snippets/snippets'
+      \ )
+let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
 
 endif " }}}
 
 if neobundle#tap('elixir-snippets') " {{{
 
-  let g:neosnippet_snippets_directories = s:add_to_uniq_list(
-        \   s:get_list(g:, 'neosnippet_snippets_directories'),
-        \   $VIM_REMOTE_BUNDLE_DIR . '/elixir-snippets/snippets'
-        \ )
-  let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
+let g:neosnippet_snippets_directories = s:add_to_uniq_list(
+      \   s:get_list(g:, 'neosnippet_snippets_directories'),
+      \   $VIM_REMOTE_BUNDLE_DIR . '/elixir-snippets/snippets'
+      \ )
+let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
 
 endif " }}}
 
 if neobundle#tap('angular-vim-snippets') " {{{
 
-  let g:neosnippet_snippets_directories = s:add_to_uniq_list(
-        \   s:get_list(g:, 'neosnippet_snippets_directories'),
-        \   $VIM_REMOTE_BUNDLE_DIR . '/angular-vim-snippets/snippets'
-        \ )
-  let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
+let g:neosnippet_snippets_directories = s:add_to_uniq_list(
+      \   s:get_list(g:, 'neosnippet_snippets_directories'),
+      \   $VIM_REMOTE_BUNDLE_DIR . '/angular-vim-snippets/snippets'
+      \ )
+let g:neosnippet#snippets_directory = join(g:neosnippet_snippets_directories, ',')
 
 endif " }}}
 
 if neobundle#tap('vim-alignta') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : ['Alignta'],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : ['Alignta'],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('foldCC') " {{{
 
-  set foldmethod=marker
-  set foldtext=FoldCCtext()
-  set foldcolumn=0
-  set fillchars=vert:\|
+set foldmethod=marker
+set foldtext=FoldCCtext()
+set foldcolumn=0
+set fillchars=vert:\|
 
 endif " }}}
 
@@ -1503,345 +1526,345 @@ endif " }}}
 
 if neobundle#tap('vim-smartinput') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'insert' : 1
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'insert' : 1
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    call smartinput#clear_rules()
-    call smartinput#define_default_rules()
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+  call smartinput#clear_rules()
+  call smartinput#define_default_rules()
+endfunction
 
-  function! neobundle#tapped.hooks.on_post_source(bundle)
-    call smartinput_endwise#define_default_rules()
-  endfunction
+function! neobundle#tapped.hooks.on_post_source(bundle)
+  call smartinput_endwise#define_default_rules()
+endfunction
 
 endif " }}}
 
 if neobundle#tap('vim-smartinput-endwise') " {{{
 
-  function! neobundle#tapped.hooks.on_post_source(bundle)
-    " neosnippet and neocomplete compatible
-    call smartinput#map_to_trigger('i', '<Plug>(my_cr)', '<Enter>', '<Enter>')
-    imap <expr><CR> !pumvisible() ? "\<Plug>(my_cr)" :
-          \ neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" :
-          \ neocomplete#close_popup()
-  endfunction
+function! neobundle#tapped.hooks.on_post_source(bundle)
+  " neosnippet and neocomplete compatible
+  call smartinput#map_to_trigger('i', '<Plug>(my_cr)', '<Enter>', '<Enter>')
+  imap <expr><CR> !pumvisible() ? "\<Plug>(my_cr)" :
+        \ neosnippet#expandable() ? "\<Plug>(neosnippet_expand)" :
+        \ neocomplete#close_popup()
+endfunction
 
 endif " }}}
 
 if neobundle#tap('vim-submode') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    let g:submode_keep_leaving_key = 1
-    " tab moving
-    call submode#enter_with('changetab', 'n', '', 'gt', 'gt')
-    call submode#enter_with('changetab', 'n', '', 'gT', 'gT')
-    call submode#map('changetab', 'n', '', 't', 'gt')
-    call submode#map('changetab', 'n', '', 'T', 'gT')
-    " undo/redo
-    call submode#enter_with('undo/redo', 'n', '', '<C-r>', '<C-r>')
-    call submode#enter_with('undo/redo', 'n', '', 'u', 'u')
-    call submode#map('undo/redo', 'n', '', '<C-r>', '<C-r>')
-    call submode#map('undo/redo', 'n', '', 'u', 'u')
-    " move between fold
-    call submode#enter_with('movefold', 'n', '', 'zj', 'zjzMzvzz')
-    call submode#enter_with('movefold', 'n', '', 'zk', 'zkzMzv[zzz')
-    call submode#map('movefold', 'n', '', 'j', 'zjzMzvzz')
-    call submode#map('movefold', 'n', '', 'k', 'zkzMzv[zzz')
-    " resize window
-    call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
-    call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
-    call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
-    call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
-    call submode#map('winsize', 'n', '', '>', '<C-w>>')
-    call submode#map('winsize', 'n', '', '<', '<C-w><')
-    call submode#map('winsize', 'n', '', '+', '<C-w>+')
-    call submode#map('winsize', 'n', '', '-', '<C-w>-')
-    " TODO: Repeat last executed macro. umaku dekinai...
-    " call submode#enter_with('macro/a', 'n', '', '@a', '@a')
-    " call submode#map('macro/a', 'n', '', 'a', '@a')
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+  let g:submode_keep_leaving_key = 1
+  " tab moving
+  call submode#enter_with('changetab', 'n', '', 'gt', 'gt')
+  call submode#enter_with('changetab', 'n', '', 'gT', 'gT')
+  call submode#map('changetab', 'n', '', 't', 'gt')
+  call submode#map('changetab', 'n', '', 'T', 'gT')
+  " undo/redo
+  call submode#enter_with('undo/redo', 'n', '', '<C-r>', '<C-r>')
+  call submode#enter_with('undo/redo', 'n', '', 'u', 'u')
+  call submode#map('undo/redo', 'n', '', '<C-r>', '<C-r>')
+  call submode#map('undo/redo', 'n', '', 'u', 'u')
+  " move between fold
+  call submode#enter_with('movefold', 'n', '', 'zj', 'zjzMzvzz')
+  call submode#enter_with('movefold', 'n', '', 'zk', 'zkzMzv[zzz')
+  call submode#map('movefold', 'n', '', 'j', 'zjzMzvzz')
+  call submode#map('movefold', 'n', '', 'k', 'zkzMzv[zzz')
+  " resize window
+  call submode#enter_with('winsize', 'n', '', '<C-w>>', '<C-w>>')
+  call submode#enter_with('winsize', 'n', '', '<C-w><', '<C-w><')
+  call submode#enter_with('winsize', 'n', '', '<C-w>+', '<C-w>+')
+  call submode#enter_with('winsize', 'n', '', '<C-w>-', '<C-w>-')
+  call submode#map('winsize', 'n', '', '>', '<C-w>>')
+  call submode#map('winsize', 'n', '', '<', '<C-w><')
+  call submode#map('winsize', 'n', '', '+', '<C-w>+')
+  call submode#map('winsize', 'n', '', '-', '<C-w>-')
+  " TODO: Repeat last executed macro. umaku dekinai...
+  " call submode#enter_with('macro/a', 'n', '', '@a', '@a')
+  " call submode#map('macro/a', 'n', '', 'a', '@a')
+endfunction
 
 endif " }}}
 
 if neobundle#tap('open-browser.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch' ],
-        \     'function_prefix' : 'openbrowser',
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'OpenBrowser', 'OpenBrowserSearch', 'OpenBrowserSmartSearch' ],
+      \     'function_prefix' : 'openbrowser',
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('operator-html-escape.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'on_source' : [ '' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'on_source' : [ '' ]
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-anzu') " {{{
 
-  call neobundle#config({})
+call neobundle#config({})
 
-  " Treat folding well
-  nnoremap <expr> n anzu#mode#mapexpr('n', '', 'zzzv')
-  nnoremap <expr> N anzu#mode#mapexpr('N', '', 'zzzv')
+" Treat folding well
+nnoremap <expr> n anzu#mode#mapexpr('n', '', 'zzzv')
+nnoremap <expr> N anzu#mode#mapexpr('N', '', 'zzzv')
 
-  " Start search with anzu
-  nmap * <Plug>(anzu-star-with-echo)
-  nmap # <Plug>(anzu-sharp-with-echo)
+" Start search with anzu
+nmap * <Plug>(anzu-star-with-echo)
+nmap # <Plug>(anzu-sharp-with-echo)
 
-  " clear status
-  " nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
+" clear status
+" nmap <Esc><Esc> <Plug>(anzu-clear-search-status)
 
 endif " }}}
 
 if neobundle#tap('vim-automatic') " {{{
 
-  call neobundle#config({})
+call neobundle#config({})
 
-  nnoremap <silent> <Plug>(quit) :<C-u>q<CR>
-  function! s:my_temporary_window_init(config, context)
-    " nmap <buffer> <C-[>  <Plug>(quit)
-    nnoremap <buffer> <C-[>  :<C-u>q<CR>
-    " echo a:config
-    " echo a:context
-  endfunction
+nnoremap <silent> <Plug>(quit) :<C-u>q<CR>
+function! s:my_temporary_window_init(config, context)
+  " nmap <buffer> <C-[>  <Plug>(quit)
+  nnoremap <buffer> <C-[>  :<C-u>q<CR>
+  " echo a:config
+  " echo a:context
+endfunction
 
-  function! s:my_unite_window_init(config, context)
-    " nmap <silent> <buffer> <C-c> <Plug>(unite_print_candidate)
-    call s:my_temporary_window_init(a:config, a:context)
-  endfunction
+function! s:my_unite_window_init(config, context)
+  " nmap <silent> <buffer> <C-c> <Plug>(unite_print_candidate)
+  call s:my_temporary_window_init(a:config, a:context)
+endfunction
 
-  let g:automatic_enable_autocmd_Futures = {}
-  let g:automatic_default_match_config = {
-        \   'is_open_other_window' : 1,
-        \ }
-  let g:automatic_default_set_config = {
-        \   'height' : '60%',
-        \   'move' : 'bottom',
-        \   'apply' : function('s:my_temporary_window_init')
-        \ }
-  let g:automatic_config = [
-        \   { 'match' : { 'buftype' : 'help' } },
-        \   { 'match' : {
-        \       'filetype' : 'vimshell',
-        \       'autocmds' : ['FileType', 'BufWinEnter']
-        \     },
-        \     'set' : {
-        \       'commands' : [ 'setl nonumber' ]
-        \     }
-        \   },
-        \   { 'match' : {
-        \       'filetype' : 'vimshell',
-        \       'is_open_other_window' : 0,
-        \       'autocmds' : ['FileType', 'BufWinEnter']
-        \     },
-        \     'set' : {
-        \       'unsettings' : [ 'resize', 'move', 'apply' ],
-        \       'commands' : [ 'setl nonumber' ],
-        \     }
-        \   },
-        \   { 'match' : {
-        \      'preset' : 'unite_split',
-        \     },
-        \     'set' : { }
-        \   },
-        \   { 'match' : {
-        \      'preset' : 'unite_split',
-        \      'unite_sources' : ['outline']
-        \     },
-        \     'set' : {
-        \       'move' : 'right',
-        \       'width' : '30%',
-        \       'height' : '100%',
-        \       'apply' : '',
-        \       'unsettings' : [ 'apply' ]
-        \     }
-        \   },
-        \   {
-        \     'match' : { 'bufname' : '^vimfiler' },
-        \     'set' : { 'unsettings' : [ 'resize' ], 'move' : 'left'}
-        \   },
-        \   {
-        \     'match' : {
-        \       'filetype' : 'tweetvim_say',
-        \       'autocmds' : [ 'FileType' ]
-        \     },
-        \     'set' : {
-        \       'height' : '8'
-        \     }
-        \   },
-        \   {
-        \     'match' : {
-        \       'filetype' : 'J6uil_say',
-        \       'autocmds' : [ 'FileType' ]
-        \     },
-        \     'set' : {
-        \       'height' : '8'
-        \     }
-        \   },
-        \   {
-        \     'match' : {
-        \       'filetype' : 'godoc',
-        \       'autocmds' : [ 'FileType' ]
-        \     }
-        \   },
-        \   {
-        \     'match' : {
-        \       'filetype' : 'vimconsole',
-        \       'autocmds' : [ 'FileType' ]
-        \     }
-        \   },
-        \   {
-        \     'match' : {
-        \       'filetype' : '\v^ref-.+',
-        \       'autocmds' : [ 'FileType' ]
-        \     }
-        \   },
-        \   {
-        \     'match' : {
-        \       'bufname' : '\[quickrun output\]',
-        \     },
-        \     'set' : {
-        \       'height' : 8,
-        \     }
-        \   },
-        \   {
-        \     'match' : {
-        \       'autocmds' : [ 'CmdwinEnter' ]
-        \     },
-        \     'set' : {
-        \       'is_close_focus_out' : 1,
-        \       'unsettings' : [ 'move', 'resize' ]
-        \     },
-        \   }
-        \ ]
+let g:automatic_enable_autocmd_Futures = {}
+let g:automatic_default_match_config = {
+      \   'is_open_other_window' : 1,
+      \ }
+let g:automatic_default_set_config = {
+      \   'height' : '60%',
+      \   'move' : 'bottom',
+      \   'apply' : function('s:my_temporary_window_init')
+      \ }
+let g:automatic_config = [
+      \   { 'match' : { 'buftype' : 'help' } },
+      \   { 'match' : {
+      \       'filetype' : 'vimshell',
+      \       'autocmds' : ['FileType', 'BufWinEnter']
+      \     },
+      \     'set' : {
+      \       'commands' : [ 'setl nonumber' ]
+      \     }
+      \   },
+      \   { 'match' : {
+      \       'filetype' : 'vimshell',
+      \       'is_open_other_window' : 0,
+      \       'autocmds' : ['FileType', 'BufWinEnter']
+      \     },
+      \     'set' : {
+      \       'unsettings' : [ 'resize', 'move', 'apply' ],
+      \       'commands' : [ 'setl nonumber' ],
+      \     }
+      \   },
+      \   { 'match' : {
+      \      'preset' : 'unite_split',
+      \     },
+      \     'set' : { }
+      \   },
+      \   { 'match' : {
+      \      'preset' : 'unite_split',
+      \      'unite_sources' : ['outline']
+      \     },
+      \     'set' : {
+      \       'move' : 'right',
+      \       'width' : '30%',
+      \       'height' : '100%',
+      \       'apply' : '',
+      \       'unsettings' : [ 'apply' ]
+      \     }
+      \   },
+      \   {
+      \     'match' : { 'bufname' : '^vimfiler' },
+      \     'set' : { 'unsettings' : [ 'resize' ], 'move' : 'left'}
+      \   },
+      \   {
+      \     'match' : {
+      \       'filetype' : 'tweetvim_say',
+      \       'autocmds' : [ 'FileType' ]
+      \     },
+      \     'set' : {
+      \       'height' : '8'
+      \     }
+      \   },
+      \   {
+      \     'match' : {
+      \       'filetype' : 'J6uil_say',
+      \       'autocmds' : [ 'FileType' ]
+      \     },
+      \     'set' : {
+      \       'height' : '8'
+      \     }
+      \   },
+      \   {
+      \     'match' : {
+      \       'filetype' : 'godoc',
+      \       'autocmds' : [ 'FileType' ]
+      \     }
+      \   },
+      \   {
+      \     'match' : {
+      \       'filetype' : 'vimconsole',
+      \       'autocmds' : [ 'FileType' ]
+      \     }
+      \   },
+      \   {
+      \     'match' : {
+      \       'filetype' : '\v^ref-.+',
+      \       'autocmds' : [ 'FileType' ]
+      \     }
+      \   },
+      \   {
+      \     'match' : {
+      \       'bufname' : '\[quickrun output\]',
+      \     },
+      \     'set' : {
+      \       'height' : 8,
+      \     }
+      \   },
+      \   {
+      \     'match' : {
+      \       'autocmds' : [ 'CmdwinEnter' ]
+      \     },
+      \     'set' : {
+      \       'is_close_focus_out' : 1,
+      \       'unsettings' : [ 'move', 'resize' ]
+      \     },
+      \   }
+      \ ]
 
 endif " }}}
 
 if neobundle#tap('gist-vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : ['Gist'],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : ['Gist'],
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    " TODO: w3m
-    " let g:gist_browser_command = 'w3m %URL%'
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+  " TODO: w3m
+  " let g:gist_browser_command = 'w3m %URL%'
+endfunction
 
-  let g:gist_open_browser_after_post = 1
-  let g:gist_clip_command = 'pbcopy'
-  let g:gist_detect_filetype = 1
-  let g:gist_show_privates = 1
-  let g:gist_post_private = 1
+let g:gist_open_browser_after_post = 1
+let g:gist_clip_command = 'pbcopy'
+let g:gist_detect_filetype = 1
+let g:gist_show_privates = 1
+let g:gist_post_private = 1
 
 endif " }}}
 
 if neobundle#tap('vim-prettyprint') " {{{
 
-  call neobundle#config({
-        \   'autoload' : { 'commands' : ['PP'] }
-        \ })
+call neobundle#config({
+      \   'autoload' : { 'commands' : ['PP'] }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-quickrun') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'mappings' : [ '<Plug>(quickrun)' ],
-        \     'commands' : [ 'QuickRun' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'mappings' : [ '<Plug>(quickrun)' ],
+      \     'commands' : [ 'QuickRun' ],
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    call quickrun#module#register(shabadou#make_quickrun_hook_anim(
-          \  'santi_pinch',
-          \  ['＼(・ω・＼)　SAN値！', '　(／・ω・)／ピンチ！'],
-          \  12
-          \), 1)
-    let g:quickrun_config = get(g:, 'quickrun_config', {})
-    let g:quickrun_config._ = {
-          \   'runner': 'vimproc',
-          \   'runner/vimproc/updatetime': 40,
-          \   'hook/santi_pinch/enable': 1,
-          \   'hook/echo/enable' : 1,
-          \   'hook/echo/enable_output_exit' : 1,
-          \   'hook/echo/priority_exit' : 10000,
-          \   'hook/echo/output_success': 'benri',
-          \   'hook/echo/output_failure': 'huben'
-          \ }
-    let g:quickrun_config.markdown = {
-          \   'outputter' : 'null',
-          \   'command'   : 'open',
-          \   'cmdopt'    : '-a',
-          \   'args'      : 'Marked',
-          \   'exec'      : '%c %o %a %s',
-          \ }
-    let g:quickrun_config.matlab = {
-          \   'command'   : 'octave',
-          \   'cmdopt'    : '--silent --persist',
+function! neobundle#tapped.hooks.on_source(bundle)
+  call quickrun#module#register(shabadou#make_quickrun_hook_anim(
+        \  'santi_pinch',
+        \  ['＼(・ω・＼)　SAN値！', '　(／・ω・)／ピンチ！'],
+        \  12
+        \), 1)
+  let g:quickrun_config = get(g:, 'quickrun_config', {})
+  let g:quickrun_config._ = {
+        \   'runner': 'vimproc',
+        \   'runner/vimproc/updatetime': 40,
+        \   'hook/santi_pinch/enable': 1,
+        \   'hook/echo/enable' : 1,
+        \   'hook/echo/enable_output_exit' : 1,
+        \   'hook/echo/priority_exit' : 10000,
+        \   'hook/echo/output_success': 'benri',
+        \   'hook/echo/output_failure': 'huben'
+        \ }
+  let g:quickrun_config.markdown = {
+        \   'outputter' : 'null',
+        \   'command'   : 'open',
+        \   'cmdopt'    : '-a',
+        \   'args'      : 'Marked',
+        \   'exec'      : '%c %o %a %s',
+        \ }
+  let g:quickrun_config.matlab = {
+        \   'command'   : 'octave',
+        \   'cmdopt'    : '--silent --persist',
+        \   'exec'      : '%c %o %s'
+        \ }
+  let g:quickrun_config.lein_clojure = {
+        \   'command': 'lein',
+        \   'cmdopt': 'repl',
+        \   'runner': 'process_manager',
+        \   'runner/process_manager/load': '(load-file "%S")',
+        \   'runner/process_manager/prompt': 'user=> '
+        \ }
+  let g:quickrun_config.clojure = {
+        \   'type': 'lein_clojure'
+        \ }
+  let g:quickrun_config.clojure = {
+        \   'runner': 'neoclojure',
+        \   'command': 'dummy',
+        \   'tempfile' : '%{tempname()}.clj'
+        \ }
+  " let g:quickrun_config.clojure = {
+  "       \   'command': 'lein repl',
+  "       \   'runner': 'process_manager',
+  "       \   'runner/process_manager/load': '(load-file "%S")',
+  "       \   'runner/process_manager/prompt': 'user=> '
+  "       \ }
+  " let g:quickrun_config.clojure = {
+  "       \   'command'   : 'java -jar /usr/local/Cellar/clojure/1.5.1/clojure-1.5.1.jar',
+  "       \   'runner': 'process_manager',
+  "       \   'runner/process_manager/load': '(load-file "%S")',
+  "       \   'runner/process_manager/prompt': 'user=> '
+  "       \ }
+  if exists('$METALANG')
+    let g:quickrun_config.mql4 = {
+          \   'command'   : 'wine',
+          \   'cmdopt'    : '/usr/local/bin/metalang.exe',
           \   'exec'      : '%c %o %s'
           \ }
-    let g:quickrun_config.lein_clojure = {
-          \   'command': 'lein',
-          \   'cmdopt': 'repl',
-          \   'runner': 'process_manager',
-          \   'runner/process_manager/load': '(load-file "%S")',
-          \   'runner/process_manager/prompt': 'user=> '
-          \ }
-    let g:quickrun_config.clojure = {
-          \   'type': 'lein_clojure'
-          \ }
-    let g:quickrun_config.clojure = {
-          \   'runner': 'neoclojure',
-          \   'command': 'dummy',
-          \   'tempfile' : '%{tempname()}.clj'
-          \ }
-    " let g:quickrun_config.clojure = {
-    "       \   'command': 'lein repl',
-    "       \   'runner': 'process_manager',
-    "       \   'runner/process_manager/load': '(load-file "%S")',
-    "       \   'runner/process_manager/prompt': 'user=> '
-    "       \ }
-    " let g:quickrun_config.clojure = {
-    "       \   'command'   : 'java -jar /usr/local/Cellar/clojure/1.5.1/clojure-1.5.1.jar',
-    "       \   'runner': 'process_manager',
-    "       \   'runner/process_manager/load': '(load-file "%S")',
-    "       \   'runner/process_manager/prompt': 'user=> '
-    "       \ }
-    if exists('$METALANG')
-      let g:quickrun_config.mql4 = {
-            \   'command'   : 'wine',
-            \   'cmdopt'    : '/usr/local/bin/metalang.exe',
-            \   'exec'      : '%c %o %s'
-            \ }
-    endif
-    " let g:quickrun_config.ruby = {
-    "   \ 'command': 'irb',
-    "   \ 'cmdopt': '--simple-prompt',
-    "   \ 'hook/cd': 1,
-    "   \ 'runner': 'process_manager',
-    "   \ 'runner/process_manager/load': "load %s",
-    "   \ 'runner/process_manager/prompt': '>>\s',
-    "   \ }
-  endfunction
+  endif
+  " let g:quickrun_config.ruby = {
+  "   \ 'command': 'irb',
+  "   \ 'cmdopt': '--simple-prompt',
+  "   \ 'hook/cd': 1,
+  "   \ 'runner': 'process_manager',
+  "   \ 'runner/process_manager/load': "load %s",
+  "   \ 'runner/process_manager/prompt': '>>\s',
+  "   \ }
+endfunction
 
 
-  nnoremap <Space>r  :<C-u>QuickRun<CR>
+nnoremap <Space>r  :<C-u>QuickRun<CR>
 
 endif " }}}
 
@@ -1850,975 +1873,975 @@ endif " }}}
 
 if neobundle#tap('vim-singleton') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
-  call singleton#enable()
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
+call singleton#enable()
 
 endif " }}}
 
 if neobundle#tap('vim-textobj-multiblock') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
 
-  omap ab <Plug>(textobj-multiblock-a)
-  omap ib <Plug>(textobj-multiblock-i)
-  vmap ab <Plug>(textobj-multiblock-a)
-  vmap ib <Plug>(textobj-multiblock-i)
+omap ab <Plug>(textobj-multiblock-a)
+omap ib <Plug>(textobj-multiblock-i)
+vmap ab <Plug>(textobj-multiblock-a)
+vmap ib <Plug>(textobj-multiblock-i)
 
 endif " }}}
 
 if neobundle#tap('vim-ref') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [{
-        \       'name' : 'Ref',
-        \       'complete' : 'customlist,ref#complete'
-        \     }],
-        \     'unite_sources' : [ 'ref' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [{
+      \       'name' : 'Ref',
+      \       'complete' : 'customlist,ref#complete'
+      \     }],
+      \     'unite_sources' : [ 'ref' ]
+      \   }
+      \ })
 
-  let g:ref_open = 'split'
-  let g:ref_refe_cmd = '/Users/momonga/.rbenv/shims/refe'
+let g:ref_open = 'split'
+let g:ref_refe_cmd = '/Users/momonga/.rbenv/shims/refe'
 
-  aug MyAutoCmd
-    au FileType ruby,eruby,ruby.rspec,haml nnoremap <silent><buffer><Space>d  :<C-u>Unite -no-start-insert ref/refe ref/ri -auto-preview -default-action=below -input=<C-R><C-W><CR>
-    " au FileType php nnoremap <silent><buffer><Space>d  :<C-u>Unite -no-start-insert ref/refe ref/ri -auto-preview -default-action=below -input=<C-R><C-W><CR>
-  aug END
+aug MyAutoCmd
+  au FileType ruby,eruby,ruby.rspec,haml nnoremap <silent><buffer><Space>d  :<C-u>Unite -no-start-insert ref/refe ref/ri -auto-preview -default-action=below -input=<C-R><C-W><CR>
+  " au FileType php nnoremap <silent><buffer><Space>d  :<C-u>Unite -no-start-insert ref/refe ref/ri -auto-preview -default-action=below -input=<C-R><C-W><CR>
+aug END
 
 endif " }}}
 
 if neobundle#tap('vim-ref-ri') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'ruby', 'haml', 'eruby' ],
-        \     'unite_sources' : [ 'ref/ri' ]
-        \   },
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'ruby', 'haml', 'eruby' ],
+      \     'unite_sources' : [ 'ref/ri' ]
+      \   },
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-qfreplace') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'unite', 'quickfix' ],
-        \     'commands' : [ 'Qfreplace' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'unite', 'quickfix' ],
+      \     'commands' : [ 'Qfreplace' ]
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-editvar') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'Editvar' ],
-        \     'unite_sources' : [ 'variable' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'Editvar' ],
+      \     'unite_sources' : [ 'variable' ]
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-endwise') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'ruby' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'ruby' ]
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    " TODO: endwise is not working well. need to implement with smartinput
+function! neobundle#tapped.hooks.on_source(bundle)
+  " TODO: endwise is not working well. need to implement with smartinput
 
-    " let g:endwise_no_mappings = 1
-    " if maparg('<Space>','i') =~# '<C-R>=.*crend(.)<Space>\|<\%(Plug\|SNR\|SID\)>.*End'
-    "   " Already mapped
-    " elseif maparg('<Space>','i') =~ '<Space>'
-    "   exe "imap <script> <C-X><Space> ".maparg('<Space>','i')."<SID>AlwaysEnd"
-    "   exe "imap <script> <Space>      ".maparg('<Space>','i')."<SID>DiscretionaryEnd"
-    " elseif maparg('<Space>','i') =~ '<Plug>delimitMateCR'
-    "   exe "imap <C-X><Space> ".maparg('<Space>', 'i')."<Plug>AlwaysEnd"
-    "   exe "imap <Space> ".maparg('<Space>', 'i')."<Plug>DiscretionaryEnd"
-    " else
-    "   imap <C-X><Space> <Space><Plug>AlwaysEnd
-    "   imap <Space>      <Space><Plug>DiscretionaryEnd
-    " endif
-  endfunction
+  " let g:endwise_no_mappings = 1
+  " if maparg('<Space>','i') =~# '<C-R>=.*crend(.)<Space>\|<\%(Plug\|SNR\|SID\)>.*End'
+  "   " Already mapped
+  " elseif maparg('<Space>','i') =~ '<Space>'
+  "   exe "imap <script> <C-X><Space> ".maparg('<Space>','i')."<SID>AlwaysEnd"
+  "   exe "imap <script> <Space>      ".maparg('<Space>','i')."<SID>DiscretionaryEnd"
+  " elseif maparg('<Space>','i') =~ '<Plug>delimitMateCR'
+  "   exe "imap <C-X><Space> ".maparg('<Space>', 'i')."<Plug>AlwaysEnd"
+  "   exe "imap <Space> ".maparg('<Space>', 'i')."<Plug>DiscretionaryEnd"
+  " else
+  "   imap <C-X><Space> <Space><Plug>AlwaysEnd
+  "   imap <Space>      <Space><Plug>DiscretionaryEnd
+  " endif
+endfunction
 
 endif " }}}
 
 if neobundle#tap('vim-ruby') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'mappings' : [ '<Plug>(ref-keyword)' ],
-        \     'filetypes' : [ 'ruby', 'haml', 'eruby' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'mappings' : [ '<Plug>(ref-keyword)' ],
+      \     'filetypes' : [ 'ruby', 'haml', 'eruby' ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-rails') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'ruby', 'haml', 'eruby' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'ruby', 'haml', 'eruby' ]
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    nnoremap <Space>cm  :<C-u>Rmodel<CR>
-    nnoremap <Space>cv  :<C-u>Rview<CR>
-    nnoremap <Space>cc  :<C-u>Rcontroller<CR>
-    nnoremap <Space>cl  :<C-u>Rlayout<CR>
-    nnoremap <Space>ch  :<C-u>Rhelper<CR>
-    nnoremap <Space>cj  :<C-u>Rjavascript<CR>
-    nnoremap <Space>cs  :<C-u>Rstylesheet<CR>
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+  nnoremap <Space>cm  :<C-u>Rmodel<CR>
+  nnoremap <Space>cv  :<C-u>Rview<CR>
+  nnoremap <Space>cc  :<C-u>Rcontroller<CR>
+  nnoremap <Space>cl  :<C-u>Rlayout<CR>
+  nnoremap <Space>ch  :<C-u>Rhelper<CR>
+  nnoremap <Space>cj  :<C-u>Rjavascript<CR>
+  nnoremap <Space>cs  :<C-u>Rstylesheet<CR>
+endfunction
 
-  let g:rails_projections = {
-        \ "app/uploaders/*_uploader.rb": {
-        \   "command": "uploader",
-        \   "template":
-        \     "class %SUploader < CarrierWave::Uploader::Base\nend",
-        \   "test": [
-        \     "test/unit/%s_uploader_test.rb",
-        \     "spec/models/%s_uploader_spec.rb"
-        \   ],
-        \   "keywords": "process version"
-        \ },
-        \ }
+let g:rails_projections = {
+      \ "app/uploaders/*_uploader.rb": {
+      \   "command": "uploader",
+      \   "template":
+      \     "class %SUploader < CarrierWave::Uploader::Base\nend",
+      \   "test": [
+      \     "test/unit/%s_uploader_test.rb",
+      \     "spec/models/%s_uploader_spec.rb"
+      \   ],
+      \   "keywords": "process version"
+      \ },
+      \ }
 
 endif " }}}
 
 if neobundle#tap('alpaca_tags') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'AlpacaTagsUpdate', 'AlpacaTagsSet', 'AlpacaTagsBundle' ]
-        \   }
-        \ })
-  function! neobundle#tapped.hooks.on_source(bundle)
-    let g:alpaca_update_tags_config = {
-          \   '_' : '-R --sort=yes',
-          \   'js' : '--languages=+js',
-          \   '-js' : '--languages=-js,JavaScript',
-          \   'vim' : '--languages=+Vim,vim',
-          \   '-vim' : '--languages=-Vim,vim',
-          \   '-style': '--languages=-css,sass,scss,js,JavaScript,html',
-          \   'scss' : '--languages=+scss --languages=-css,sass',
-          \   'sass' : '--languages=+sass --languages=-css,scss',
-          \   'css' : '--languages=+css',
-          \   'java' : '--languages=+java $JAVA_HOME/src',
-          \   'ruby': '--languages=+Ruby',
-          \   'coffee': '--languages=+coffee',
-          \   '-coffee': '--languages=-coffee',
-          \   'bundle': '--languages=+Ruby --languages=-css,sass,scss,js,JavaScript,coffee',
-          \ }
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'AlpacaTagsUpdate', 'AlpacaTagsSet', 'AlpacaTagsBundle' ]
+      \   }
+      \ })
+function! neobundle#tapped.hooks.on_source(bundle)
+  let g:alpaca_update_tags_config = {
+        \   '_' : '-R --sort=yes',
+        \   'js' : '--languages=+js',
+        \   '-js' : '--languages=-js,JavaScript',
+        \   'vim' : '--languages=+Vim,vim',
+        \   '-vim' : '--languages=-Vim,vim',
+        \   '-style': '--languages=-css,sass,scss,js,JavaScript,html',
+        \   'scss' : '--languages=+scss --languages=-css,sass',
+        \   'sass' : '--languages=+sass --languages=-css,scss',
+        \   'css' : '--languages=+css',
+        \   'java' : '--languages=+java $JAVA_HOME/src',
+        \   'ruby': '--languages=+Ruby',
+        \   'coffee': '--languages=+coffee',
+        \   '-coffee': '--languages=-coffee',
+        \   'bundle': '--languages=+Ruby --languages=-css,sass,scss,js,JavaScript,coffee',
+        \ }
 
-    aug AlpacaUpdateTags
-      au!
-      au FileWritePost,BufWritePost * AlpacaTagsUpdate -style
-      au FileWritePost,BufWritePost Gemfile AlpacaTagsUpdateBundle
-      au FileReadPost,BufEnter * AlpacaTagsSet
-    aug END
-  endfunction
+  aug AlpacaUpdateTags
+    au!
+    au FileWritePost,BufWritePost * AlpacaTagsUpdate -style
+    au FileWritePost,BufWritePost Gemfile AlpacaTagsUpdateBundle
+    au FileReadPost,BufEnter * AlpacaTagsSet
+  aug END
+endfunction
 
 endif " }}}
 
 if neobundle#tap('unite-rails') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'rails/bundle', 'rails/bundled_gem', 'rails/config',
-        \       'rails/controller', 'rails/db', 'rails/destroy', 'rails/features',
-        \       'rails/gem', 'rails/gemfile', 'rails/generate', 'rails/git', 'rails/helper',
-        \       'rails/heroku', 'rails/initializer', 'rails/javascript', 'rails/lib', 'rails/log',
-        \       'rails/mailer', 'rails/model', 'rails/rake', 'rails/route', 'rails/schema', 'rails/spec',
-        \       'rails/stylesheet', 'rails/view'
-        \     ],
-        \     'filetypes' : [ 'ruby', 'haml', 'eruby', 'rails' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'rails/bundle', 'rails/bundled_gem', 'rails/config',
+      \       'rails/controller', 'rails/db', 'rails/destroy', 'rails/features',
+      \       'rails/gem', 'rails/gemfile', 'rails/generate', 'rails/git', 'rails/helper',
+      \       'rails/heroku', 'rails/initializer', 'rails/javascript', 'rails/lib', 'rails/log',
+      \       'rails/mailer', 'rails/model', 'rails/rake', 'rails/route', 'rails/schema', 'rails/spec',
+      \       'rails/stylesheet', 'rails/view'
+      \     ],
+      \     'filetypes' : [ 'ruby', 'haml', 'eruby', 'rails' ],
+      \   }
+      \ })
 
-  function! s:my.unite_rails_init()
-    let g:UniteRailsAll = reti#lambda(':Unite -start-insert rails/model rails/controller rails/view rails/db rails/config rails/javascript rails/stylesheet rails/helper rails/mailer')
-    " nnoremap <buffer> <C-x>r  :<C-u>call g:UniteRailsAll()<CR>
-    nnoremap <buffer> <C-c>m  :<C-u>Unite -start-insert rails/model<CR>
-    nnoremap <buffer> <C-c>c  :<C-u>Unite -start-insert rails/controller<CR>
-    nnoremap <buffer> <C-c>v  :<C-u>Unite -start-insert rails/view<CR>
-    nnoremap <buffer> <C-c>f  :<C-u>Unite -start-insert rails/config<CR>
-    nnoremap <buffer> <C-c>j  :<C-u>Unite -start-insert rails/javascript<CR>
-    nnoremap <buffer> <C-c>s  :<C-u>Unite -start-insert rails/stylesheet<CR>
-    nnoremap <buffer> <C-c>d  :<C-u>Unite -start-insert rails/db<CR>
-    nnoremap <buffer> <C-c>l  :<C-u>Unite -start-insert rails/lib<CR>
-    nnoremap <buffer> <C-c>h  :<C-u>Unite -start-insert rails/helper<CR>
-    nnoremap <buffer> <Space>j  :<C-u>call g:UniteRailsAll()<CR>
-  endfunction
+function! s:my.unite_rails_init()
+  let g:UniteRailsAll = reti#lambda(':Unite -default-action=tabdrop -start-insert rails/model rails/controller rails/view rails/db rails/config rails/javascript rails/stylesheet rails/helper rails/mailer')
+  " nnoremap <buffer> <C-x>r  :<C-u>call g:UniteRailsAll()<CR>
+  nnoremap <buffer> <C-c>m  :<C-u>Unite -start-insert rails/model<CR>
+  nnoremap <buffer> <C-c>c  :<C-u>Unite -start-insert rails/controller<CR>
+  nnoremap <buffer> <C-c>v  :<C-u>Unite -start-insert rails/view<CR>
+  nnoremap <buffer> <C-c>f  :<C-u>Unite -start-insert rails/config<CR>
+  nnoremap <buffer> <C-c>j  :<C-u>Unite -start-insert rails/javascript<CR>
+  nnoremap <buffer> <C-c>s  :<C-u>Unite -start-insert rails/stylesheet<CR>
+  nnoremap <buffer> <C-c>d  :<C-u>Unite -start-insert rails/db<CR>
+  nnoremap <buffer> <C-c>l  :<C-u>Unite -start-insert rails/lib<CR>
+  nnoremap <buffer> <C-c>h  :<C-u>Unite -start-insert rails/helper<CR>
+  nnoremap <buffer> <Space>j  :<C-u>call g:UniteRailsAll()<CR>
+endfunction
 
-  aug MyAutoCmd
-    " au User Rails call g:My.unite_rails_init()
-    au FileType *rails* call g:My.unite_rails_init()
-  aug END
+aug MyAutoCmd
+  " au User Rails call g:My.unite_rails_init()
+  au FileType *rails* call g:My.unite_rails_init()
+aug END
 
 endif " }}}
 
 if neobundle#tap('vim-elixir') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'elixir' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'elixir' ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-airline') " {{{
 
-  " Sugoku Kakkoii but chotto jyama with MacBookAir's small DPI display.
-  " let g:airline_left_sep  = '◤ '
-  " let g:airline_right_sep = ' ◥'
+" Sugoku Kakkoii but chotto jyama with MacBookAir's small DPI display.
+" let g:airline_left_sep  = '◤ '
+" let g:airline_right_sep = ' ◥'
 
-  let g:airline_left_sep  = ''
-  let g:airline_right_sep = ''
+let g:airline_left_sep  = ''
+let g:airline_right_sep = ''
 
-  let g:airline_detect_iminsert = 1
-  let g:airline_theme = 'dark'
+let g:airline_detect_iminsert = 1
+let g:airline_theme = 'dark'
 
-  " Enable fugitive
-  let g:airline_enable_branch = 1
-  let g:airline_branch_empty_message = ''
+" Enable fugitive
+let g:airline_enable_branch = 1
+let g:airline_branch_empty_message = ''
 
-  " To show airline status on single window.
-  set laststatus=2
+" To show airline status on single window.
+set laststatus=2
 
 endif " }}}
 
 if neobundle#tap('vim-pronamachang') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [ 'pronamachang' ],
-        \     'commands' : [ 'PronamachangSay' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [ 'pronamachang' ],
+      \     'commands' : [ 'PronamachangSay' ],
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    let g:pronamachang_voice_root = '~/.pronamachang'
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+  let g:pronamachang_voice_root = '~/.pronamachang'
+endfunction
 
 endif " }}}
 
 if neobundle#tap('vim-sugarpot') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'SugarpotPreview' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'SugarpotPreview' ],
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    let g:sugarpot_font = 'セプテンバーＭ-等幅:h1'
-    let g:sugarpot_xpm_cache_directory = '~/.sugarpot'
-    let g:sugarpot_convert = 'convert'
-  endfunction
+let g:sugarpot_font = 'セプテンバーＭ-等幅:h1'
+let g:sugarpot_font = 'DIN Condensed Bold:h1'
+let g:sugarpot_xpm_cache_directory = '~/.sugarpot'
+let g:sugarpot_convert = 'convert'
+let g:sugarpot_gvim = '/Applications/MacVim.app/Contents/MacOS/mvim'
 
 endif " }}}
 
 if neobundle#tap('vim-watchdogs') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'WatchdogsRun' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'WatchdogsRun' ],
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    let g:watchdogs_check_BufWritePost_enables = {
-          \   'ruby' : 1,
-          \   'mql4' : 1,
-          \ }
-    let g:quickrun_config = s:get(g:, 'quickrun_config', {})
-    " let g:quickrun_config['mql4/watchdogs_checker'] = {
-    "       \   'type' : 'watchdogs_checker/mql4'
-    "       \ }
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+  let g:watchdogs_check_BufWritePost_enables = {
+        \   'ruby' : 1,
+        \   'mql4' : 1,
+        \ }
+  let g:quickrun_config = s:get(g:, 'quickrun_config', {})
+  " let g:quickrun_config['mql4/watchdogs_checker'] = {
+  "       \   'type' : 'watchdogs_checker/mql4'
+  "       \ }
+endfunction
 
 endif " }}}
 
 if neobundle#tap('w3m.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [
-        \       'W3m',
-        \       'W3mTab',
-        \       'W3mSplit',
-        \       'W3mVSplit',
-        \       'W3mClose',
-        \       'W3mCopyUrl',
-        \       'W3mReload',
-        \       'W3mAddressBar',
-        \       'W3mShowExternal',
-        \       'W3mSyntaxOff',
-        \       'W3mSyntaxOn',
-        \       'W3mSetUserAgent',
-        \       'W3mHistory',
-        \       'W3mHistoryClear'
-        \     ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [
+      \       'W3m',
+      \       'W3mTab',
+      \       'W3mSplit',
+      \       'W3mVSplit',
+      \       'W3mClose',
+      \       'W3mCopyUrl',
+      \       'W3mReload',
+      \       'W3mAddressBar',
+      \       'W3mShowExternal',
+      \       'W3mSyntaxOff',
+      \       'W3mSyntaxOn',
+      \       'W3mSetUserAgent',
+      \       'W3mHistory',
+      \       'W3mHistoryClear'
+      \     ],
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    highlight! link w3mLink      Function
-    highlight! link w3mLinkHover SpecialKey
-    highlight! link w3mSubmit    Special
-    highlight! link w3mInput     String
-    highlight! link w3mBold      Comment
-    highlight! link w3mUnderline Underlined
-    highlight! link w3mHitAHint  Question
-    highlight! link w3mAnchor    Label
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+  highlight! link w3mLink      Function
+  highlight! link w3mLinkHover SpecialKey
+  highlight! link w3mSubmit    Special
+  highlight! link w3mInput     String
+  highlight! link w3mBold      Comment
+  highlight! link w3mUnderline Underlined
+  highlight! link w3mHitAHint  Question
+  highlight! link w3mAnchor    Label
+endfunction
 
-  let g:w3m#hit_a_hint_key = 'f'
-  let g:w3m#lang = 'ja_JP'
+let g:w3m#hit_a_hint_key = 'f'
+let g:w3m#lang = 'ja_JP'
 
 endif " }}}
 
 if neobundle#tap('TweetVim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [
-        \       'TweetVimVersion',
-        \       'TweetVimAddAccount',
-        \       'TweetVimSwitchAccount',
-        \       'TweetVimHomeTimeline',
-        \       'TweetVimMentions',
-        \       'TweetVimListStatuses',
-        \       'TweetVimUserTimeline',
-        \       'TweetVimSay',
-        \       'TweetVimUserStream',
-        \       'TweetVimCommandSay',
-        \       'TweetVimCurrentLineSay',
-        \       'TweetVimSearch'
-        \     ],
-        \     'unite_sources' : [ 'tweetvim/account', 'tweetvim' ],
-        \     'function_prefix' : 'tweetvim',
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [
+      \       'TweetVimVersion',
+      \       'TweetVimAddAccount',
+      \       'TweetVimSwitchAccount',
+      \       'TweetVimHomeTimeline',
+      \       'TweetVimMentions',
+      \       'TweetVimListStatuses',
+      \       'TweetVimUserTimeline',
+      \       'TweetVimSay',
+      \       'TweetVimUserStream',
+      \       'TweetVimCommandSay',
+      \       'TweetVimCurrentLineSay',
+      \       'TweetVimSearch'
+      \     ],
+      \     'unite_sources' : [ 'tweetvim/account', 'tweetvim' ],
+      \     'function_prefix' : 'tweetvim',
+      \   }
+      \ })
 
-  function! s:my_tweetvim_mappings()
-    nmap <buffer> j  <Plug>(tweetvim_action_cursor_down)
-    nmap <buffer> k  <Plug>(tweetvim_action_cursor_up)
-    nmap <buffer> f  <Plug>(tweetvim_action_favorite)
-    nmap <buffer> m  <Plug>(tweetvim_action_reply)
-    nmap <buffer> i  <Plug>(tweetvim_action_in_reply_to)
-    nmap <buffer> r  <Plug>(tweetvim_action_retweet)
-    nmap <buffer> q  <Plug>(tweetvim_action_qt)
-    nmap <buffer> l  <Plug>(tweetvim_action_reload)
-    nmap <buffer> u  <Plug>(tweetvim_action_user_timeline)
-    nnoremap <buffer> s  :<C-u>TweetVimSay<CR>
-    nmap <buffer> <CR>  <Plug>(tweetvim_action_enter)
-    nmap <buffer> <C-h>  <Plug>(tweetvim_action_page_previous)
-    nmap <buffer> <C-l>  <Plug>(tweetvim_action_page_next)
-    nnoremap <buffer> <Space>cu  :<C-u>Unite tweetvim<CR>
-  endfunction
-  function! s:my_tweetvim_say_mappings()
-    nmap <buffer> <silent> <C-s>       <Plug>(tweetvim_say_show_history)
-    imap <buffer> <silent> <C-s>  <ESC><Plug>(tweetvim_say_show_history)
-    nmap <buffer> <silent> <CR>        <Plug>(tweetvim_say_post_buffer)
-    imap <buffer> <silent> <C-CR> <ESC><Plug>(tweetvim_say_post_buffer)
-  endfunction
-  au MyAutoCmd FileType tweetvim call s:my_tweetvim_mappings()
-  au MyAutoCmd FileType tweetvim_say call s:my_tweetvim_say_mappings()
+function! s:my_tweetvim_mappings()
+  nmap <buffer> j  <Plug>(tweetvim_action_cursor_down)
+  nmap <buffer> k  <Plug>(tweetvim_action_cursor_up)
+  nmap <buffer> f  <Plug>(tweetvim_action_favorite)
+  nmap <buffer> m  <Plug>(tweetvim_action_reply)
+  nmap <buffer> i  <Plug>(tweetvim_action_in_reply_to)
+  nmap <buffer> r  <Plug>(tweetvim_action_retweet)
+  nmap <buffer> q  <Plug>(tweetvim_action_qt)
+  nmap <buffer> l  <Plug>(tweetvim_action_reload)
+  nmap <buffer> u  <Plug>(tweetvim_action_user_timeline)
+  nnoremap <buffer> s  :<C-u>TweetVimSay<CR>
+  nmap <buffer> <CR>  <Plug>(tweetvim_action_enter)
+  nmap <buffer> <C-h>  <Plug>(tweetvim_action_page_previous)
+  nmap <buffer> <C-l>  <Plug>(tweetvim_action_page_next)
+  nnoremap <buffer> <Space>cu  :<C-u>Unite tweetvim<CR>
+endfunction
+function! s:my_tweetvim_say_mappings()
+  nmap <buffer> <silent> <C-s>       <Plug>(tweetvim_say_show_history)
+  imap <buffer> <silent> <C-s>  <ESC><Plug>(tweetvim_say_show_history)
+  nmap <buffer> <silent> <CR>        <Plug>(tweetvim_say_post_buffer)
+  imap <buffer> <silent> <C-CR> <ESC><Plug>(tweetvim_say_post_buffer)
+endfunction
+au MyAutoCmd FileType tweetvim call s:my_tweetvim_mappings()
+au MyAutoCmd FileType tweetvim_say call s:my_tweetvim_say_mappings()
 
-  " TODO: Make macvim shows graphical sign.
-  let g:tweetvim_display_separator = 0
-  let g:tweetvim_display_icon = 1
-  let g:tweetvim_display_source = 0
-  let g:tweetvim_display_username = 1
-  let g:tweetvim_no_default_key_mappings = 1
+" TODO: Make macvim shows graphical sign.
+let g:tweetvim_display_separator = 0
+let g:tweetvim_display_icon = 1
+let g:tweetvim_display_source = 0
+let g:tweetvim_display_username = 1
+let g:tweetvim_no_default_key_mappings = 1
 
-  function! s:my_tweetvim_hook_fav(user, status)
-    call thingspast#add('TweetVim', 'Favorite', a:user, a:status, 'tweetvim#timeline', ['favorites', tweetvim#account#current().screen_name])
-  endfunction
+function! s:my_tweetvim_hook_fav(user, status)
+  call thingspast#add('TweetVim', 'Favorite', a:user, a:status, 'tweetvim#timeline', ['favorites', tweetvim#account#current().screen_name])
+endfunction
 
-  function! s:my_tweetvim_hook_test(...)
-    call thingspast#add('TweetVim', 'Test', '', '', 'tweetvim#timeline', ['favorites', tweetvim#account#current().screen_name])
-  endfunction
+function! s:my_tweetvim_hook_test(...)
+  call thingspast#add('TweetVim', 'Test', '', '', 'tweetvim#timeline', ['favorites', tweetvim#account#current().screen_name])
+endfunction
 
-  let g:tweetvim_filters = []
-  call tweetvim#hook#remove('notify_fav', function('s:my_tweetvim_hook_fav'))
-  call tweetvim#hook#add('notify_fav', function('s:my_tweetvim_hook_fav'))
-
-  call tweetvim#hook#remove('write_screen_name', function('s:my_tweetvim_hook_test'))
-  call tweetvim#hook#remove('write_hash_tag', function('s:my_tweetvim_hook_test'))
-  call tweetvim#hook#remove('notify_fav', function('s:my_tweetvim_hook_test'))
-  call tweetvim#hook#remove('notify_unfav', function('s:my_tweetvim_hook_test'))
-  call tweetvim#hook#remove('notify_retweet', function('s:my_tweetvim_hook_test'))
-  call tweetvim#hook#remove('notify_mention', function('s:my_tweetvim_hook_test'))
-  call tweetvim#hook#add('write_screen_name', function('s:my_tweetvim_hook_test'))
-  call tweetvim#hook#add('write_hash_tag', function('s:my_tweetvim_hook_test'))
-  call tweetvim#hook#add('notify_fav', function('s:my_tweetvim_hook_test'))
-  call tweetvim#hook#add('notify_unfav', function('s:my_tweetvim_hook_test'))
-  call tweetvim#hook#add('notify_retweet', function('s:my_tweetvim_hook_test'))
-  call tweetvim#hook#add('notify_mention', function('s:my_tweetvim_hook_test'))
+let g:tweetvim_filters = []
+" call tweetvim#hook#remove('notify_fav', function('s:my_tweetvim_hook_fav'))
+" call tweetvim#hook#add('notify_fav', function('s:my_tweetvim_hook_fav'))
+"
+" call tweetvim#hook#remove('write_screen_name', function('s:my_tweetvim_hook_test'))
+" call tweetvim#hook#remove('write_hash_tag', function('s:my_tweetvim_hook_test'))
+" call tweetvim#hook#remove('notify_fav', function('s:my_tweetvim_hook_test'))
+" call tweetvim#hook#remove('notify_unfav', function('s:my_tweetvim_hook_test'))
+" call tweetvim#hook#remove('notify_retweet', function('s:my_tweetvim_hook_test'))
+" call tweetvim#hook#remove('notify_mention', function('s:my_tweetvim_hook_test'))
+" call tweetvim#hook#add('write_screen_name', function('s:my_tweetvim_hook_test'))
+" call tweetvim#hook#add('write_hash_tag', function('s:my_tweetvim_hook_test'))
+" call tweetvim#hook#add('notify_fav', function('s:my_tweetvim_hook_test'))
+" call tweetvim#hook#add('notify_unfav', function('s:my_tweetvim_hook_test'))
+" call tweetvim#hook#add('notify_retweet', function('s:my_tweetvim_hook_test'))
+" call tweetvim#hook#add('notify_mention', function('s:my_tweetvim_hook_test'))
 
 endif " }}}
 
 if neobundle#tap('lingr-vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'LingrLaunch', 'LingrExit' ],
-        \     'function_prefix' : 'lingr'
-        \   }
-        \ })
-  let g:J6uil_display_icon = 1
-  let g:lingr_vim_user     = g:vimrc_secrets['J6uil_user']
-  let g:lingr_vim_password = g:vimrc_secrets['J6uil_password']
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'LingrLaunch', 'LingrExit' ],
+      \     'function_prefix' : 'lingr'
+      \   }
+      \ })
+let g:J6uil_display_icon = 1
+let g:lingr_vim_user     = g:vimrc_secrets['J6uil_user']
+let g:lingr_vim_password = g:vimrc_secrets['J6uil_password']
 
-  let g:lingr_vim_nickname = 'supermomonga'
-  function! s:my_lingr_hook_message(mes)
-    if !empty(a:mes) && a:mes.nickname != g:lingr_vim_nickname
-      call thingspast#add('Lingr', 'Message', a:mes.nickname, a:mes.text, function('s:my_lingr_launch'), [])
-    endif
-  endfunction
+let g:lingr_vim_nickname = 'supermomonga'
+function! s:my_lingr_hook_message(mes)
+  if !empty(a:mes) && a:mes.nickname != g:lingr_vim_nickname
+    call thingspast#add('Lingr', 'Message', a:mes.nickname, a:mes.text, function('s:my_lingr_launch'), [])
+  endif
+endfunction
 
-  function! s:my_lingr_launch()
-    if lingr#status() != 'connected'
-      LingrLaunch
-    endif
-  endfunction
+function! s:my_lingr_launch()
+  if lingr#status() != 'connected'
+    LingrLaunch
+  endif
+endfunction
 
-  augroup lingr-vim
-    autocmd!
-    autocmd User plugin-lingr-message call s:my_lingr_hook_message(lingr#get_last_message())
-  augroup END
+augroup lingr-vim
+  autocmd!
+  autocmd User plugin-lingr-message call s:my_lingr_hook_message(lingr#get_last_message())
+augroup END
 
 endif " }}}
 
 if neobundle#tap('J6uil.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'J6uil' ],
-        \     'unite_sources' : [ 'J6uil/members', 'J6uil/rooms' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'J6uil' ],
+      \     'unite_sources' : [ 'J6uil/members', 'J6uil/rooms' ],
+      \   }
+      \ })
 
-  augroup MyAutoCmd
-    autocmd FileType J6uil call s:J6uil_settings()
-  augroup END
+augroup MyAutoCmd
+  autocmd FileType J6uil call s:J6uil_settings()
+augroup END
 
-  function! s:J6uil_settings()
-    nmap <silent> <buffer> <C-c><C-r>  <Plug>(J6uil_unite_rooms)
-    nmap <silent> <buffer> <C-c><C-m>  <Plug>(J6uil_unite_members)
-    nmap <silent> <buffer> <Space>cr  <Plug>(J6uil_unite_rooms)
-    nmap <silent> <buffer> <Space>cm  <Plug>(J6uil_unite_members)
-    nmap <silent> <buffer> <C-l>  <Plug>(J6uil_next_room)
-    nmap <silent> <buffer> <C-h>  <Plug>(J6uil_prev_room)
-  endfunction
+function! s:J6uil_settings()
+  nmap <silent> <buffer> <C-c><C-r>  <Plug>(J6uil_unite_rooms)
+  nmap <silent> <buffer> <C-c><C-m>  <Plug>(J6uil_unite_members)
+  nmap <silent> <buffer> <Space>cr  <Plug>(J6uil_unite_rooms)
+  nmap <silent> <buffer> <Space>cm  <Plug>(J6uil_unite_members)
+  nmap <silent> <buffer> <C-l>  <Plug>(J6uil_next_room)
+  nmap <silent> <buffer> <C-h>  <Plug>(J6uil_prev_room)
+endfunction
 
-  let g:J6uil_user     = g:vimrc_secrets['J6uil_user']
-  let g:J6uil_password = g:vimrc_secrets['J6uil_password']
-  let g:J6uil_multi_window = 1
-  let g:J6uil_user_define_rooms = [
-        \   'clojure',
-        \   'computer_science',
-        \   'momonga',
-        \   'vim',
-        \   'mtroom',
-        \   'mcujm',
-        \   'imascg',
-        \   'monetize',
-        \   'emacs',
-        \   'meat',
-        \   'clojure_ja',
-        \   'lingr'
-        \ ]
+let g:J6uil_user     = g:vimrc_secrets['J6uil_user']
+let g:J6uil_password = g:vimrc_secrets['J6uil_password']
+let g:J6uil_multi_window = 1
+let g:J6uil_user_define_rooms = [
+      \   'clojure',
+      \   'computer_science',
+      \   'momonga',
+      \   'vim',
+      \   'mtroom',
+      \   'mcujm',
+      \   'imascg',
+      \   'monetize',
+      \   'emacs',
+      \   'meat',
+      \   'clojure_ja',
+      \   'lingr'
+      \ ]
 
 endif " }}}
 
 if neobundle#tap('vimconsole.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [
-        \       'VimConsole', 'VimConsoleLog', 'VimConsoleWarn', 'VimConsoleError',
-        \       'VimConsoleOpen', 'VimConsoleClose', 'VimConsoleToggle', 'VimConsoleClear',
-        \       'VimConsoleRedraw', 'VimConsoleDump'
-        \     ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [
+      \       'VimConsole', 'VimConsoleLog', 'VimConsoleWarn', 'VimConsoleError',
+      \       'VimConsoleOpen', 'VimConsoleClose', 'VimConsoleToggle', 'VimConsoleClear',
+      \       'VimConsoleRedraw', 'VimConsoleDump'
+      \     ]
+      \   }
+      \ })
 
-  let g:vimconsole#auto_redraw = 1
+let g:vimconsole#auto_redraw = 1
 
-  nnoremap <Space>d  :<C-u>VimConsoleToggle<CR>
+nnoremap <Space>d  :<C-u>VimConsoleToggle<CR>
 
 endif " }}}
 
 if neobundle#tap('emmet-vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'html', 'php', 'erb' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'html', 'php', 'erb' ],
+      \   }
+      \ })
 
-  let g:user_emmet_leader_key = '<C-c>'
-  let g:user_emmet_settings = {
-        \   'lang' : 'ja',
-        \   'html' : {
-        \     'filters' : 'html',
-        \     'indentation' : '  '
-        \   },
-        \   'css' : {
-        \     'filters' : 'fc',
-        \   },
-        \   'javascript' : {
-        \     'snippets' : {
-        \       'jq' : "$(function() {\n\t${cursor}${child}\n});",
-        \       'jq:each' : "$.each(arr, function(index, item)\n\t${child}\n});",
-        \       'fn' : "(function() {\n\t${cursor}\n})();",
-        \       'tm' : "setTimeout(function() {\n\t${cursor}\n}, 100);",
-        \     },
-        \   }
-        \ }
+let g:user_emmet_leader_key = '<C-c>'
+let g:user_emmet_settings = {
+      \   'lang' : 'ja',
+      \   'html' : {
+      \     'filters' : 'html',
+      \     'indentation' : '  '
+      \   },
+      \   'css' : {
+      \     'filters' : 'fc',
+      \   },
+      \   'javascript' : {
+      \     'snippets' : {
+      \       'jq' : "$(function() {\n\t${cursor}${child}\n});",
+      \       'jq:each' : "$.each(arr, function(index, item)\n\t${child}\n});",
+      \       'fn' : "(function() {\n\t${cursor}\n})();",
+      \       'tm' : "setTimeout(function() {\n\t${cursor}\n}, 100);",
+      \     },
+      \   }
+      \ }
 
 endif " }}}
 
 if neobundle#tap('vim-less') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'less', 'html', 'haml' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'less', 'html', 'haml' ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-slim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'slim' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'slim' ],
+      \   }
+      \ })
 
-  function! Html2Slim(html)
-    if !executable('html2slim')
-      return ''
-    endif
-    let input = tempname()
-    call writefile(split(a:html, "\n"), input)
-    let output = tempname()
-    call system(printf("html2slim %s %s", input, output))
-    return join(readfile(output), "\n")
-  endfunction
+function! Html2Slim(html)
+  if !executable('html2slim')
+    return ''
+  endif
+  let input = tempname()
+  call writefile(split(a:html, "\n"), input)
+  let output = tempname()
+  call system(printf("html2slim %s %s", input, output))
+  return join(readfile(output), "\n")
+endfunction
 
 endif " }}}
 
 if neobundle#tap('vim-coffee-script') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'coffee', 'html', 'haml' ],
-        \     'commands' : [ 'CoffeeCompile', 'CoffeeWatch', 'CoffeeRun', 'CoffeeLint' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'coffee', 'html', 'haml' ],
+      \     'commands' : [ 'CoffeeCompile', 'CoffeeWatch', 'CoffeeRun', 'CoffeeLint' ]
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    augroup CoffeeBufNew
-      autocmd!
-      autocmd User * set wrap
-    augroup END
+function! neobundle#tapped.hooks.on_source(bundle)
+  augroup CoffeeBufNew
+    autocmd!
+    autocmd User * set wrap
+  augroup END
 
-    augroup CoffeeBufUpdate
-      " TODO: Is this nani?
-      " autocmd!
-      " autocmd User CoffeeCompile,CoffeeWatch
-    augroup END
-  endfunction
+  augroup CoffeeBufUpdate
+    " TODO: Is this nani?
+    " autocmd!
+    " autocmd User CoffeeCompile,CoffeeWatch
+  augroup END
+endfunction
 
 endif " }}}
 
 if neobundle#tap('layoutplugin.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'LayoutPlugin' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'LayoutPlugin' ]
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vimhelpgenerator') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'LayoutPlugin', 'VimHelpGenerator', 'VimHelpGeneratorVirtual', 'HelpIntoMarkdown' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'LayoutPlugin', 'VimHelpGenerator', 'VimHelpGeneratorVirtual', 'HelpIntoMarkdown' ]
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-      let g:vimhelpgenerator_version = 'Version : 1.0.0'
-      let g:vimhelpgenerator_author = 'supermomonga (@supermomonga)'
-      let g:vimhelpgenerator_uri = 'https://github.com/supermomonga/'
-      let g:vimhelpgenerator_defaultlanguage = 'en'
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+    let g:vimhelpgenerator_version = 'Version : 1.0.0'
+    let g:vimhelpgenerator_author = 'supermomonga (@supermomonga)'
+    let g:vimhelpgenerator_uri = 'https://github.com/supermomonga/'
+    let g:vimhelpgenerator_defaultlanguage = 'en'
+endfunction
 
 endif " }}}
 
 if neobundle#tap('vim-rengbang') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'RengBang', 'RengBangUsePrev', 'RengBangConfirm' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'RengBang', 'RengBangUsePrev', 'RengBangConfirm' ]
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-snowdrop') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'SnowdropGotoDefinition', 'SnowdropEchoTypeof', 'SnowdropEchoResultTypeof', 'SnowdropEchoIncludes', 'SnowdropVerify' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'SnowdropGotoDefinition', 'SnowdropEchoTypeof', 'SnowdropEchoResultTypeof', 'SnowdropEchoIncludes', 'SnowdropVerify' ],
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    let g:snowdrop#libclang_path='/Library/Developer/CommandLineTools/usr/lib'
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+  let g:snowdrop#libclang_path='/Library/Developer/CommandLineTools/usr/lib'
+endfunction
 
 endif " }}}
 
 if neobundle#tap('vim-mql4') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'mql4' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'mql4' ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('go-vim') " {{{
 
-  " au MyAutoCmd FileType go nmap <buffer> <C-c><C-i> <Plug>(go-import)
+" au MyAutoCmd FileType go nmap <buffer> <C-c><C-i> <Plug>(go-import)
 
-  call neobundle#config({
-        \   'autoload': {
-        \     'filetypes' : [ 'go', 'godoc' ],
-        \     'mappings': [['n', '<Plug>(godoc-keyword)']],
-        \     'commands': [{
-        \       'complete': 'customlist,go#complete#Package',
-        \       'name': 'Godoc'
-        \     }]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload': {
+      \     'filetypes' : [ 'go', 'godoc' ],
+      \     'mappings': [['n', '<Plug>(godoc-keyword)']],
+      \     'commands': [{
+      \       'complete': 'customlist,go#complete#Package',
+      \       'name': 'Godoc'
+      \     }]
+      \   }
+      \ })
 
-  let $GOPATH = expand('~/.go')
-  let $PATH = s:append_path($PATH, $GOPATH . '/bin')
-  let $PATH = s:append_path($PATH, fnamemodify(resolve(exepath('go')), ":h"))
+let $GOPATH = expand('~/.go')
+let $PATH = s:append_path($PATH, $GOPATH . '/bin')
+let $PATH = s:append_path($PATH, fnamemodify(resolve(exepath('go')), ":h"))
 
-  au MyAutoCmd FileType go compiler go
+au MyAutoCmd FileType go compiler go
 
 endif " }}}
 
 if neobundle#tap('vim-go') " {{{
 
-  let g:go_import_commands = 1
-  let g:go_snippet_engine = 'neosnippet'
-  let g:go_fmt_fail_silently = 0
-  let g:go_fmt_autosave = 1
+let g:go_import_commands = 1
+let g:go_snippet_engine = 'neosnippet'
+let g:go_fmt_fail_silently = 0
+let g:go_fmt_autosave = 1
 
-  au MyAutoCmd FileType go nmap <buffer> <C-c><C-i> <Plug>(go-import)
-  au MyAutoCmd FileType go nmap <buffer> <C-c><C-g><C-d> <Plug>(go-doc)
-  au MyAutoCmd FileType go nmap <buffer> <C-c><C-g><C-v> <Plug>(go-doc-vertical)
-  au MyAutoCmd FileType go nmap <buffer> <C-c><C-r> <Plug>(go-run)
-  au MyAutoCmd FileType go nmap <buffer> <C-c><C-b> <Plug>(go-build)
-  au MyAutoCmd FileType go nmap <buffer> <C-c><C-t> <Plug>(go-test)
-  au MyAutoCmd FileType go nmap <buffer> <C-c><C-d><C-s> <Plug>(go-def-split)
-  au MyAutoCmd FileType go nmap <buffer> <C-c><C-d><C-v> <Plug>(go-def-vertical)
-  au MyAutoCmd FileType go nmap <buffer> <C-c><C-d><C-t> <Plug>(go-def-tab)
-  au MyAutoCmd FileType go nmap <buffer> gd <Plug>(go-def)
+au MyAutoCmd FileType go nmap <buffer> <C-c><C-i> <Plug>(go-import)
+au MyAutoCmd FileType go nmap <buffer> <C-c><C-g><C-d> <Plug>(go-doc)
+au MyAutoCmd FileType go nmap <buffer> <C-c><C-g><C-v> <Plug>(go-doc-vertical)
+au MyAutoCmd FileType go nmap <buffer> <C-c><C-r> <Plug>(go-run)
+au MyAutoCmd FileType go nmap <buffer> <C-c><C-b> <Plug>(go-build)
+au MyAutoCmd FileType go nmap <buffer> <C-c><C-t> <Plug>(go-test)
+au MyAutoCmd FileType go nmap <buffer> <C-c><C-d><C-s> <Plug>(go-def-split)
+au MyAutoCmd FileType go nmap <buffer> <C-c><C-d><C-v> <Plug>(go-def-vertical)
+au MyAutoCmd FileType go nmap <buffer> <C-c><C-d><C-t> <Plug>(go-def-tab)
+au MyAutoCmd FileType go nmap <buffer> gd <Plug>(go-def)
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'go', 'godoc' ],
-        \     'commands' : [
-        \       'GoImport',
-        \       'GoImportAs',
-        \       'GoDrop',
-        \       'GoDisableGoimports',
-        \       'GoEnableGoimports',
-        \       'GoLint',
-        \       'GoDoc',
-        \       'GoFmt',
-        \       'GoDef',
-        \       'GoRun',
-        \       'GoBuild',
-        \       'GoTest',
-        \       'GoErrCheck',
-        \       'GoFiles',
-        \       'GoDeps',
-        \       'GoUpdateBinaries',
-        \       'GoOracleDescribe',
-        \       'GoOracleCallees',
-        \       'GoOracleCallers',
-        \       'GoOracleCallgraph',
-        \       'GoOracleImplements',
-        \       'GoOracleChannelPeers',
-        \     ],
-        \     'function_prefix' : 'go'
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'go', 'godoc' ],
+      \     'commands' : [
+      \       'GoImport',
+      \       'GoImportAs',
+      \       'GoDrop',
+      \       'GoDisableGoimports',
+      \       'GoEnableGoimports',
+      \       'GoLint',
+      \       'GoDoc',
+      \       'GoFmt',
+      \       'GoDef',
+      \       'GoRun',
+      \       'GoBuild',
+      \       'GoTest',
+      \       'GoErrCheck',
+      \       'GoFiles',
+      \       'GoDeps',
+      \       'GoUpdateBinaries',
+      \       'GoOracleDescribe',
+      \       'GoOracleCallees',
+      \       'GoOracleCallers',
+      \       'GoOracleCallgraph',
+      \       'GoOracleImplements',
+      \       'GoOracleChannelPeers',
+      \     ],
+      \     'function_prefix' : 'go'
+      \   }
+      \ })
 
-  let $GOPATH = expand('~/.go')
-  let $PATH = s:append_path($PATH, $GOPATH . '/bin')
-  let $PATH = s:append_path($PATH, '/usr/local/Cellar/go/1.2.1/libexec/bin')
+let $GOPATH = expand('~/.go')
+let $PATH = s:append_path($PATH, $GOPATH . '/bin')
+let $PATH = s:append_path($PATH, '/usr/local/Cellar/go/1.2.1/libexec/bin')
 
-  au MyAutoCmd FileType go setl noexpandtab
+au MyAutoCmd FileType go setl noexpandtab
 
 endif " }}}
 
 if neobundle#tap('vim-golang') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'go', 'godoc' ],
-        \     'commands' : [
-        \       'Import',
-        \       'ImportAs',
-        \       'Drop',
-        \       'Fmt',
-        \       'GoDoc',
-        \     ],
-        \     'function_prefix' : 'go'
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'go', 'godoc' ],
+      \     'commands' : [
+      \       'Import',
+      \       'ImportAs',
+      \       'Drop',
+      \       'Fmt',
+      \       'GoDoc',
+      \     ],
+      \     'function_prefix' : 'go'
+      \   }
+      \ })
 
-  let $GOPATH = expand('~/.go')
-  let $PATH = s:append_path($PATH, $GOPATH . '/bin')
-  let $PATH = s:append_path($PATH, '/usr/local/Cellar/go/1.2.1/libexec/bin')
+let $GOPATH = expand('~/.go')
+let $PATH = s:append_path($PATH, $GOPATH . '/bin')
+let $PATH = s:append_path($PATH, '/usr/local/Cellar/go/1.2.1/libexec/bin')
 
-  au MyAutoCmd FileType go setl noexpandtab
+au MyAutoCmd FileType go setl noexpandtab
 
 endif " }}}
 
 if neobundle#tap('vim-gocode') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : [ 'go', 'godoc' ],
-        \     'commands' : [
-        \       'RelPkg',
-        \       'GoInstall',
-        \       'GoTest',
-        \       'GoImport',
-        \       'GoImportAs',
-        \       'GoDrop',
-        \       'make',
-        \     ],
-        \     'function_prefix' : 'go'
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : [ 'go', 'godoc' ],
+      \     'commands' : [
+      \       'RelPkg',
+      \       'GoInstall',
+      \       'GoTest',
+      \       'GoImport',
+      \       'GoImportAs',
+      \       'GoDrop',
+      \       'make',
+      \     ],
+      \     'function_prefix' : 'go'
+      \   }
+      \ })
 
-  let $GOPATH = expand('~/.go')
-  let $PATH = s:append_path($PATH, $GOPATH . '/bin')
-  let $PATH = s:append_path($PATH, '/usr/local/Cellar/go/1.2.1/libexec/bin')
+let $GOPATH = expand('~/.go')
+let $PATH = s:append_path($PATH, $GOPATH . '/bin')
+let $PATH = s:append_path($PATH, '/usr/local/Cellar/go/1.2.1/libexec/bin')
 
-  au MyAutoCmd FileType go setl noexpandtab
+au MyAutoCmd FileType go setl noexpandtab
 
 endif " }}}
 
 if neobundle#tap('puyo.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'Puyo' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'Puyo' ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('mario.vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'Mario' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'Mario' ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('flappyvird-vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'FlappyVird' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'FlappyVird' ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-threes') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'ThreesStart' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'ThreesStart' ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('emoji-vim') " {{{
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'Emoji' ],
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'Emoji' ],
+      \   }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('jazzradio.vim') " {{{
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'jazzradio'
-        \     ],
-        \     'commands' : [
-        \       'JazzradioUpdateChannels',
-        \       'JazzradioStop',
-        \       {
-        \         'name' : 'JazzradioPlay',
-        \         'complete' : 'customlist,jazzradio#channel_key_complete'
-        \       }
-        \     ],
-        \     'function_prefix' : 'jazzradio'
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'jazzradio'
+      \     ],
+      \     'commands' : [
+      \       'JazzradioUpdateChannels',
+      \       'JazzradioStop',
+      \       {
+      \         'name' : 'JazzradioPlay',
+      \         'complete' : 'customlist,jazzradio#channel_key_complete'
+      \       }
+      \     ],
+      \     'function_prefix' : 'jazzradio'
+      \   }
+      \ })
 endif " }}}
 
 if neobundle#tap('skyfm.vim') " {{{
-  call neobundle#config({
-        \   'autoload' : {
-        \     'unite_sources' : [
-        \       'skyfm'
-        \     ],
-        \     'commands' : [
-        \       'SkyfmUpdateChannels',
-        \       'SkyfmStop',
-        \       {
-        \         'name' : 'SkyfmPlay',
-        \         'complete' : 'customlist,skyfm#channel_key_complete'
-        \       }
-        \     ],
-        \     'function_prefix' : 'skyfm'
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'unite_sources' : [
+      \       'skyfm'
+      \     ],
+      \     'commands' : [
+      \       'SkyfmUpdateChannels',
+      \       'SkyfmStop',
+      \       {
+      \         'name' : 'SkyfmPlay',
+      \         'complete' : 'customlist,skyfm#channel_key_complete'
+      \       }
+      \     ],
+      \     'function_prefix' : 'skyfm'
+      \   }
+      \ })
 endif " }}}
 
 if neobundle#tap('vim-ruby-xmpfilter') " {{{
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : 'ruby'
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : 'ruby'
+      \   }
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-    let g:xmpfilter_cmd = 'seeing_is_believing'
-    autocmd FileType ruby nmap <buffer> <C-s>m <Plug>(seeing_is_believing-mark)
-    autocmd FileType ruby xmap <buffer> <C-s>m <Plug>(seeing_is_believing-mark)
-    autocmd FileType ruby imap <buffer> <C-s>m <Plug>(seeing_is_believing-mark)
-    autocmd FileType ruby nmap <buffer> <C-s>c <Plug>(seeing_is_believing-clean)
-    autocmd FileType ruby xmap <buffer> <C-s>c <Plug>(seeing_is_believing-clean)
-    autocmd FileType ruby imap <buffer> <C-s>c <Plug>(seeing_is_believing-clean)
-    autocmd FileType ruby nmap <buffer> <C-s>r <Plug>(seeing_is_believing-run_-x)
-    autocmd FileType ruby xmap <buffer> <C-s>r <Plug>(seeing_is_believing-run_-x)
-    autocmd FileType ruby imap <buffer> <C-s>r <Plug>(seeing_is_believing-run_-x)
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+  let g:xmpfilter_cmd = 'seeing_is_believing'
+  autocmd FileType ruby nmap <buffer> <C-s>m <Plug>(seeing_is_believing-mark)
+  autocmd FileType ruby xmap <buffer> <C-s>m <Plug>(seeing_is_believing-mark)
+  autocmd FileType ruby imap <buffer> <C-s>m <Plug>(seeing_is_believing-mark)
+  autocmd FileType ruby nmap <buffer> <C-s>c <Plug>(seeing_is_believing-clean)
+  autocmd FileType ruby xmap <buffer> <C-s>c <Plug>(seeing_is_believing-clean)
+  autocmd FileType ruby imap <buffer> <C-s>c <Plug>(seeing_is_believing-clean)
+  autocmd FileType ruby nmap <buffer> <C-s>r <Plug>(seeing_is_believing-run_-x)
+  autocmd FileType ruby xmap <buffer> <C-s>r <Plug>(seeing_is_believing-run_-x)
+  autocmd FileType ruby imap <buffer> <C-s>r <Plug>(seeing_is_believing-run_-x)
+endfunction
 
 endif " }}}
 
 if neobundle#tap('vim-monster') " {{{
-  call neobundle#config({
-        \   'autoload' : {
-        \     'filetypes' : 'ruby'
-        \   },
-        \   'commands': [ 'MonsterDebugLog' ],
-        \   'function_prefix' : 'monster'
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'filetypes' : 'ruby'
+      \   },
+      \   'commands': [ 'MonsterDebugLog' ],
+      \   'function_prefix' : 'monster'
+      \ })
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
 
-  " Async
-  let g:neocomplete#force_omni_input_patterns = get(g:, 'neocomplete#force_omni_input_patterns', {})
-  let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
-  let g:monster#completion#rcodetools#backend = "async_rct_complete"
+" Async
+let g:neocomplete#force_omni_input_patterns = get(g:, 'neocomplete#force_omni_input_patterns', {})
+let g:neocomplete#force_omni_input_patterns.ruby = '[^. *\t]\.\|\h\w*::'
+let g:monster#completion#rcodetools#backend = "async_rct_complete"
 
-  " Sync
-  " let g:neocomplete#sources#omni#input_patterns = get(g:, 'neocomplete#sources#omni#input_patterns', {})
-  " let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+" Sync
+" let g:neocomplete#sources#omni#input_patterns = get(g:, 'neocomplete#sources#omni#input_patterns', {})
+" let g:neocomplete#sources#omni#input_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
 
-  " let g:neocomplete#sources#omni#functions = get(g:, 'neocomplete#sources#omni#functions', {})
-  " let g:neocomplete#sources#omni#functions.ruby = 'monster#omnifunc'
+" let g:neocomplete#sources#omni#functions = get(g:, 'neocomplete#sources#omni#functions', {})
+" let g:neocomplete#sources#omni#functions.ruby = 'monster#omnifunc'
 
 endif " }}}
 
 if neobundle#tap('thingspast.vim') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
-  call neobundle#config({
-        \   'autoload': {
-        \     'mappings': [
-        \       [ 'n', '<Plug>(thingspast#' ]
-        \     ]
-        \   }
-        \ })
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
+call neobundle#config({
+      \   'autoload': {
+      \     'mappings': [
+      \       [ 'n', '<Plug>(thingspast#' ]
+      \     ]
+      \   }
+      \ })
 
-  let g:thingspast_hooks = get(g:, 'thingspast_hooks', {})
-  let g:thingspast_hooks.on_add = get(g:thingspast_hooks, 'on_add', {})
+let g:thingspast_hooks = get(g:, 'thingspast_hooks', {})
+let g:thingspast_hooks.on_add = get(g:thingspast_hooks, 'on_add', {})
 
-  function! s:my_thingspast_on_add(thing)
-    let speech = '新着通知、' . a:thing['message']
-    call shaberu#say(speech)
-  endfunction
-  let g:thingspast_hooks.on_add['shaberu'] = function('s:my_thingspast_on_add')
-  let g:thingspast_mark_arrow = '❯'
+function! s:my_thingspast_on_add(thing)
+  let speech = '新着通知、' . a:thing['message']
+  call shaberu#say(speech)
+endfunction
+let g:thingspast_hooks.on_add['shaberu'] = function('s:my_thingspast_on_add')
+let g:thingspast_mark_arrow = '❯'
 
 endif " }}}
 
 if neobundle#tap('vim-splash') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
-  " let g:splash#path = expand('~/.vim/splash.txt')
-  let g:splash#path = expand('~/.vim/splasht.txt')
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
+" let g:splash#path = expand('~/.vim/splash.txt')
+let g:splash#path = expand('~/.vim/splasht.txt')
 
 endif " }}}
 
 if neobundle#tap('fclojure.vim') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'FClojureOpenProblemList', 'FClojureOpenProblem', 'FClojureOpenAnswerColumn', 'FClojureOpenTopURL', 'FClojureOpenLogInURL', 'FClojureOpenSettingsURL', 'FClojureOpenProblemListURL', 'FClojureOpenProblemURL' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'FClojureOpenProblemList', 'FClojureOpenProblem', 'FClojureOpenAnswerColumn', 'FClojureOpenTopURL', 'FClojureOpenLogInURL', 'FClojureOpenSettingsURL', 'FClojureOpenProblemListURL', 'FClojureOpenProblemURL' ]
+      \   }
+      \ })
 
 endif " }}}
 
@@ -2828,123 +2851,123 @@ endif " }}}
 
 if neobundle#tap('neoclojure.vim') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
 
-  let g:neoclojure_autowarmup = 1
+let g:neoclojure_autowarmup = 1
 
-  call neobundle#config({
-        \ 'autoload' : {
-        \   'function_prefix' : 'neoclojure'
-        \ }
-        \ })
+call neobundle#config({
+      \ 'autoload' : {
+      \   'function_prefix' : 'neoclojure'
+      \ }
+      \ })
 
-  " augroup vimrc-neoclojure
-  "   autocmd!
-  "   autocmd FileType clojure setlocal omnifunc=neoclojure#complete#omni
-  "   " autocmd FileType clojure setlocal omnifunc=neoclojure#complete_timed
-  " augroup END
+" augroup vimrc-neoclojure
+"   autocmd!
+"   autocmd FileType clojure setlocal omnifunc=neoclojure#complete#omni
+"   " autocmd FileType clojure setlocal omnifunc=neoclojure#complete_timed
+" augroup END
 
 endif " }}}
 
 if neobundle#tap('rainbow_parentheses.vim') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'commands' : [ 'RainbowParenthesesToggle', 'RainbowParenthesesLoadRound', 'RainbowParenthesesLoadSquare', 'RainbowParenthesesLoadBraces', 'RainbowParenthesesLoadChevrons' ]
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [ 'RainbowParenthesesToggle', 'RainbowParenthesesLoadRound', 'RainbowParenthesesLoadSquare', 'RainbowParenthesesLoadBraces', 'RainbowParenthesesLoadChevrons' ]
+      \   }
+      \ })
 
-  au MyAutoCmd VimEnter * RainbowParenthesesToggle
-  " au MyAutoCmd Syntax * RainbowParenthesesLoadRound
-  " au MyAutoCmd Syntax * RainbowParenthesesLoadSquare
-  " au MyAutoCmd Syntax * RainbowParenthesesLoadBraces
+au MyAutoCmd VimEnter * RainbowParenthesesToggle
+" au MyAutoCmd Syntax * RainbowParenthesesLoadRound
+" au MyAutoCmd Syntax * RainbowParenthesesLoadSquare
+" au MyAutoCmd Syntax * RainbowParenthesesLoadBraces
 
 endif " }}}
 
 if neobundle#tap('nebula.vim') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
 
-  call neobundle#config('nebula.vim',
-        \ {'autoload': {'commands': ['NebulaPutLazy', 'NebulaPutFromClipboard', 'NebulaYankOptions', 'NebulaYankConfig', 'NebulaPutConfig', 'NebulaYankTap']}})
+call neobundle#config('nebula.vim',
+      \ {'autoload': {'commands': ['NebulaPutLazy', 'NebulaPutFromClipboard', 'NebulaYankOptions', 'NebulaYankConfig', 'NebulaPutConfig', 'NebulaYankTap']}})
 
 endif " }}}
 
 if neobundle#tap('vim-jplus') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
 
-  call neobundle#config({
-        \   'autoload' : {
-        \     'function_prefix' : 'jplus'
-        \   }
-        \ })
+call neobundle#config({
+      \   'autoload' : {
+      \     'function_prefix' : 'jplus'
+      \   }
+      \ })
 
-  let g:jplus#config = {
-        \   'ruby' : {
-        \     'left_matchstr_pattern' : '^.\{-}\%(\ze\s*\\$\|$\)',
-        \   },
-        \   'slim' : {
-        \     'right_matchstr_pattern' : '^\s*|\s*\zs.*',
-        \   },
-        \   'vim' : {
-        \     'right_matchstr_pattern' : '^\s*\\\s*\zs.*',
-        \   }
-        \ }
+let g:jplus#config = {
+      \   'ruby' : {
+      \     'left_matchstr_pattern' : '^.\{-}\%(\ze\s*\\$\|$\)',
+      \   },
+      \   'slim' : {
+      \     'right_matchstr_pattern' : '^\s*|\s*\zs.*',
+      \   },
+      \   'vim' : {
+      \     'right_matchstr_pattern' : '^\s*\\\s*\zs.*',
+      \   }
+      \ }
 
-  nmap J <Plug>(jplus)
-  vmap J <Plug>(jplus)
+nmap J <Plug>(jplus)
+vmap J <Plug>(jplus)
 
 endif " }}}
 
 if neobundle#tap('rabbit-ui.vim') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
 
-  call neobundle#config({
-        \ 'autoload' : {
-        \   'function_prefix' : 'rabbit_ui'
-        \ }
-        \ })
+call neobundle#config({
+      \ 'autoload' : {
+      \   'function_prefix' : 'rabbit_ui'
+      \ }
+      \ })
 
 endif " }}}
 
 if neobundle#tap('vim-niji') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
 
-  call neobundle#config({
-        \ 'autoload' : {
-        \   'filetypes' : [ 'clojure' ],
-        \   'function_prefix' : 'niji'
-        \ }
-        \ })
+call neobundle#config({
+      \ 'autoload' : {
+      \   'filetypes' : [ 'clojure' ],
+      \   'function_prefix' : 'niji'
+      \ }
+      \ })
 
-  augroup niji
-    autocmd!
-    autocmd FileType,VimEnter * nested call niji#load()
-  augroup END
+augroup niji
+  autocmd!
+  autocmd FileType,VimEnter * nested call niji#load()
+augroup END
 
 endif " }}}
 
 if neobundle#tap('agit.vim') " {{{
 
-  function! neobundle#tapped.hooks.on_source(bundle)
-  endfunction
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
 
 call neobundle#config({
-      \   'autoload' : {
-      \     'commands': ['Agit']
-      \   }
-      \ })
+    \   'autoload' : {
+    \     'commands': ['Agit']
+    \   }
+    \ })
 
 endif " }}}
 
@@ -3010,54 +3033,51 @@ unlet s:source
 " }}}
 
 
-function! s:outline(name)
-  let self = {}
-  let self.name = a:name
-
-  function! self.open(...)
-    let option = get(a:, 1, "")
-    execute "Unite outline -no-quit -buffer-name=" . self.name . " " . option
-  endfunction
-
-  function! self.close()
-    execute "UniteClose " . self.name
-  endfunction
-
-  function! self.toggle(...)
-    let option = get(a:, 1, "")
-    return self.open("-toggle " . option)
-  endfunction
-
-  function! self.update()
-    let winnr = unite#helper#get_unite_winnr(self.name)
-    if winnr != -1
-      call unite#force_redraw(winnr)
-    endif
-  endfunction
-  return self
-endfunction
-
-let s:momonga = s:outline("outline_side")
-command! -nargs=* -complete=customlist,unite#complete#source
-      \ MomongaOpen call s:momonga.open(<q-args>)
-command! -nargs=* -complete=customlist,unite#complete#source
-      \ MomongaToggle call s:momonga.toggle(<q-args>)
-command! -bar MomongaClose call s:momonga.close()
-command! -bar MomongaUpdate call s:momonga.update()
-
-
-let s:momonga_update = 0
-augroup momonga
-  autocmd!
-  autocmd TextChangedI * let s:momonga_update = 1
-  autocmd TextChanged * let s:momonga_update = 1
-  autocmd CursorHold *
-        \	if s:momonga_update
-        \|		MomongaUpdate
-        \|		let s:momonga_update = 0
-        \|	endif
-  autocmd BufEnter * MomongaUpdate
-augroup END
-
-
-
+" function! s:outline(name)
+"   let self = {}
+"   let self.name = a:name
+"
+"   function! self.open(...)
+"     let option = get(a:, 1, "")
+"     execute "Unite outline -no-quit -buffer-name=" . self.name . " " . option
+"   endfunction
+"
+"   function! self.close()
+"     execute "UniteClose " . self.name
+"   endfunction
+"
+"   function! self.toggle(...)
+"     let option = get(a:, 1, "")
+"     return self.open("-toggle " . option)
+"   endfunction
+"
+"   function! self.update()
+"     let winnr = unite#helper#get_unite_winnr(self.name)
+"     if winnr != -1
+"       call unite#force_redraw(winnr)
+"     endif
+"   endfunction
+"   return self
+" endfunction
+"
+" let s:momonga = s:outline("outline_side")
+" command! -nargs=* -complete=customlist,unite#complete#source
+"       \ MomongaOpen call s:momonga.open(<q-args>)
+" command! -nargs=* -complete=customlist,unite#complete#source
+"       \ MomongaToggle call s:momonga.toggle(<q-args>)
+" command! -bar MomongaClose call s:momonga.close()
+" command! -bar MomongaUpdate call s:momonga.update()
+"
+"
+" let s:momonga_update = 0
+" augroup momonga
+"   autocmd!
+"   autocmd TextChangedI * let s:momonga_update = 1
+"   autocmd TextChanged * let s:momonga_update = 1
+"   autocmd CursorHold *
+"         \	if s:momonga_update
+"         \|		MomongaUpdate
+"         \|		let s:momonga_update = 0
+"         \|	endif
+"   autocmd BufEnter * MomongaUpdate
+" augroup END
