@@ -732,6 +732,9 @@ NeoBundleLazy 'alpaca-tc/alpaca_tags', {
 " Library and Frameworks to create Vim Plugins
 NeoBundleLazy 'rbtnn/rabbit-ui.vim'
 
+" Writing
+NeoBundleLazy 'rhysd/vim-grammarous'
+
 " Games
 NeoBundleLazy 'rbtnn/puyo.vim', { 'depends' : [ 'rbtnn/game_engine.vim' ] }
 NeoBundleLazy 'rbtnn/mario.vim', { 'depends' : [ 'rbtnn/game_engine.vim' ] }
@@ -2968,6 +2971,27 @@ call neobundle#config({
     \     'commands': ['Agit']
     \   }
     \ })
+
+endif " }}}
+
+if neobundle#tap('vim-grammarous') " {{{
+
+function! neobundle#tapped.hooks.on_source(bundle)
+endfunction
+
+call neobundle#config({
+      \   'autoload': {
+      \     'unite_sources': ['grammarous'],
+      \     'mappings': [['n', '<Plug>(grammarous-']],
+      \     'commands': [
+      \       {
+      \         'complete': 'customlist,grammarous#complete_opt',
+      \         'name': 'GrammarousCheck'
+      \       },
+      \       'GrammarousReset'
+      \     ]
+      \   }
+      \ })
 
 endif " }}}
 
