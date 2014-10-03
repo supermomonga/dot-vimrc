@@ -720,6 +720,9 @@ NeoBundleLazy 'KamunagiChiduru/unite-javaimport', { 'depends' : [
 " MetaQuartsLanguage
 NeoBundle 'vobornik/vim-mql4'
 
+" Other syntax file
+NeoBundle 'nginx.vim'
+
 " TODO: Windows build command to get .ctags
 NeoBundleLazy 'alpaca-tc/alpaca_tags', {
     \   'depends' : [ 'Shougo/vimproc.vim' ],
@@ -2995,6 +2998,12 @@ call neobundle#config({
 
 endif " }}}
 
+if neobundle#tap('nginx.vim') " {{{
+
+  autocmd MyAutoCmd BufRead,BufNewFile /etc/nginx/* set filetype=nginx
+
+endif " }}}
+
 
 " }}}
 
@@ -3055,53 +3064,3 @@ unlet s:source
 " }}}
 
 " }}}
-
-
-" function! s:outline(name)
-"   let self = {}
-"   let self.name = a:name
-"
-"   function! self.open(...)
-"     let option = get(a:, 1, "")
-"     execute "Unite outline -no-quit -buffer-name=" . self.name . " " . option
-"   endfunction
-"
-"   function! self.close()
-"     execute "UniteClose " . self.name
-"   endfunction
-"
-"   function! self.toggle(...)
-"     let option = get(a:, 1, "")
-"     return self.open("-toggle " . option)
-"   endfunction
-"
-"   function! self.update()
-"     let winnr = unite#helper#get_unite_winnr(self.name)
-"     if winnr != -1
-"       call unite#force_redraw(winnr)
-"     endif
-"   endfunction
-"   return self
-" endfunction
-"
-" let s:momonga = s:outline("outline_side")
-" command! -nargs=* -complete=customlist,unite#complete#source
-"       \ MomongaOpen call s:momonga.open(<q-args>)
-" command! -nargs=* -complete=customlist,unite#complete#source
-"       \ MomongaToggle call s:momonga.toggle(<q-args>)
-" command! -bar MomongaClose call s:momonga.close()
-" command! -bar MomongaUpdate call s:momonga.update()
-"
-"
-" let s:momonga_update = 0
-" augroup momonga
-"   autocmd!
-"   autocmd TextChangedI * let s:momonga_update = 1
-"   autocmd TextChanged * let s:momonga_update = 1
-"   autocmd CursorHold *
-"         \	if s:momonga_update
-"         \|		MomongaUpdate
-"         \|		let s:momonga_update = 0
-"         \|	endif
-"   autocmd BufEnter * MomongaUpdate
-" augroup END
