@@ -540,6 +540,7 @@ NeoBundle 'Shougo/vimproc.vim', { 'build' : {
 " Library used in vimrc
 NeoBundle 'vim-jp/vital.vim'
 NeoBundleLazy 'osyo-manga/vital-reunions'
+NeoBundleLazy 'osyo-manga/vital-over'
 
 " Text object
 NeoBundle 'kana/vim-textobj-user'
@@ -947,6 +948,34 @@ function! neobundle#tapped.hooks.on_source(bundle)
   let g:unite_source_menu_filetype_candidates.go = [
         \   [ 'golang/import', ':Unite goimport -start-insert' ],
         \ ]
+  let g:unite_source_menu_filetype_candidates.rails = map([
+        \   'rails/bundle',
+        \   'rails/bundled_gem',
+        \   'rails/config',
+        \   'rails/controller',
+        \   'rails/db',
+        \   'rails/destroy',
+        \   'rails/features',
+        \   'rails/gem',
+        \   'rails/gemfile',
+        \   'rails/generate',
+        \   'rails/git',
+        \   'rails/helper',
+        \   'rails/heroku',
+        \   'rails/initializer',
+        \   'rails/javascript',
+        \   'rails/lib',
+        \   'rails/log',
+        \   'rails/mailer',
+        \   'rails/model',
+        \   'rails/rake',
+        \   'rails/route',
+        \   'rails/schema',
+        \   'rails/spec',
+        \   'rails/stylesheet',
+        \   'rails/view'
+        \ ], "':Unite ' . v:val . ' -start-insert -default-action=tabdrop'")
+
 
 
 endfunction
@@ -1276,8 +1305,8 @@ function! s:my_vimshell_aliases()
   call vimshell#set_alias('op', 'open .')
   call vimshell#set_alias('be', 'bundle exec')
   call vimshell#set_alias('bi', 'bundle install')
-  call vimshell#set_alias('j', ':Unite -buffer-name=files
-        \ -default-action=lcd -no-split -input=$$args directory_mru')
+  call vimshell#set_alias('j', ':Unite directory_mru -buffer-name=files -start-insert
+        \ -default-action=lcd -input=$$args')
   " Shaberu
   call vimshell#set_alias('hello', ':call shaberu#say("こんにちは")')
   call vimshell#set_alias('kawaii', ':call shaberu#say("ありがとうございます")')
@@ -2076,7 +2105,7 @@ call neobundle#config({
       \ })
 
 function! s:my.unite_rails_init()
-  let g:UniteRailsAll = reti#lambda(':Unite -default-action=tabdrop -start-insert rails/model rails/controller rails/view rails/db rails/config rails/javascript rails/stylesheet rails/helper rails/mailer')
+  let g:UniteRailsAll = reti#lambda(':Unite -default-action=tabdrop -start-insert rails/model rails/controller rails/view rails/db rails/config rails/javascript rails/stylesheet rails/helper rails/mailer rails/spec')
   " nnoremap <buffer> <C-x>r  :<C-u>call g:UniteRailsAll()<CR>
   nnoremap <buffer> <C-c>m  :<C-u>Unite -start-insert rails/model<CR>
   nnoremap <buffer> <C-c>c  :<C-u>Unite -start-insert rails/controller<CR>
@@ -2613,7 +2642,6 @@ call neobundle#config({
 
 let $GOPATH = expand('~/.go')
 let $PATH = s:append_path($PATH, $GOPATH . '/bin')
-let $PATH = s:append_path($PATH, '/usr/local/Cellar/go/1.2.1/libexec/bin')
 
 au MyAutoCmd FileType go setl noexpandtab
 
