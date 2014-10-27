@@ -192,6 +192,7 @@ endfunction " }}}
 
 let $PATH = s:append_path($PATH, '~/bin')
 let $PATH = s:prepend_path($PATH, '/usr/local/bin')
+let $PATH = s:prepend_path($PATH, expand('~/.cabal/bin'))
 let $PATH = s:append_path($PATH, '/usr/local/wine/bin')
 let $PATH = s:append_path($PATH, '/Applications/MacVim.app/Contents/MacOS')
 let $PATH = s:append_path($PATH, '/Applications/Octave.app/Contents/Resources/bin')
@@ -1263,7 +1264,7 @@ if neobundle#tap('vimshell.vim') " {{{
 
 call neobundle#config({
       \   'autoload' : {
-      \     'commands' : [ 'VimShell', 'VimShellPop' ]
+      \     'commands' : [ 'VimShell', 'VimShellPop', 'VimShellTab' ]
       \   }
       \ })
 
@@ -2201,7 +2202,7 @@ function! neobundle#tapped.hooks.on_source(bundle)
         \   'ruby' : 1,
         \   'mql4' : 1,
         \ }
-  let g:quickrun_config = s:get(g:, 'quickrun_config', {})
+  let g:quickrun_config = get(g:, 'quickrun_config', {})
   " let g:quickrun_config['mql4/watchdogs_checker'] = {
   "       \   'type' : 'watchdogs_checker/mql4'
   "       \ }
