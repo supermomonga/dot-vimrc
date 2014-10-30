@@ -1353,7 +1353,7 @@ call neobundle#config({
       \ })
 
 function! neobundle#tapped.hooks.on_source(bundle)
-  let g:vimshell_wakeup_shaberu_text = 'おわだよ'
+  let g:vimshell_wakeup_shaberu_text = 'コマンドが終了しました'
 endfunction
 
 endif " }}}
