@@ -242,6 +242,10 @@ if isdirectory('/Users/momonga/.gvm/gradle/current/bin/')
   let $PATH = s:append_path($PATH, '/Users/momonga/.gvm/gradle/current/bin/')
 endif
 
+let $GIT_PATH="/usr/local/Cellar/git/2.1.2/bin"
+let $GIT_CORE_PATH="/usr/local/Cellar/git/2.1.2/libexec/git-core"
+
+
 " }}}
 
 " }}}
@@ -745,6 +749,7 @@ NeoBundleLazy 'rbtnn/puyo.vim', { 'depends' : [ 'rbtnn/game_engine.vim' ] }
 NeoBundleLazy 'rbtnn/mario.vim', { 'depends' : [ 'rbtnn/game_engine.vim' ] }
 NeoBundleLazy 'thinca/vim-threes'
 NeoBundleLazy 'mattn/flappyvird-vim'
+NeoBundleLazy 'supermomonga/bogin.vim'
 
 " Musics
 NeoBundleLazy 'supermomonga/jazzradio.vim', { 'depends' : [ 'Shougo/unite.vim' ] }
@@ -2343,16 +2348,16 @@ let g:J6uil_display_icon = 1
 let g:lingr_vim_user     = g:vimrc_secrets['J6uil_user']
 let g:lingr_vim_password = g:vimrc_secrets['J6uil_password']
 
+function! s:my_lingr_launch()
+  if lingr#status() != 'connected'
+    LingrLaunch
+  endif
+endfunction
+
 let g:lingr_vim_nickname = 'supermomonga'
 function! s:my_lingr_hook_message(mes)
   if !empty(a:mes) && a:mes.nickname != g:lingr_vim_nickname
     call thingspast#add('Lingr', 'Message', a:mes.nickname, a:mes.text, function('s:my_lingr_launch'), [])
-  endif
-endfunction
-
-function! s:my_lingr_launch()
-  if lingr#status() != 'connected'
-    LingrLaunch
   endif
 endfunction
 
@@ -2698,6 +2703,19 @@ au MyAutoCmd FileType go setl noexpandtab
 
 endif " }}}
 
+if neobundle#tap('bogin.vim') " {{{
+
+call neobundle#config({
+      \   'autoload' : {
+      \     'commands' : [
+      \       'Bogin'
+      \     ],
+      \     'function_prefix' : 'bogin'
+      \   }
+      \ })
+
+endif " }}}
+
 if neobundle#tap('puyo.vim') " {{{
 
 call neobundle#config({
@@ -2846,8 +2864,10 @@ call neobundle#config({
       \   }
       \ })
 
+let g:thingspast_open_on_add = 0
 let g:thingspast_hooks = get(g:, 'thingspast_hooks', {})
 let g:thingspast_hooks.on_add = get(g:thingspast_hooks, 'on_add', {})
+let g:thingspast_split_width = 35
 
 function! s:my_thingspast_on_add(thing)
   let speech = '新着通知、' . a:thing['message']
