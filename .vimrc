@@ -500,6 +500,9 @@ nnoremap <C-h>  i<Space><Esc>
 
 au MyAutoCmd BufRead,BufNewFile *.md  setfiletype markdown
 
+" Disable loaded check if source files by myself.
+au MyAutoCmd SourcePre */plugin/*.vim unlet! g:loaded_{expand("<afile>:t:r")}
+
 " }}}
 
 " }}}
