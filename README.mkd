@@ -1,16 +1,8 @@
-# supermomonga's dotfiles
+# supermomonga's .vimrc
 
 ## Vim
 
 Kanari benri(kanari).
-
-## Emacs
-
-Sugoku benri(sugoku).
-
-## Zsh
-
-Akirakani shell(akirakani).
 
 ## Others
 
