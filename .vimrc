@@ -547,8 +547,9 @@ NeoBundle 'Shougo/vimproc.vim', { 'build' : {
     \ }}
 " Library used in vimrc
 NeoBundle 'vim-jp/vital.vim'
-NeoBundleLazy 'osyo-manga/vital-reunions'
-NeoBundleLazy 'osyo-manga/vital-over'
+NeoBundle 'osyo-manga/vital-reunions'
+NeoBundle 'osyo-manga/vital-over'
+NeoBundle 'osyo-manga/vital-unlocker'
 
 " Text object
 NeoBundle 'kana/vim-textobj-user'
@@ -731,6 +732,7 @@ NeoBundle 'vobornik/vim-mql4'
 
 " Other syntax file
 NeoBundle 'nginx.vim'
+NeoBundle 'honza/dockerfile.vim'
 
 " TODO: Windows build command to get .ctags
 NeoBundleLazy 'alpaca-tc/alpaca_tags', {
@@ -1470,6 +1472,8 @@ let g:neocomplete#sources#omni#input_patterns.go = '\h\w\.\w*'
 " Omni completion functions
 let g:neocomplete#sources#omni#functions = get(g:, 'neocomplete#sources#omni#functions', {})
 " let g:neocomplete#sources#omni#functions.go = 'go#complete#Complete'
+
+let g:neocomplete#enable_auto_delimiter = 1
 
 endif " }}}
 
